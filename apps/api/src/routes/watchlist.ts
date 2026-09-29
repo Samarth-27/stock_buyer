@@ -60,7 +60,7 @@ export function createWatchlistRouter(
   // DELETE /api/watchlist/:symbol
   router.delete('/:symbol', async (req: Request, res: Response) => {
     try {
-      const symbol = req.params.symbol.toUpperCase();
+      const symbol = (Array.isArray(req.params.symbol) ? req.params.symbol[0] : String(req.params.symbol)).toUpperCase();
       const removed = await repository.removeFromWatchlist(symbol);
       if (!removed) {
         res.status(404).json({ error: `Symbol ${symbol} not found in watchlist` });

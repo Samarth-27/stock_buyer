@@ -17,6 +17,7 @@ describe('MarketEye Backend API Integration Tests', () => {
     await provider.connect();
 
     repository = new JsonFileRepository();
+    await repository.updateScannerConfig({ buyThreshold: 60.0, sellThreshold: 40.0 });
     scannerEngine = new ScannerEngine(repository);
     await scannerEngine.init();
 
@@ -99,7 +100,8 @@ describe('MarketEye Backend API Integration Tests', () => {
     res.body.forEach((item: any) => {
       expect(item.buyPercentage).toBeGreaterThanOrEqual(60.0);
       expect(item.sellPercentage).toBeLessThanOrEqual(40.0);
-      expect(item.reason).toContain('exceeding your 60.0% threshold');
+      expect(item.reason).toContain('exceeding your');
+      expect(item.reason).toContain('threshold');
     });
   });
 

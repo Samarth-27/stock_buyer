@@ -55,7 +55,6 @@ export function calculateBuySellPercentages(
   }
 
   const rawBuyPct = (safeBuy / totalQuantity) * 100;
-  const rawSellPct = (safeSell / totalQuantity) * 100;
 
   // Round to 2 decimal places with mathematical precision
   const buyPercentage = Number(rawBuyPct.toFixed(2));

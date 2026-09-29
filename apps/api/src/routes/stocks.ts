@@ -24,7 +24,7 @@ export function createStocksRouter(provider: MarketDataProvider): Router {
   // GET /api/stocks/:symbol
   router.get('/:symbol', async (req: Request, res: Response) => {
     try {
-      const symbol = req.params.symbol.toUpperCase();
+      const symbol = (Array.isArray(req.params.symbol) ? req.params.symbol[0] : String(req.params.symbol)).toUpperCase();
       const quote = await provider.getQuote(symbol);
       if (!quote) {
         res.status(404).json({ error: `Stock symbol ${symbol} not found` });
@@ -39,7 +39,7 @@ export function createStocksRouter(provider: MarketDataProvider): Router {
   // GET /api/stocks/:symbol/quote
   router.get('/:symbol/quote', async (req: Request, res: Response) => {
     try {
-      const symbol = req.params.symbol.toUpperCase();
+      const symbol = (Array.isArray(req.params.symbol) ? req.params.symbol[0] : String(req.params.symbol)).toUpperCase();
       const quote = await provider.getQuote(symbol);
       if (!quote) {
         res.status(404).json({ error: `Quote for ${symbol} not found` });
@@ -54,7 +54,7 @@ export function createStocksRouter(provider: MarketDataProvider): Router {
   // GET /api/stocks/:symbol/order-book
   router.get('/:symbol/order-book', async (req: Request, res: Response) => {
     try {
-      const symbol = req.params.symbol.toUpperCase();
+      const symbol = (Array.isArray(req.params.symbol) ? req.params.symbol[0] : String(req.params.symbol)).toUpperCase();
       const orderBook = await provider.getOrderBook(symbol);
       if (!orderBook) {
         res.status(404).json({ error: `Order book for ${symbol} not found` });
@@ -69,7 +69,7 @@ export function createStocksRouter(provider: MarketDataProvider): Router {
   // GET /api/stocks/:symbol/history
   router.get('/:symbol/history', async (req: Request, res: Response) => {
     try {
-      const symbol = req.params.symbol.toUpperCase();
+      const symbol = (Array.isArray(req.params.symbol) ? req.params.symbol[0] : String(req.params.symbol)).toUpperCase();
       const interval = (req.query.interval as ChartInterval) || '5m';
       const range = (req.query.range as ChartRange) || '1d';
       const history = await provider.getHistoricalData(symbol, interval, range);

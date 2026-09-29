@@ -18,7 +18,8 @@ export function createAlertsRouter(repository: IRepository): Router {
   // POST /api/alerts/:id/read
   router.post('/:id/read', async (req: Request, res: Response) => {
     try {
-      const success = await repository.markAlertAsRead(req.params.id);
+      const id = Array.isArray(req.params.id) ? req.params.id[0] : String(req.params.id);
+      const success = await repository.markAlertAsRead(id);
       res.json({ success });
     } catch (err: unknown) {
       res.status(500).json({ error: (err as Error).message });

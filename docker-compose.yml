@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  marketeye-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - MARKET_DATA_MODE=mock
+      - CORS_ORIGIN=http://localhost:5173
+    volumes:
+      - marketeye-data:/app/apps/api/data
+    restart: unless-stopped
+
+  marketeye-web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    ports:
+      - "80:80"
+    depends_on:
+      - marketeye-api
+    restart: unless-stopped
+
+volumes:
+  marketeye-data:
