@@ -1,0 +1,103 @@
+{
+  "scannerConfig": {
+    "id": "rule-buy-pressure-default",
+    "name": "Buy Pressure (60/40 Rule)",
+    "enabled": true,
+    "buyThreshold": 62,
+    "sellThreshold": 38,
+    "minVolume": 15000,
+    "updatedAt": "2026-09-29T19:06:29.304Z"
+  },
+  "watchlist": {
+    "RELIANCE": {
+      "symbol": "RELIANCE",
+      "companyName": "Reliance Industries Ltd.",
+      "addedAt": "2026-09-29T19:06:28.746Z",
+      "notes": "NIFTY 50 Heavyweight"
+    },
+    "TCS": {
+      "symbol": "TCS",
+      "companyName": "Tata Consultancy Services Ltd.",
+      "addedAt": "2026-09-29T19:06:28.746Z",
+      "notes": "IT Sector bellwether"
+    },
+    "HDFCBANK": {
+      "symbol": "HDFCBANK",
+      "companyName": "HDFC Bank Ltd.",
+      "addedAt": "2026-09-29T19:06:28.746Z",
+      "notes": "Banking sector leader"
+    }
+  },
+  "alerts": [
+    {
+      "id": "alert-1790708788767-1zliv",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 60.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:06:28.767Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2976.77
+      }
+    },
+    {
+      "id": "alert-1790708788769-sxcxk",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 60.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:06:28.769Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 971.18
+      }
+    },
+    {
+      "id": "alert-1790708788772-k3xf1",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 60.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:06:28.772Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7427.38
+      }
+    },
+    {
+      "id": "alert-1790708788773-s8umo",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 61.4%, exceeding your 60.0% threshold (Sell quantity is 38.6%).",
+      "timestamp": "2026-09-29T19:06:28.773Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 61.4,
+        "sellPercentage": 38.6,
+        "ltp": 1887.92
+      }
+    },
+    {
+      "id": "alert-1790708788774-fxud1",
+      "symbol": "AXISBANK",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: AXISBANK",
+      "message": "Buy quantity reached 62.7%, exceeding your 60.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:06:28.774Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.72,
+        "sellPercentage": 37.28,
+        "ltp": 1213.03
+      }
+    }
+  ]
+}
