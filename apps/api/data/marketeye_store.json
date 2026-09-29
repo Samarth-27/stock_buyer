@@ -1,0 +1,2838 @@
+{
+  "scannerConfig": {
+    "id": "rule-buy-pressure-default",
+    "name": "Buy Pressure (60/40 Rule)",
+    "enabled": true,
+    "buyThreshold": 62,
+    "sellThreshold": 38,
+    "minVolume": 15000,
+    "updatedAt": "2026-09-29T19:06:29.304Z"
+  },
+  "watchlist": {
+    "RELIANCE": {
+      "symbol": "RELIANCE",
+      "companyName": "Reliance Industries Ltd.",
+      "addedAt": "2026-09-29T19:06:28.746Z",
+      "notes": "NIFTY 50 Heavyweight"
+    },
+    "TCS": {
+      "symbol": "TCS",
+      "companyName": "Tata Consultancy Services Ltd.",
+      "addedAt": "2026-09-29T19:06:28.746Z",
+      "notes": "IT Sector bellwether"
+    },
+    "HDFCBANK": {
+      "symbol": "HDFCBANK",
+      "companyName": "HDFC Bank Ltd.",
+      "addedAt": "2026-09-29T19:06:28.746Z",
+      "notes": "Banking sector leader"
+    },
+    "INFY": {
+      "symbol": "INFY",
+      "companyName": "Infosys Ltd.",
+      "addedAt": "2026-09-29T19:24:15.264Z"
+    }
+  },
+  "alerts": [
+    {
+      "id": "alert-1790710029773-51ben",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:27:09.773Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.06,
+        "sellPercentage": 36.94,
+        "ltp": 420.33
+      }
+    },
+    {
+      "id": "alert-1790710033798-05exu",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:27:13.798Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.81,
+        "sellPercentage": 37.19,
+        "ltp": 1901.05
+      }
+    },
+    {
+      "id": "alert-1790710039826-rghv0",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:27:19.826Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.38,
+        "sellPercentage": 37.62,
+        "ltp": 7548.45
+      }
+    },
+    {
+      "id": "alert-1790710044858-dq5hh",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:27:24.858Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.29,
+        "sellPercentage": 37.71,
+        "ltp": 420.48
+      }
+    },
+    {
+      "id": "alert-1790710069987-v5aio",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:27:49.987Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.39,
+        "sellPercentage": 37.61,
+        "ltp": 3125.57
+      }
+    },
+    {
+      "id": "alert-1790710069994-scxp0",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:27:49.994Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.56,
+        "sellPercentage": 37.44,
+        "ltp": 510.64
+      }
+    },
+    {
+      "id": "alert-1790710079046-klfyi",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:27:59.046Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.76,
+        "sellPercentage": 37.24,
+        "ltp": 1901.45
+      }
+    },
+    {
+      "id": "alert-1790710087119-8xmc4",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:28:07.119Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.24,
+        "sellPercentage": 37.76,
+        "ltp": 421.33
+      }
+    },
+    {
+      "id": "alert-1790710088130-brrux",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:28:08.130Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.08,
+        "sellPercentage": 37.92,
+        "ltp": 1903.15
+      }
+    },
+    {
+      "id": "alert-1790710096225-xdavu",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:28:16.225Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.02,
+        "sellPercentage": 37.98,
+        "ltp": 3762.7
+      }
+    },
+    {
+      "id": "alert-1790710097241-2glxk",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:28:17.241Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.87,
+        "sellPercentage": 37.13,
+        "ltp": 7552.65
+      }
+    },
+    {
+      "id": "alert-1790710099253-9meio",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:28:19.253Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.46,
+        "sellPercentage": 37.54,
+        "ltp": 1905.3
+      }
+    },
+    {
+      "id": "alert-1790710114338-ebe3i",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:28:34.338Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.83,
+        "sellPercentage": 37.17,
+        "ltp": 510.49
+      }
+    },
+    {
+      "id": "alert-1790710123954-cnz2d",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:28:43.954Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.17,
+        "sellPercentage": 37.83,
+        "ltp": 422.33
+      }
+    },
+    {
+      "id": "alert-1790710129998-zpwxp",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:28:49.998Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.51,
+        "sellPercentage": 37.49,
+        "ltp": 3131.22
+      }
+    },
+    {
+      "id": "alert-1790710140264-dmc63",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:29:00.264Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.11,
+        "sellPercentage": 36.89,
+        "ltp": 7557.4
+      }
+    },
+    {
+      "id": "alert-1790710146310-i9l1b",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:29:06.310Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.02,
+        "sellPercentage": 37.98,
+        "ltp": 3751.05
+      }
+    },
+    {
+      "id": "alert-1790710147319-rgqjo",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:29:07.319Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.02,
+        "sellPercentage": 37.98,
+        "ltp": 423.88
+      }
+    },
+    {
+      "id": "alert-1790710156400-7yor6",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:29:16.400Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.25,
+        "sellPercentage": 37.75,
+        "ltp": 3128.27
+      }
+    },
+    {
+      "id": "alert-1790710156405-jz9vg",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:29:16.405Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.78,
+        "sellPercentage": 37.22,
+        "ltp": 422.88
+      }
+    },
+    {
+      "id": "alert-1790710159434-w726p",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:29:19.434Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.16,
+        "sellPercentage": 37.84,
+        "ltp": 3126.82
+      }
+    },
+    {
+      "id": "alert-1790710160439-qod9i",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:29:20.439Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.71,
+        "sellPercentage": 37.29,
+        "ltp": 1905.05
+      }
+    },
+    {
+      "id": "alert-1790710161445-32mja",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:29:21.445Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.05,
+        "sellPercentage": 37.95,
+        "ltp": 423.18
+      }
+    },
+    {
+      "id": "alert-1790710163461-rx987",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:29:23.461Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.97,
+        "sellPercentage": 37.03,
+        "ltp": 7562.25
+      }
+    },
+    {
+      "id": "alert-1790710166496-0qvic",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:29:26.496Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.99,
+        "sellPercentage": 37.01,
+        "ltp": 3125.52
+      }
+    },
+    {
+      "id": "alert-1790710179594-86uvz",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:29:39.594Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.05,
+        "sellPercentage": 37.95,
+        "ltp": 7555.35
+      }
+    },
+    {
+      "id": "alert-1790710180602-9ta7v",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:29:40.602Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.03,
+        "sellPercentage": 37.97,
+        "ltp": 3734.05
+      }
+    },
+    {
+      "id": "alert-1790710180607-5vf5e",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:29:40.607Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.06,
+        "sellPercentage": 36.94,
+        "ltp": 511.74
+      }
+    },
+    {
+      "id": "alert-1790710185642-4mufa",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:29:45.642Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.04,
+        "sellPercentage": 37.96,
+        "ltp": 423.63
+      }
+    },
+    {
+      "id": "alert-1790710185648-axfy7",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:29:45.648Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.07,
+        "sellPercentage": 37.93,
+        "ltp": 512.59
+      }
+    },
+    {
+      "id": "alert-1790710188668-ad175",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:29:48.668Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.27,
+        "sellPercentage": 37.73,
+        "ltp": 7581.7
+      }
+    },
+    {
+      "id": "alert-1790710188678-e0z1y",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:29:48.678Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.13,
+        "sellPercentage": 37.87,
+        "ltp": 423.58
+      }
+    },
+    {
+      "id": "alert-1790710196753-52zdp",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:29:56.753Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.53,
+        "sellPercentage": 37.47,
+        "ltp": 7587.1
+      }
+    },
+    {
+      "id": "alert-1790710200777-u7v4w",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:30:00.777Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.4,
+        "sellPercentage": 37.6,
+        "ltp": 1909.95
+      }
+    },
+    {
+      "id": "alert-1790710204804-8blcx",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:30:04.804Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.89,
+        "sellPercentage": 37.11,
+        "ltp": 7603.5
+      }
+    },
+    {
+      "id": "alert-1790710208840-9t1qg",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:30:08.840Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.33,
+        "sellPercentage": 37.67,
+        "ltp": 512.44
+      }
+    },
+    {
+      "id": "alert-1790710211877-66ii0",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:30:11.877Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.64,
+        "sellPercentage": 37.36,
+        "ltp": 424.48
+      }
+    },
+    {
+      "id": "alert-1790710213896-96ofh",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:30:13.896Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.62,
+        "sellPercentage": 37.38,
+        "ltp": 7620.65
+      }
+    },
+    {
+      "id": "alert-1790710216922-w2he4",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:30:16.922Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.85,
+        "sellPercentage": 37.15,
+        "ltp": 513.19
+      }
+    },
+    {
+      "id": "alert-1790710221974-ge38h",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:30:21.974Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.79,
+        "sellPercentage": 37.21,
+        "ltp": 7618.6
+      }
+    },
+    {
+      "id": "alert-1790710230045-m9w46",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:30:30.045Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.35,
+        "sellPercentage": 37.65,
+        "ltp": 3139.37
+      }
+    },
+    {
+      "id": "alert-1790710246171-faak9",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:30:46.171Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.42,
+        "sellPercentage": 37.58,
+        "ltp": 7635.4
+      }
+    },
+    {
+      "id": "alert-1790710253206-sa4lt",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:30:53.206Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.37,
+        "sellPercentage": 37.63,
+        "ltp": 1910.95
+      }
+    },
+    {
+      "id": "alert-1790710254208-gad05",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:30:54.208Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.43,
+        "sellPercentage": 37.57,
+        "ltp": 424.48
+      }
+    },
+    {
+      "id": "alert-1790710256227-iptg9",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:30:56.227Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.45,
+        "sellPercentage": 37.55,
+        "ltp": 1911.4
+      }
+    },
+    {
+      "id": "alert-1790710271370-2iqq1",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:31:11.370Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.96,
+        "sellPercentage": 37.04,
+        "ltp": 512.69
+      }
+    },
+    {
+      "id": "alert-1790710279439-6qxpl",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:31:19.439Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.4,
+        "sellPercentage": 37.6,
+        "ltp": 3129.82
+      }
+    },
+    {
+      "id": "alert-1790710279450-k6hlj",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:31:19.450Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.15,
+        "sellPercentage": 37.85,
+        "ltp": 512.19
+      }
+    },
+    {
+      "id": "alert-1790710282478-odp0a",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.2%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:31:22.478Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.22,
+        "sellPercentage": 36.78,
+        "ltp": 7672.9
+      }
+    },
+    {
+      "id": "alert-1790710282481-v08hp",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:31:22.481Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.03,
+        "sellPercentage": 36.97,
+        "ltp": 424.58
+      }
+    },
+    {
+      "id": "alert-1790710283487-6ixq8",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:31:23.487Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.28,
+        "sellPercentage": 37.72,
+        "ltp": 1909.85
+      }
+    },
+    {
+      "id": "alert-1790710291573-plio0",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:31:31.573Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.4,
+        "sellPercentage": 37.6,
+        "ltp": 513.89
+      }
+    },
+    {
+      "id": "alert-1790710293597-9h26v",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:31:33.597Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.6,
+        "sellPercentage": 37.4,
+        "ltp": 1907.8
+      }
+    },
+    {
+      "id": "alert-1790710296625-qezbb",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.2%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:31:36.625Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.18,
+        "sellPercentage": 36.82,
+        "ltp": 7669.9
+      }
+    },
+    {
+      "id": "alert-1790710296632-v6nlc",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:31:36.632Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.95,
+        "sellPercentage": 37.05,
+        "ltp": 425.03
+      }
+    },
+    {
+      "id": "alert-1790710307753-h9r0r",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:31:47.753Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.24,
+        "sellPercentage": 37.76,
+        "ltp": 1914.95
+      }
+    },
+    {
+      "id": "alert-1790710313805-ass9y",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:31:53.805Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.48,
+        "sellPercentage": 37.52,
+        "ltp": 7673.65
+      }
+    },
+    {
+      "id": "alert-1790710314806-qk7mj",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:31:54.806Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.75,
+        "sellPercentage": 37.25,
+        "ltp": 513.04
+      }
+    },
+    {
+      "id": "alert-1790710326943-6tz9h",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:32:06.943Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.27,
+        "sellPercentage": 37.73,
+        "ltp": 424.83
+      }
+    },
+    {
+      "id": "alert-1790710334985-cd4w3",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:32:14.985Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.74,
+        "sellPercentage": 37.26,
+        "ltp": 3133.87
+      }
+    },
+    {
+      "id": "alert-1790710337008-9popk",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:32:17.008Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.11,
+        "sellPercentage": 36.89,
+        "ltp": 513.04
+      }
+    },
+    {
+      "id": "alert-1790710339020-aul02",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:32:19.020Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.57,
+        "sellPercentage": 37.43,
+        "ltp": 3135.32
+      }
+    },
+    {
+      "id": "alert-1790710341045-v5f6d",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:32:21.045Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.09,
+        "sellPercentage": 36.91,
+        "ltp": 7686.45
+      }
+    },
+    {
+      "id": "alert-1790710342044-m2u66",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:32:22.044Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.02,
+        "sellPercentage": 36.98,
+        "ltp": 424.93
+      }
+    },
+    {
+      "id": "alert-1790710349105-o3mk2",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:32:29.105Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.25,
+        "sellPercentage": 37.75,
+        "ltp": 3140.37
+      }
+    },
+    {
+      "id": "alert-1790710351119-siyoj",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:32:31.119Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.42,
+        "sellPercentage": 37.58,
+        "ltp": 1917.3
+      }
+    },
+    {
+      "id": "alert-1790710363390-dh76u",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:32:43.390Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.66,
+        "sellPercentage": 37.34,
+        "ltp": 1919.5
+      }
+    },
+    {
+      "id": "alert-1790710364400-2g51g",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:32:44.400Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.12,
+        "sellPercentage": 37.88,
+        "ltp": 3138.87
+      }
+    },
+    {
+      "id": "alert-1790710366414-hovba",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:32:46.415Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.24,
+        "sellPercentage": 37.76,
+        "ltp": 511.84
+      }
+    },
+    {
+      "id": "alert-1790710369430-iskp1",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:32:49.430Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.86,
+        "sellPercentage": 37.14,
+        "ltp": 7677.95
+      }
+    },
+    {
+      "id": "alert-1790710369435-rro4e",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:32:49.435Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.41,
+        "sellPercentage": 37.59,
+        "ltp": 424.73
+      }
+    },
+    {
+      "id": "alert-1790710378498-yie85",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:32:58.498Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.8,
+        "sellPercentage": 37.2,
+        "ltp": 511.94
+      }
+    },
+    {
+      "id": "alert-1790710389575-rv8wy",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:33:09.575Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.05,
+        "sellPercentage": 36.95,
+        "ltp": 424.03
+      }
+    },
+    {
+      "id": "alert-1790710392599-5tz8i",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:33:12.599Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.51,
+        "sellPercentage": 37.49,
+        "ltp": 513.29
+      }
+    },
+    {
+      "id": "alert-1790710394618-eyjgd",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:33:14.618Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.47,
+        "sellPercentage": 36.53,
+        "ltp": 7679.55
+      }
+    },
+    {
+      "id": "alert-1790710399686-79nr9",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:33:19.686Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.98,
+        "sellPercentage": 37.02,
+        "ltp": 515.04
+      }
+    },
+    {
+      "id": "alert-1790710422918-st6ec",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:33:42.918Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.65,
+        "sellPercentage": 37.35,
+        "ltp": 7668
+      }
+    },
+    {
+      "id": "alert-1790710424933-x8ufp",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:33:44.933Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.66,
+        "sellPercentage": 37.34,
+        "ltp": 423.53
+      }
+    },
+    {
+      "id": "alert-1790710425960-gsqa0",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:33:45.960Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.01,
+        "sellPercentage": 37.99,
+        "ltp": 514.29
+      }
+    },
+    {
+      "id": "alert-1790710440107-w3zfp",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:34:00.107Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.04,
+        "sellPercentage": 36.96,
+        "ltp": 3144.42
+      }
+    },
+    {
+      "id": "alert-1790710441123-40trd",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:34:01.123Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.55,
+        "sellPercentage": 37.45,
+        "ltp": 515.24
+      }
+    },
+    {
+      "id": "alert-1790710447185-dkf4u",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.7%, exceeding your 62.0% threshold (Sell quantity is 36.3%).",
+      "timestamp": "2026-09-29T19:34:07.185Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.69,
+        "sellPercentage": 36.31,
+        "ltp": 7683.65
+      }
+    },
+    {
+      "id": "alert-1790710452228-ayawj",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:34:12.228Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.26,
+        "sellPercentage": 37.74,
+        "ltp": 423.73
+      }
+    },
+    {
+      "id": "alert-1790710454236-rqwx6",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:34:14.236Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.33,
+        "sellPercentage": 37.67,
+        "ltp": 7661.4
+      }
+    },
+    {
+      "id": "alert-1790710457260-462mp",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:34:17.260Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.13,
+        "sellPercentage": 36.87,
+        "ltp": 514.64
+      }
+    },
+    {
+      "id": "alert-1790710462311-wu7r1",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:34:22.311Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.9,
+        "sellPercentage": 37.1,
+        "ltp": 1919.45
+      }
+    },
+    {
+      "id": "alert-1790710462316-fs3ng",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:34:22.316Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.6,
+        "sellPercentage": 37.4,
+        "ltp": 423.78
+      }
+    },
+    {
+      "id": "alert-1790710476430-vqu8v",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:34:36.430Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.24,
+        "sellPercentage": 37.76,
+        "ltp": 424.83
+      }
+    },
+    {
+      "id": "alert-1790710483512-b9rit",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:34:43.512Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.48,
+        "sellPercentage": 37.52,
+        "ltp": 514.29
+      }
+    },
+    {
+      "id": "alert-1790710489564-27svr",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:34:49.564Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.4,
+        "sellPercentage": 37.6,
+        "ltp": 1922.6
+      }
+    },
+    {
+      "id": "alert-1790710495607-vp2o6",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:34:55.607Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.63,
+        "sellPercentage": 37.37,
+        "ltp": 513.54
+      }
+    },
+    {
+      "id": "alert-1790710500683-k7it8",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:35:00.683Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.96,
+        "sellPercentage": 37.04,
+        "ltp": 7662.1
+      }
+    },
+    {
+      "id": "alert-1790710501693-fcch4",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 63.3%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:35:01.693Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.25,
+        "sellPercentage": 36.75,
+        "ltp": 3151.72
+      }
+    },
+    {
+      "id": "alert-1790710519845-1libw",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:35:19.845Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.43,
+        "sellPercentage": 37.57,
+        "ltp": 3149.42
+      }
+    },
+    {
+      "id": "alert-1790710519851-v162b",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:35:19.851Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.42,
+        "sellPercentage": 37.58,
+        "ltp": 1926.65
+      }
+    },
+    {
+      "id": "alert-1790710533868-wff0o",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:35:33.868Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 3013.1
+      }
+    },
+    {
+      "id": "alert-1790710533871-b635m",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:35:33.871Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 971.77
+      }
+    },
+    {
+      "id": "alert-1790710533875-m26cb",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:35:33.875Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7328.18
+      }
+    },
+    {
+      "id": "alert-1790710543985-9ssxf",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:35:43.985Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.79,
+        "sellPercentage": 37.21,
+        "ltp": 1886.72
+      }
+    },
+    {
+      "id": "alert-1790710550723-hhcij",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:35:50.723Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2958.01
+      }
+    },
+    {
+      "id": "alert-1790710550729-4ubna",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:35:50.729Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 971.33
+      }
+    },
+    {
+      "id": "alert-1790710550750-an9lu",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:35:50.750Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7508.46
+      }
+    },
+    {
+      "id": "alert-1790710550768-7qe27",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:35:50.768Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.17,
+        "sellPercentage": 37.83,
+        "ltp": 3712.48
+      }
+    },
+    {
+      "id": "alert-1790710550796-c5xxd",
+      "symbol": "WIPRO",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: WIPRO",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:35:50.796Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.1,
+        "sellPercentage": 36.9,
+        "ltp": 538.95
+      }
+    },
+    {
+      "id": "alert-1790710555766-vzqsd",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:35:55.766Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.94,
+        "sellPercentage": 37.06,
+        "ltp": 3712.33
+      }
+    },
+    {
+      "id": "alert-1790710556776-ahual",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:35:56.776Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.1,
+        "sellPercentage": 37.9,
+        "ltp": 1879.05
+      }
+    },
+    {
+      "id": "alert-1790710563295-ho92h",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:36:03.295Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2992.69
+      }
+    },
+    {
+      "id": "alert-1790710563300-ubq1u",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:36:03.300Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 977.27
+      }
+    },
+    {
+      "id": "alert-1790710563321-aybi6",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:36:03.321Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7391.44
+      }
+    },
+    {
+      "id": "alert-1790710575440-61qbk",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:36:15.440Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.3,
+        "sellPercentage": 37.7,
+        "ltp": 1898.24
+      }
+    },
+    {
+      "id": "alert-1790710588832-shg3w",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:36:28.832Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 3007.62
+      }
+    },
+    {
+      "id": "alert-1790710588837-9jygb",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:36:28.837Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 971.61
+      }
+    },
+    {
+      "id": "alert-1790710588859-ighni",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:36:28.859Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7506.13
+      }
+    },
+    {
+      "id": "alert-1790710588862-vu1v1",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:36:28.862Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.11,
+        "sellPercentage": 37.89,
+        "ltp": 413.24
+      }
+    },
+    {
+      "id": "alert-1790710588881-98821",
+      "symbol": "POWERGRID",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: POWERGRID",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:36:28.881Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.82,
+        "sellPercentage": 37.18,
+        "ltp": 333.39
+      }
+    },
+    {
+      "id": "alert-1790710590844-n4y2p",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:36:30.844Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.36,
+        "sellPercentage": 37.64,
+        "ltp": 1876.69
+      }
+    },
+    {
+      "id": "alert-1790710590955-fnc0f",
+      "symbol": "TATASTEEL",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATASTEEL",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:36:30.955Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.36,
+        "sellPercentage": 37.64,
+        "ltp": 157.3
+      }
+    },
+    {
+      "id": "alert-1790710599914-hsw6d",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:36:39.914Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.65,
+        "sellPercentage": 37.35,
+        "ltp": 1872.99
+      }
+    },
+    {
+      "id": "alert-1790710606975-uyo7d",
+      "symbol": "LT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: LT",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:36:46.975Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 3596.17
+      }
+    },
+    {
+      "id": "alert-1790710607989-z6z7b",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:36:47.989Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.71,
+        "sellPercentage": 37.29,
+        "ltp": 7506.53
+      }
+    },
+    {
+      "id": "alert-1790710615054-iizux",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:36:55.054Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.47,
+        "sellPercentage": 37.53,
+        "ltp": 413.54
+      }
+    },
+    {
+      "id": "alert-1790710617080-2w3f6",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.4%, exceeding your 62.0% threshold (Sell quantity is 36.6%).",
+      "timestamp": "2026-09-29T19:36:57.080Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.44,
+        "sellPercentage": 36.56,
+        "ltp": 7508.63
+      }
+    },
+    {
+      "id": "alert-1790710619798-mbs3q",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:36:59.798Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2953.46
+      }
+    },
+    {
+      "id": "alert-1790710619802-ik14m",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:36:59.802Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 974.59
+      }
+    },
+    {
+      "id": "alert-1790710619820-upbm8",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:36:59.820Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7382.92
+      }
+    },
+    {
+      "id": "alert-1790710619835-0cxlk",
+      "symbol": "MARUTI",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: MARUTI",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:36:59.835Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.04,
+        "sellPercentage": 37.96,
+        "ltp": 12443.09
+      }
+    },
+    {
+      "id": "alert-1790710619853-mwpo7",
+      "symbol": "HINDUNILVR",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: HINDUNILVR",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:36:59.853Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.5,
+        "sellPercentage": 37.5,
+        "ltp": 2858.32
+      }
+    },
+    {
+      "id": "alert-1790710631935-he0e5",
+      "symbol": "MARUTI",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: MARUTI",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:37:11.935Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.49,
+        "sellPercentage": 36.51,
+        "ltp": 12441.04
+      }
+    },
+    {
+      "id": "alert-1790710636221-cc5gl",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:37:16.221Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2987.88
+      }
+    },
+    {
+      "id": "alert-1790710636225-zrs4n",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:37:16.225Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 979.11
+      }
+    },
+    {
+      "id": "alert-1790710636247-vgxhx",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:37:16.247Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7450.01
+      }
+    },
+    {
+      "id": "alert-1790710636265-y2i2k",
+      "symbol": "ADANIENT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: ADANIENT",
+      "message": "Buy quantity reached 63.4%, exceeding your 62.0% threshold (Sell quantity is 36.6%).",
+      "timestamp": "2026-09-29T19:37:16.265Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.37,
+        "sellPercentage": 36.63,
+        "ltp": 3130.76
+      }
+    },
+    {
+      "id": "alert-1790710637226-94xid",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:37:17.226Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.84,
+        "sellPercentage": 37.16,
+        "ltp": 3742.53
+      }
+    },
+    {
+      "id": "alert-1790710642266-m349p",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TITAN",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:37:22.266Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.34,
+        "sellPercentage": 37.66,
+        "ltp": 3741.33
+      }
+    },
+    {
+      "id": "alert-1790710643273-7uj9y",
+      "symbol": "LT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: LT",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:37:23.273Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.53,
+        "sellPercentage": 37.47,
+        "ltp": 3626.4
+      }
+    },
+    {
+      "id": "alert-1790710646306-aztvz",
+      "symbol": "COALINDIA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: COALINDIA",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:37:26.306Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.67,
+        "sellPercentage": 37.33,
+        "ltp": 515.95
+      }
+    },
+    {
+      "id": "alert-1790710648309-vs1tt",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:37:28.309Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.46,
+        "sellPercentage": 37.54,
+        "ltp": 1867.99
+      }
+    },
+    {
+      "id": "alert-1790710650858-3to27",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:37:30.858Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2964.9
+      }
+    },
+    {
+      "id": "alert-1790710650862-rzwld",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:37:30.862Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 973.15
+      }
+    },
+    {
+      "id": "alert-1790710650880-gdjrh",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:37:30.880Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7384.69
+      }
+    },
+    {
+      "id": "alert-1790710657917-e5xqz",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:37:37.917Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.73,
+        "sellPercentage": 37.27,
+        "ltp": 415.06
+      }
+    },
+    {
+      "id": "alert-1790710662956-r6zbs",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:37:42.956Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.14,
+        "sellPercentage": 36.86,
+        "ltp": 7364.94
+      }
+    },
+    {
+      "id": "alert-1790710668003-03ich",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:37:48.003Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.21,
+        "sellPercentage": 37.79,
+        "ltp": 415.11
+      }
+    },
+    {
+      "id": "alert-1790710676104-bg87n",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:37:56.104Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.21,
+        "sellPercentage": 37.79,
+        "ltp": 7373.34
+      }
+    },
+    {
+      "id": "alert-1790710681154-l9q0a",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:38:01.154Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.14,
+        "sellPercentage": 37.86,
+        "ltp": 1875.17
+      }
+    },
+    {
+      "id": "alert-1790710704386-sbraj",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:38:24.386Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.13,
+        "sellPercentage": 37.87,
+        "ltp": 1876.47
+      }
+    },
+    {
+      "id": "alert-1790710706412-r4pab",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:38:26.412Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.38,
+        "sellPercentage": 37.62,
+        "ltp": 415.56
+      }
+    },
+    {
+      "id": "alert-1790710719541-an5v6",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:38:39.541Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.4,
+        "sellPercentage": 37.6,
+        "ltp": 1878.12
+      }
+    },
+    {
+      "id": "alert-1790710726626-bni71",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.2%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:38:46.626Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.16,
+        "sellPercentage": 36.84,
+        "ltp": 7373.99
+      }
+    },
+    {
+      "id": "alert-1790710731683-h6cak",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:38:51.683Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.09,
+        "sellPercentage": 37.91,
+        "ltp": 7356.59
+      }
+    },
+    {
+      "id": "alert-1790710735725-9xjmb",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:38:55.725Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.1,
+        "sellPercentage": 37.9,
+        "ltp": 414.81
+      }
+    },
+    {
+      "id": "alert-1790710745822-15a1k",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:39:05.822Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.74,
+        "sellPercentage": 37.26,
+        "ltp": 7372.94
+      }
+    },
+    {
+      "id": "alert-1790710757933-ymi9p",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.2%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:39:17.933Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.24,
+        "sellPercentage": 36.76,
+        "ltp": 7353.94
+      }
+    },
+    {
+      "id": "alert-1790710768016-x797t",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:39:28.016Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.01,
+        "sellPercentage": 37.99,
+        "ltp": 1877.42
+      }
+    },
+    {
+      "id": "alert-1790710775068-qyo0m",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:39:35.068Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.35,
+        "sellPercentage": 37.65,
+        "ltp": 413.86
+      }
+    },
+    {
+      "id": "alert-1790710791211-okdxk",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:39:51.211Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.52,
+        "sellPercentage": 37.48,
+        "ltp": 1874.07
+      }
+    },
+    {
+      "id": "alert-1790710794240-hoiec",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.1%, exceeding your 62.0% threshold (Sell quantity is 36.9%).",
+      "timestamp": "2026-09-29T19:39:54.240Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.13,
+        "sellPercentage": 36.87,
+        "ltp": 7337.59
+      }
+    },
+    {
+      "id": "alert-1790710801321-3z9mh",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:40:01.321Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.89,
+        "sellPercentage": 37.11,
+        "ltp": 7322.69
+      }
+    },
+    {
+      "id": "alert-1790710809398-7260i",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:40:09.399Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.1,
+        "sellPercentage": 37.9,
+        "ltp": 414.76
+      }
+    },
+    {
+      "id": "alert-1790710828563-7xskq",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:40:28.563Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.58,
+        "sellPercentage": 37.42,
+        "ltp": 414.66
+      }
+    },
+    {
+      "id": "alert-1790710829573-lq4sx",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:40:29.573Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.32,
+        "sellPercentage": 37.68,
+        "ltp": 7310.34
+      }
+    },
+    {
+      "id": "alert-1790710839665-iwnrd",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:40:39.665Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.46,
+        "sellPercentage": 37.54,
+        "ltp": 1871.22
+      }
+    },
+    {
+      "id": "alert-1790710843699-lwdrv",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:40:43.699Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.82,
+        "sellPercentage": 37.18,
+        "ltp": 1867.72
+      }
+    },
+    {
+      "id": "alert-1790710847753-euet7",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.5%, exceeding your 62.0% threshold (Sell quantity is 37.5%).",
+      "timestamp": "2026-09-29T19:40:47.753Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.53,
+        "sellPercentage": 37.47,
+        "ltp": 415.66
+      }
+    },
+    {
+      "id": "alert-1790710859864-9fdlo",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:40:59.864Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.49,
+        "sellPercentage": 36.51,
+        "ltp": 7310.94
+      }
+    },
+    {
+      "id": "alert-1790710866932-4w37c",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:41:06.932Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.23,
+        "sellPercentage": 37.77,
+        "ltp": 1865.17
+      }
+    },
+    {
+      "id": "alert-1790710873995-kpt3h",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:41:13.995Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.31,
+        "sellPercentage": 37.69,
+        "ltp": 1866.17
+      }
+    },
+    {
+      "id": "alert-1790710876012-6r4gz",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:41:16.012Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.13,
+        "sellPercentage": 37.87,
+        "ltp": 416.16
+      }
+    },
+    {
+      "id": "alert-1790710888129-r70z3",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:41:28.129Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.1,
+        "sellPercentage": 37.9,
+        "ltp": 7286.64
+      }
+    },
+    {
+      "id": "alert-1790710897223-skdds",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.7%, exceeding your 62.0% threshold (Sell quantity is 37.3%).",
+      "timestamp": "2026-09-29T19:41:37.223Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.66,
+        "sellPercentage": 37.34,
+        "ltp": 7290.74
+      }
+    },
+    {
+      "id": "alert-1790710898225-0s00f",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:41:38.225Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.61,
+        "sellPercentage": 37.39,
+        "ltp": 1866.42
+      }
+    },
+    {
+      "id": "alert-1790710912363-56cvv",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:41:52.364Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.64,
+        "sellPercentage": 37.36,
+        "ltp": 415.41
+      }
+    },
+    {
+      "id": "alert-1790710920462-p77ik",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.9%, exceeding your 62.0% threshold (Sell quantity is 37.1%).",
+      "timestamp": "2026-09-29T19:42:00.466Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.86,
+        "sellPercentage": 37.14,
+        "ltp": 7299.44
+      }
+    },
+    {
+      "id": "alert-1790710922464-4jx3c",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:42:02.464Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.29,
+        "sellPercentage": 37.71,
+        "ltp": 1869.77
+      }
+    },
+    {
+      "id": "alert-1790710936633-oxp0p",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:42:16.637Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.3,
+        "sellPercentage": 37.7,
+        "ltp": 7297.94
+      }
+    },
+    {
+      "id": "alert-1790710944696-ozplb",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:42:24.696Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.19,
+        "sellPercentage": 37.81,
+        "ltp": 7299.99
+      }
+    },
+    {
+      "id": "alert-1790710966939-p9fr6",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:42:46.939Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.65,
+        "sellPercentage": 37.35,
+        "ltp": 1864.82
+      }
+    },
+    {
+      "id": "alert-1790710969977-n5ztg",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.2%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:42:49.977Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.23,
+        "sellPercentage": 36.77,
+        "ltp": 7316.14
+      }
+    },
+    {
+      "id": "alert-1790710997255-hgnj0",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: NTPC",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:43:17.255Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.8,
+        "sellPercentage": 37.2,
+        "ltp": 415.81
+      }
+    },
+    {
+      "id": "alert-1790710997259-yutj4",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.2%, exceeding your 62.0% threshold (Sell quantity is 36.8%).",
+      "timestamp": "2026-09-29T19:43:17.259Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.24,
+        "sellPercentage": 36.76,
+        "ltp": 7312.44
+      }
+    },
+    {
+      "id": "alert-1790711002311-j48h0",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:43:22.311Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.49,
+        "sellPercentage": 36.51,
+        "ltp": 7325.19
+      }
+    },
+    {
+      "id": "alert-1790711003323-8g36q",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.8%, exceeding your 62.0% threshold (Sell quantity is 37.2%).",
+      "timestamp": "2026-09-29T19:43:23.323Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.77,
+        "sellPercentage": 37.23,
+        "ltp": 1863.67
+      }
+    },
+    {
+      "id": "alert-1790711222610-hnvs7",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: RELIANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:47:02.610Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2980.33
+      }
+    },
+    {
+      "id": "alert-1790711222613-wt4tw",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: TATAMOTORS",
+      "message": "Buy quantity reached 65.8%, exceeding your 62.0% threshold (Sell quantity is 34.2%).",
+      "timestamp": "2026-09-29T19:47:02.613Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 963.38
+      }
+    },
+    {
+      "id": "alert-1790711222635-4hkno",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:47:02.635Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7418.8
+      }
+    },
+    {
+      "id": "alert-1790711222654-xh92d",
+      "symbol": "MARUTI",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: MARUTI",
+      "message": "Buy quantity reached 63.7%, exceeding your 62.0% threshold (Sell quantity is 36.3%).",
+      "timestamp": "2026-09-29T19:47:02.654Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.7,
+        "sellPercentage": 36.3,
+        "ltp": 12370.11
+      }
+    },
+    {
+      "id": "alert-1790711222671-wgadc",
+      "symbol": "POWERGRID",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: POWERGRID",
+      "message": "Buy quantity reached 63.9%, exceeding your 62.0% threshold (Sell quantity is 36.1%).",
+      "timestamp": "2026-09-29T19:47:02.671Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.87,
+        "sellPercentage": 36.13,
+        "ltp": 334.05
+      }
+    },
+    {
+      "id": "alert-1790711229708-ix28t",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.4%, exceeding your 62.0% threshold (Sell quantity is 36.6%).",
+      "timestamp": "2026-09-29T19:47:09.708Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.43,
+        "sellPercentage": 36.57,
+        "ltp": 7406.95
+      }
+    },
+    {
+      "id": "alert-1790711236787-8sas5",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:47:16.787Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.05,
+        "sellPercentage": 37.95,
+        "ltp": 1892.33
+      }
+    },
+    {
+      "id": "alert-1790711248886-gp4vp",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.5%, exceeding your 62.0% threshold (Sell quantity is 36.5%).",
+      "timestamp": "2026-09-29T19:47:28.886Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.52,
+        "sellPercentage": 36.48,
+        "ltp": 7390.15
+      }
+    },
+    {
+      "id": "alert-1790711261010-6759m",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:47:41.010Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.1,
+        "sellPercentage": 37.9,
+        "ltp": 1895.53
+      }
+    },
+    {
+      "id": "alert-1790711262023-1odx0",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.4%, exceeding your 62.0% threshold (Sell quantity is 36.6%).",
+      "timestamp": "2026-09-29T19:47:42.023Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.36,
+        "sellPercentage": 36.64,
+        "ltp": 7392.15
+      }
+    },
+    {
+      "id": "alert-1790711267051-uewb9",
+      "symbol": "LT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: LT",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:47:47.051Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.05,
+        "sellPercentage": 37.95,
+        "ltp": 3652.01
+      }
+    },
+    {
+      "id": "alert-1790711272110-qod3f",
+      "symbol": "LT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: LT",
+      "message": "Buy quantity reached 62.1%, exceeding your 62.0% threshold (Sell quantity is 37.9%).",
+      "timestamp": "2026-09-29T19:47:52.110Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.13,
+        "sellPercentage": 37.87,
+        "ltp": 3652.96
+      }
+    },
+    {
+      "id": "alert-1790711284208-myty6",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.2%, exceeding your 62.0% threshold (Sell quantity is 37.8%).",
+      "timestamp": "2026-09-29T19:48:04.208Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.17,
+        "sellPercentage": 37.83,
+        "ltp": 1896.68
+      }
+    },
+    {
+      "id": "alert-1790711285222-t4msk",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 62.6%, exceeding your 62.0% threshold (Sell quantity is 37.4%).",
+      "timestamp": "2026-09-29T19:48:05.222Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.65,
+        "sellPercentage": 37.35,
+        "ltp": 7374.75
+      }
+    },
+    {
+      "id": "alert-1790711301381-6ygp8",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.3%, exceeding your 62.0% threshold (Sell quantity is 37.7%).",
+      "timestamp": "2026-09-29T19:48:21.381Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.27,
+        "sellPercentage": 37.73,
+        "ltp": 1898.28
+      }
+    },
+    {
+      "id": "alert-1790711309464-pe6v8",
+      "symbol": "LT",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: LT",
+      "message": "Buy quantity reached 62.0%, exceeding your 62.0% threshold (Sell quantity is 38.0%).",
+      "timestamp": "2026-09-29T19:48:29.464Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.04,
+        "sellPercentage": 37.96,
+        "ltp": 3665.06
+      }
+    },
+    {
+      "id": "alert-1790711315520-8yjts",
+      "symbol": "SUNPHARMA",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: SUNPHARMA",
+      "message": "Buy quantity reached 62.4%, exceeding your 62.0% threshold (Sell quantity is 37.6%).",
+      "timestamp": "2026-09-29T19:48:35.520Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.43,
+        "sellPercentage": 37.57,
+        "ltp": 1901.73
+      }
+    },
+    {
+      "id": "alert-1790711322588-luw5w",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "New Stock Under Your Eyes: BAJFINANCE",
+      "message": "Buy quantity reached 63.0%, exceeding your 62.0% threshold (Sell quantity is 37.0%).",
+      "timestamp": "2026-09-29T19:48:42.588Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.97,
+        "sellPercentage": 37.03,
+        "ltp": 7336.7
+      }
+    }
+  ]
+}

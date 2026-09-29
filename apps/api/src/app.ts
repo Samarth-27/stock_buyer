@@ -13,6 +13,7 @@ import { createAlertsRouter } from './routes/alerts.js';
 import { createMarketStatusRouter } from './routes/marketStatus.js';
 import { createHealthRouter } from './routes/health.js';
 import { createProviderRouter } from './routes/provider.js';
+import { createUpstoxAuthRouter } from './routes/upstoxAuth.js';
 import { openApiSpec } from './docs/swagger.js';
 import { AppWebSocketServer } from './websocket/wsServer.js';
 
@@ -100,6 +101,20 @@ export function createApp(
       },
       scannerEngine,
       wsServerRef: wsServerRef || { current: null },
+    })
+  );
+
+  app.use(
+    '/api/auth/upstox',
+    createUpstoxAuthRouter({
+      getProvider: () => providerHolder.current,
+      setProvider: (newP) => {
+        providerHolder.current = newP;
+        if (wsServerRef?.current) {
+          wsServerRef.current.setProvider(newP);
+        }
+      },
+      scannerEngine,
     })
   );
 

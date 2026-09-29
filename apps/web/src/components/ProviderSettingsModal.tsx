@@ -203,7 +203,7 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
                 <Key className="w-3.5 h-3.5 text-emerald-400" />
-                Upstox API Credentials
+                Upstox API v2/v3 Configuration
               </span>
               <a
                 href="https://upstox.com/developer/api-documentation"
@@ -211,22 +211,52 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
                 rel="noreferrer"
                 className="text-[11px] text-emerald-400 hover:underline flex items-center gap-1"
               >
-                <span>Docs</span>
+                <span>Upstox Portal</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
+
+            <div>
+              <label className="text-[11px] text-slate-400 block mb-1">
+                Upstox API Key (Client ID)
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. your_upstox_api_key"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+              />
+            </div>
+
             <div>
               <label className="text-[11px] text-slate-400 block mb-1">
                 Upstox Access Token (Bearer Token)
               </label>
               <input
                 type="password"
-                placeholder="Paste your Upstox OAuth access token..."
+                placeholder="Paste your active Upstox access token..."
                 value={accessToken}
                 onChange={(e) => setAccessToken(e.target.value)}
                 className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
               />
+              <p className="text-[10px] text-slate-500 mt-1">
+                Generated daily via Upstox Developer Console or Mobile TOTP login.
+              </p>
             </div>
+
+            {apiKey && (
+              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                <span className="text-[11px] text-slate-400">Need to generate a new token?</span>
+                <a
+                  href={`/api/auth/upstox/login?apiKey=${encodeURIComponent(apiKey)}`}
+                  className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1 transition-all shadow-md shadow-indigo-600/30"
+                >
+                  <span>1-Click Upstox Login</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            )}
           </div>
         )}
 
