@@ -12,19 +12,26 @@ import { createWatchlistRouter } from './routes/watchlist.js';
 import { createAlertsRouter } from './routes/alerts.js';
 import { createMarketStatusRouter } from './routes/marketStatus.js';
 import { createHealthRouter } from './routes/health.js';
+import { createProviderRouter } from './routes/provider.js';
 import { openApiSpec } from './docs/swagger.js';
+import { AppWebSocketServer } from './websocket/wsServer.js';
+
+export interface ProviderHolder {
+  current: MarketDataProvider;
+}
 
 export function createApp(
-  provider: MarketDataProvider,
+  providerHolder: ProviderHolder,
   scannerEngine: ScannerEngine,
-  repository: IRepository
+  repository: IRepository,
+  wsServerRef?: { current: AppWebSocketServer | null }
 ): Express {
   const app = express();
 
   // Security Headers
   app.use(
     helmet({
-      contentSecurityPolicy: false, // Allows Swagger UI to render smoothly
+      contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
     })
   );
@@ -34,11 +41,10 @@ export function createApp(
   app.use(
     cors({
       origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps, curl, or same-origin)
         if (!origin || origin === allowedOrigin || origin.startsWith('http://localhost:')) {
           callback(null, true);
         } else {
-          callback(null, true); // Dev-friendly permissive for local testing
+          callback(null, true);
         }
       },
       credentials: true,
@@ -63,13 +69,39 @@ export function createApp(
   // Swagger Documentation
   app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
+  // Dynamic Provider proxy so routes always query the active provider
+  const dynamicProviderProxy = new Proxy({} as MarketDataProvider, {
+    get(_target, prop) {
+      const p = providerHolder.current as any;
+      const val = p[prop];
+      if (typeof val === 'function') {
+        return val.bind(p);
+      }
+      return val;
+    },
+  });
+
   // Mount API Routers
-  app.use('/api/health', createHealthRouter(provider));
-  app.use('/api/market-status', createMarketStatusRouter(provider));
-  app.use('/api/stocks', createStocksRouter(provider));
+  app.use('/api/health', createHealthRouter(dynamicProviderProxy));
+  app.use('/api/market-status', createMarketStatusRouter(dynamicProviderProxy));
+  app.use('/api/stocks', createStocksRouter(dynamicProviderProxy));
   app.use('/api/scanner', createScannerRouter(scannerEngine));
-  app.use('/api/watchlist', createWatchlistRouter(repository, provider));
+  app.use('/api/watchlist', createWatchlistRouter(repository, dynamicProviderProxy));
   app.use('/api/alerts', createAlertsRouter(repository));
+  app.use(
+    '/api/provider',
+    createProviderRouter({
+      getProvider: () => providerHolder.current,
+      setProvider: (newP) => {
+        providerHolder.current = newP;
+        if (wsServerRef?.current) {
+          wsServerRef.current.setProvider(newP);
+        }
+      },
+      scannerEngine,
+      wsServerRef: wsServerRef || { current: null },
+    })
+  );
 
   // 404 Handler
   app.use('/api/*', (_req: Request, res: Response) => {

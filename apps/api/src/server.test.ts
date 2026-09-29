@@ -28,7 +28,7 @@ describe('MarketEye Backend API Integration Tests', () => {
     const quotes = await provider.getAllQuotes();
     quotes.forEach((q) => scannerEngine.processQuote(q));
 
-    app = createApp(provider, scannerEngine, repository);
+    app = createApp({ current: provider }, scannerEngine, repository);
   });
 
   it('GET /api/health returns 200 OK with provider status', async () => {

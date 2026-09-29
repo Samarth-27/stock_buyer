@@ -20,6 +20,8 @@ import {
   removeFromWatchlist,
   fetchAlerts,
   clearAllAlerts,
+  fetchProviderInfo,
+  ProviderInfo,
 } from './services/api.js';
 import { useWebSocket } from './hooks/useWebSocket.js';
 import { soundManager } from './services/audio.js';
@@ -32,11 +34,13 @@ import { StockDetailModal } from './components/StockDetailModal.js';
 import { WatchlistPanel } from './components/WatchlistPanel.js';
 import { AlertsDrawer } from './components/AlertsDrawer.js';
 import { ToastNotifications } from './components/ToastNotifications.js';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { ProviderSettingsModal } from './components/ProviderSettingsModal.js';
+import { AlertTriangle, RefreshCw, RadioTower, KeyRound } from 'lucide-react';
 
 export function App() {
   // State
   const [marketStatus, setMarketStatus] = useState<MarketStatusInfo | null>(null);
+  const [providerInfo, setProviderInfo] = useState<ProviderInfo | null>(null);
   const [scannerConfig, setScannerConfig] = useState<ScannerRuleConfig>({ ...DEFAULT_SCANNER_CONFIG });
   const [surfacedResults, setSurfacedResults] = useState<ScannerResult[]>([]);
   const [allStocks, setAllStocks] = useState<StockQuote[]>([]);
@@ -51,6 +55,7 @@ export function App() {
   const [liveOrderBook, setLiveOrderBook] = useState<OrderBook | undefined>(undefined);
   const [isWatchlistOpen, setIsWatchlistOpen] = useState(false);
   const [isAlertsOpen, setIsAlertsOpen] = useState(false);
+  const [isProviderModalOpen, setIsProviderModalOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [isConfigUpdating, setIsConfigUpdating] = useState(false);
   const [networkError, setNetworkError] = useState<string | null>(null);
@@ -134,8 +139,9 @@ export function App() {
   const loadInitialData = useCallback(async () => {
     try {
       setNetworkError(null);
-      const [status, cfg, surfaced, stocks, watched, alertList] = await Promise.all([
+      const [status, pInfo, cfg, surfaced, stocks, watched, alertList] = await Promise.all([
         fetchMarketStatus().catch(() => null),
+        fetchProviderInfo().catch(() => null),
         fetchScannerConfig().catch(() => DEFAULT_SCANNER_CONFIG),
         fetchScannerResults().catch(() => []),
         fetchAllStocks().catch(() => []),
@@ -144,6 +150,7 @@ export function App() {
       ]);
 
       if (status) setMarketStatus(status);
+      if (pInfo) setProviderInfo(pInfo);
       setScannerConfig(cfg);
       setSurfacedResults(surfaced);
       setAllStocks(stocks);
@@ -168,6 +175,7 @@ export function App() {
   useEffect(() => {
     const timer = setInterval(() => {
       fetchMarketStatus().then(setMarketStatus).catch(() => {});
+      fetchProviderInfo().then(setProviderInfo).catch(() => {});
     }, 30000);
     return () => clearInterval(timer);
   }, []);
@@ -230,6 +238,23 @@ export function App() {
         </div>
       )}
 
+      {/* Real Provider Status Banner if active and waiting for credentials */}
+      {providerInfo && !providerInfo.isMock && !providerInfo.connected && (
+        <div className="bg-amber-950/90 border-b border-amber-700/80 px-4 py-2.5 text-center text-xs text-amber-200 flex items-center justify-center space-x-2 flex-wrap gap-2">
+          <RadioTower className="w-4 h-4 text-amber-400 animate-pulse flex-shrink-0" />
+          <span>
+            <strong>{providerInfo.name} Active:</strong> {providerInfo.statusMessage}
+          </span>
+          <button
+            onClick={() => setIsProviderModalOpen(true)}
+            className="ml-2 px-3 py-0.5 rounded-lg bg-amber-500 text-slate-950 font-bold hover:bg-amber-400 transition-all flex items-center gap-1"
+          >
+            <KeyRound className="w-3 h-3" />
+            <span>Enter Credentials</span>
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <Header
         marketStatus={marketStatus}
@@ -241,8 +266,11 @@ export function App() {
         onOpenAlerts={() => setIsAlertsOpen(true)}
         watchlistCount={watchlist.length}
         onOpenWatchlist={() => setIsWatchlistOpen(true)}
+        onOpenProviderSettings={() => setIsProviderModalOpen(true)}
         activeTab={activeTab}
         onTabChange={setActiveTab}
+        isMockProvider={providerInfo ? providerInfo.isMock : true}
+        providerName={providerInfo ? providerInfo.name : 'Mock Feed'}
       />
 
       {/* Main Container */}
@@ -300,6 +328,14 @@ export function App() {
         />
       )}
 
+      {/* Provider & Credentials Settings Modal */}
+      <ProviderSettingsModal
+        isOpen={isProviderModalOpen}
+        onClose={() => setIsProviderModalOpen(false)}
+        providerInfo={providerInfo}
+        onProviderChanged={loadInitialData}
+      />
+
       {/* Watchlist Slide-Over */}
       <WatchlistPanel
         isOpen={isWatchlistOpen}
@@ -336,8 +372,11 @@ export function App() {
           <p className="text-[11px] max-w-2xl mx-auto text-slate-500 leading-relaxed">
             MarketEye displays pending order-book quantities (Total Buy Quantity and Total Sell Quantity).
             It does NOT claim that surfaced stocks will rise or fall, does NOT execute trades, and does NOT
-            provide investment advice. Data feed is currently operating in{' '}
-            <strong className="text-amber-400">DEMO / MOCK DATA MODE</strong>.
+            provide investment advice. Data feed mode:{' '}
+            <strong className={providerInfo?.isMock ? 'text-amber-400' : 'text-emerald-400'}>
+              {providerInfo?.name || 'MOCK SIMULATION'}
+            </strong>
+            .
           </p>
           <p className="text-[10px] text-slate-600 font-mono">
             © {new Date().getFullYear()} MarketEye. All rights reserved.

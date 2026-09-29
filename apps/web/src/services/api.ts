@@ -116,3 +116,43 @@ export async function markAlertRead(id: string): Promise<void> {
 export async function clearAllAlerts(): Promise<void> {
   await fetch(`${API_BASE}/alerts`, { method: 'DELETE' });
 }
+
+export interface ProviderInfo {
+  id: string;
+  name: string;
+  isMock: boolean;
+  connected: boolean;
+  statusMessage: string;
+  supportedProviders: Array<{
+    id: string;
+    name: string;
+    requiresCredentials: boolean;
+    docsUrl?: string;
+    fields?: string[];
+    description: string;
+  }>;
+}
+
+export async function fetchProviderInfo(): Promise<ProviderInfo> {
+  const res = await fetch(`${API_BASE}/provider`);
+  if (!res.ok) throw new Error('Failed to fetch provider info');
+  return res.json();
+}
+
+export async function switchProviderMode(payload: {
+  mode: string;
+  apiKey?: string;
+  accessToken?: string;
+  clientId?: string;
+}): Promise<any> {
+  const res = await fetch(`${API_BASE}/provider/switch`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Failed to switch provider' }));
+    throw new Error(err.error || 'Failed to switch provider');
+  }
+  return res.json();
+}

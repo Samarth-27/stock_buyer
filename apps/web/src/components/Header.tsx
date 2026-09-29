@@ -8,6 +8,8 @@ import {
   Bell,
   Bookmark,
   ShieldCheck,
+  Settings2,
+  RadioTower,
 } from 'lucide-react';
 import { MarketStatusInfo } from '@marketeye/shared';
 
@@ -21,8 +23,11 @@ interface HeaderProps {
   onOpenAlerts: () => void;
   watchlistCount: number;
   onOpenWatchlist: () => void;
+  onOpenProviderSettings: () => void;
   activeTab: 'scanner' | 'all-stocks';
   onTabChange: (tab: 'scanner' | 'all-stocks') => void;
+  isMockProvider: boolean;
+  providerName: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -35,8 +40,11 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAlerts,
   watchlistCount,
   onOpenWatchlist,
+  onOpenProviderSettings,
   activeTab,
   onTabChange,
+  isMockProvider,
+  providerName,
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-md">
@@ -89,11 +97,26 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Market Status, Feed Mode & Actions */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* Feed Mode Badge */}
-            <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              <span className="font-semibold">DEMO / MOCK DATA</span>
-            </div>
+            {/* Feed Mode Badge & Switcher */}
+            <button
+              onClick={onOpenProviderSettings}
+              className={`flex items-center space-x-1.5 px-3 py-1 rounded-xl text-xs font-medium border transition-all ${
+                isMockProvider
+                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20'
+                  : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20'
+              }`}
+              title={`Active Provider: ${providerName}. Click to configure broker credentials or switch data feed.`}
+            >
+              {isMockProvider ? (
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+              ) : (
+                <RadioTower className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+              )}
+              <span className="font-bold">
+                {isMockProvider ? 'DEMO / MOCK' : providerName.replace(' (Live Production Feed)', '')}
+              </span>
+              <Settings2 className="w-3 h-3 text-slate-400 ml-1" />
+            </button>
 
             {/* Market Session & Time */}
             {marketStatus && (

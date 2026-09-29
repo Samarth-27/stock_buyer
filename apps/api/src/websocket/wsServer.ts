@@ -23,6 +23,8 @@ export class AppWebSocketServer {
   private pingInterval: NodeJS.Timeout | null = null;
   private scannerEngine: ScannerEngine;
   private provider: MarketDataProvider;
+  private unsubTick: (() => void) | null = null;
+  private unsubOrderBook: (() => void) | null = null;
 
   constructor(server: HttpServer, scannerEngine: ScannerEngine, provider: MarketDataProvider) {
     this.scannerEngine = scannerEngine;
@@ -30,6 +32,28 @@ export class AppWebSocketServer {
     this.wss = new WebSocketServer({ server, path: '/ws' });
     this.setupServer();
     this.setupListeners();
+  }
+
+  setProvider(newProvider: MarketDataProvider): void {
+    if (this.unsubTick) this.unsubTick();
+    if (this.unsubOrderBook) this.unsubOrderBook();
+
+    this.provider = newProvider;
+    this.bindProviderListeners();
+
+    // Broadcast provider change to all connected clients
+    this.clients.forEach((client) => {
+      this.sendToClient(client.ws, {
+        type: 'CONNECTED',
+        data: {
+          message: 'Connected to MarketEye Real-time Feed',
+          isMock: this.provider.isMock,
+          provider: this.provider.name,
+          status: this.provider.isConnected() ? 'Connected' : 'Unavailable',
+        },
+        timestamp: new Date().toISOString(),
+      });
+    });
   }
 
   private setupServer(): void {
@@ -48,6 +72,7 @@ export class AppWebSocketServer {
           message: 'Connected to MarketEye Real-time Feed',
           isMock: this.provider.isMock,
           provider: this.provider.name,
+          status: this.provider.isConnected() ? 'Connected' : 'Unavailable',
         },
         timestamp: new Date().toISOString(),
       });
@@ -137,10 +162,8 @@ export class AppWebSocketServer {
     }
   }
 
-  private setupListeners(): void {
-    // Listen to market data ticks
-    this.provider.onTick((quote: StockQuote) => {
-      // Broadcast to stock subscribers
+  private bindProviderListeners(): void {
+    this.unsubTick = this.provider.onTick((quote: StockQuote) => {
       this.broadcastChannel('stocks', {
         type: 'TICK',
         data: quote,
@@ -148,8 +171,7 @@ export class AppWebSocketServer {
       });
     });
 
-    // Listen to order book depth updates
-    this.provider.onOrderBookUpdate((ob: OrderBook) => {
+    this.unsubOrderBook = this.provider.onOrderBookUpdate((ob: OrderBook) => {
       const channel = `orderbook:${ob.symbol.toUpperCase()}`;
       this.broadcastChannel(channel, {
         type: 'ORDER_BOOK',
@@ -157,6 +179,10 @@ export class AppWebSocketServer {
         timestamp: new Date().toISOString(),
       });
     });
+  }
+
+  private setupListeners(): void {
+    this.bindProviderListeners();
 
     // Listen to scanner engine events
     this.scannerEngine.addListener({
@@ -205,6 +231,8 @@ export class AppWebSocketServer {
   }
 
   close(): void {
+    if (this.unsubTick) this.unsubTick();
+    if (this.unsubOrderBook) this.unsubOrderBook();
     if (this.pingInterval) clearInterval(this.pingInterval);
     this.wss.close();
   }
