@@ -9,6 +9,7 @@ import {
   MarketStatusInfo,
   ChartInterval,
   ChartRange,
+  StockNewsItem,
 } from '@marketeye/shared';
 
 const API_BASE = '/api';
@@ -156,3 +157,35 @@ export async function switchProviderMode(payload: {
   }
   return res.json();
 }
+
+export async function angelOneLogin(payload: {
+  clientCode: string;
+  pin: string;
+  totp: string;
+  apiKey: string;
+}): Promise<any> {
+  const res = await fetch(`${API_BASE}/provider/angel-login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: 'Angel One login failed' }));
+    throw new Error(err.error || 'Angel One login failed');
+  }
+  return res.json();
+}
+
+export async function fetchMarketNews(limit = 30): Promise<StockNewsItem[]> {
+  const res = await fetch(`${API_BASE}/news?limit=${limit}`);
+  if (!res.ok) throw new Error('Failed to fetch market news');
+  return res.json();
+}
+
+export async function fetchStockNews(symbol: string): Promise<StockNewsItem[]> {
+  const res = await fetch(`${API_BASE}/news/stock/${encodeURIComponent(symbol)}`);
+  if (!res.ok) throw new Error(`Failed to fetch news for ${symbol}`);
+  return res.json();
+}
+
+

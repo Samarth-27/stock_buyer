@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Bell, Trash2, Zap, Clock } from 'lucide-react';
+import { X, Bell, Trash2, Zap, Clock, Newspaper, ExternalLink } from 'lucide-react';
 import { MarketAlert } from '@marketeye/shared';
 
 interface AlertsDrawerProps {
@@ -54,35 +54,84 @@ export const AlertsDrawer: React.FC<AlertsDrawerProps> = ({
                   No alerts recorded yet. When a stock qualifies under your configured rules, an alert will appear here.
                 </div>
               ) : (
-                alerts.map((alert, idx) => (
-                  <div
-                    key={`${alert.id}-${idx}`}
-                    onClick={() => {
-                      onSelectStock(alert.symbol);
-                      onClose();
-                    }}
-                    className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/90 hover:border-emerald-500/40 cursor-pointer transition-all space-y-2 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="p-1 rounded bg-emerald-500/10 text-emerald-400">
-                          <Zap className="w-3.5 h-3.5" />
-                        </span>
-                        <span className="font-bold text-sm text-white font-mono group-hover:text-emerald-400 transition-colors">
-                          {alert.symbol}
-                        </span>
-                      </div>
-                      <span className="text-[10px] text-slate-500 font-mono flex items-center space-x-1">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {new Date(alert.timestamp).toLocaleTimeString('en-IN')}
-                      </span>
-                    </div>
+                alerts.map((alert, idx) => {
+                  const isNews = alert.type === 'NEWS_ALERT';
+                  const sentiment = (alert.metadata as any)?.sentiment;
+                  const url = (alert.metadata as any)?.url;
 
-                    <p className="text-xs text-slate-300 leading-relaxed font-medium">
-                      {alert.message}
-                    </p>
-                  </div>
-                ))
+                    return (
+                      <div
+                        key={`${alert.id}-${idx}`}
+                        onClick={() => {
+                          onSelectStock(alert.symbol);
+                          onClose();
+                        }}
+                        className={`p-4 rounded-2xl bg-slate-900/80 border cursor-pointer transition-all space-y-2 group ${
+                          isNews
+                            ? 'border-indigo-500/30 hover:border-indigo-500/60'
+                            : 'border-slate-800/90 hover:border-emerald-500/40'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <span
+                              className={`p-1 rounded ${
+                                isNews
+                                  ? 'bg-indigo-500/20 text-indigo-400'
+                                  : 'bg-emerald-500/10 text-emerald-400'
+                              }`}
+                            >
+                              {isNews ? <Newspaper className="w-3.5 h-3.5" /> : <Zap className="w-3.5 h-3.5" />}
+                            </span>
+                            <span
+                              className={`font-bold text-sm text-white font-mono transition-colors ${
+                                isNews ? 'group-hover:text-indigo-400' : 'group-hover:text-emerald-400'
+                              }`}
+                            >
+                              {alert.symbol}
+                            </span>
+
+                            {isNews && sentiment && (
+                              <span
+                                className={`text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full ${
+                                  sentiment === 'BULLISH'
+                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                    : sentiment === 'BEARISH'
+                                    ? 'bg-rose-500/20 text-rose-400'
+                                    : 'bg-slate-800 text-slate-400'
+                                }`}
+                              >
+                                {sentiment}
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[10px] text-slate-500 font-mono flex items-center space-x-1">
+                            <Clock className="w-3 h-3 mr-1" />
+                            {new Date(alert.timestamp).toLocaleTimeString('en-IN')}
+                          </span>
+                        </div>
+
+                        <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                          {alert.message}
+                        </p>
+
+                        {isNews && url && (
+                          <div className="pt-1 flex items-center justify-end">
+                            <a
+                              href={url}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-[10px] text-indigo-400 hover:text-indigo-300 hover:underline flex items-center gap-1"
+                            >
+                              <span>Read Article</span>
+                              <ExternalLink className="w-2.5 h-2.5" />
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
               )}
             </div>
           </div>

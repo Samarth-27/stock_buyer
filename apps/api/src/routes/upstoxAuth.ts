@@ -9,12 +9,16 @@ interface UpstoxAuthContext {
   scannerEngine: ScannerEngine;
 }
 
+let sessionApiKey = process.env.UPSTOX_API_KEY || '';
+let sessionApiSecret = process.env.UPSTOX_API_SECRET || '';
+
 export function createUpstoxAuthRouter(ctx: UpstoxAuthContext): Router {
   const router = Router();
 
   // GET /api/auth/upstox/login -> Redirect to Upstox Login Dialog
   router.get('/login', (req: Request, res: Response) => {
-    const apiKey = (req.query.apiKey as string) || process.env.UPSTOX_API_KEY;
+    const apiKey = (req.query.apiKey as string) || sessionApiKey || process.env.UPSTOX_API_KEY;
+    const apiSecret = (req.query.apiSecret as string) || sessionApiSecret || process.env.UPSTOX_API_SECRET;
     const redirectUri =
       (req.query.redirectUri as string) ||
       process.env.UPSTOX_REDIRECT_URI ||
@@ -26,6 +30,9 @@ export function createUpstoxAuthRouter(ctx: UpstoxAuthContext): Router {
       );
       return;
     }
+
+    if (apiKey) sessionApiKey = apiKey;
+    if (apiSecret) sessionApiSecret = apiSecret;
 
     const authUrl = `https://api.upstox.com/v2/login/authorization/dialog?response_type=code&client_id=${encodeURIComponent(
       apiKey
@@ -42,14 +49,14 @@ export function createUpstoxAuthRouter(ctx: UpstoxAuthContext): Router {
       return;
     }
 
-    const apiKey = process.env.UPSTOX_API_KEY;
-    const apiSecret = process.env.UPSTOX_API_SECRET;
+    const apiKey = sessionApiKey || process.env.UPSTOX_API_KEY;
+    const apiSecret = sessionApiSecret || process.env.UPSTOX_API_SECRET;
     const redirectUri =
       process.env.UPSTOX_REDIRECT_URI || 'http://localhost:3001/api/auth/upstox/callback';
 
     if (!apiKey || !apiSecret) {
       res.status(400).send(
-        'Missing UPSTOX_API_KEY or UPSTOX_API_SECRET in environment to complete token exchange.'
+        'Missing Upstox API Key or API Secret to complete token exchange. Please provide both when initiating login.'
       );
       return;
     }

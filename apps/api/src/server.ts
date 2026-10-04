@@ -11,6 +11,7 @@ import { createMarketDataProvider } from './providers/index.js';
 import { ScannerEngine } from './scanner/ScannerEngine.js';
 import { createApp } from './app.js';
 import { AppWebSocketServer } from './websocket/wsServer.js';
+import { NewsService } from './services/NewsService.js';
 
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
@@ -35,10 +36,14 @@ async function bootstrap() {
   // 4. Create references
   const wsServerRef: { current: AppWebSocketServer | null } = { current: null };
 
-  // 5. Create Express App
-  const app = createApp(providerHolder, scannerEngine, repository, wsServerRef);
+  // 5. Initialize Financial News & Sentiment Engine
+  const newsService = new NewsService(repository, wsServerRef);
+  await newsService.init();
 
-  // 6. Create HTTP & WebSocket Server
+  // 6. Create Express App
+  const app = createApp(providerHolder, scannerEngine, repository, wsServerRef, newsService);
+
+  // 7. Create HTTP & WebSocket Server
   const server = http.createServer(app);
   const wsServer = new AppWebSocketServer(server, scannerEngine, initialProvider);
   wsServerRef.current = wsServer;
@@ -62,6 +67,7 @@ async function bootstrap() {
   // Graceful Shutdown
   const shutdown = async () => {
     console.log('\n[MarketEye API] Shutting down gracefully...');
+    newsService.stop();
     await providerHolder.current.disconnect();
     wsServer.close();
     server.close(() => {

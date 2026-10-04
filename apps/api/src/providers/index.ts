@@ -3,6 +3,7 @@ import { MockMarketDataProvider } from './MockMarketDataProvider.js';
 import { KiteConnectProvider } from './KiteConnectProvider.js';
 import { UpstoxDataProvider } from './UpstoxDataProvider.js';
 import { DhanDataProvider } from './DhanDataProvider.js';
+import { AngelOneDataProvider } from './AngelOneDataProvider.js';
 
 export function createMarketDataProvider(
   overrideMode?: string,
@@ -23,6 +24,15 @@ export function createMarketDataProvider(
       console.log('[ProviderFactory] Initializing Dhan HQ API live provider');
       return new DhanDataProvider(credentials?.clientId, credentials?.accessToken);
 
+    case 'angel':
+    case 'angelone':
+      console.log('[ProviderFactory] Initializing Angel One SmartAPI live provider');
+      return new AngelOneDataProvider(
+        credentials?.apiKey,
+        credentials?.jwtToken || credentials?.accessToken,
+        credentials?.clientCode
+      );
+
     case 'mock':
     default:
       console.log('[ProviderFactory] Initializing Mock Market Data Provider (Demo Mode)');
@@ -35,3 +45,5 @@ export * from './MockMarketDataProvider.js';
 export * from './KiteConnectProvider.js';
 export * from './UpstoxDataProvider.js';
 export * from './DhanDataProvider.js';
+export * from './AngelOneDataProvider.js';
+

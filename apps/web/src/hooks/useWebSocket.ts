@@ -49,8 +49,9 @@ export function useWebSocket(callbacks: WebSocketCallbacks): UseWebSocketReturn 
         setIsConnected(true);
         setIsConnecting(false);
         // Subscribe to standard channels
-        const subMsg: WSClientMessage = { action: 'subscribe', channel: 'stocks' };
-        ws.send(JSON.stringify(subMsg));
+        ['stocks', 'scanner', 'alerts'].forEach((channel) => {
+          ws.send(JSON.stringify({ action: 'subscribe', channel }));
+        });
       };
 
       ws.onmessage = (event) => {

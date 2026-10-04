@@ -6,6 +6,7 @@ import {
   MarketAlert,
   DEFAULT_SCANNER_CONFIG,
   evaluateBuyPressure,
+  calculateSwingTradePlan,
 } from '@marketeye/shared';
 import { IRepository } from '../storage/repository.js';
 
@@ -18,6 +19,7 @@ export interface ScannerEventListener {
 export class ScannerEngine {
   private config: ScannerRuleConfig = { ...DEFAULT_SCANNER_CONFIG };
   private activeResults: Map<string, ScannerResult> = new Map();
+  private latestQuotes: Map<string, StockQuote> = new Map();
   private listeners: Set<ScannerEventListener> = new Set();
   private repository: IRepository;
 
@@ -41,7 +43,7 @@ export class ScannerEngine {
     console.log(
       `[ScannerEngine] Config updated: Buy >= ${this.config.buyThreshold}%, Sell <= ${this.config.sellThreshold}%, MinVol = ${this.config.minVolume}`
     );
-    // Re-evaluate active results with new thresholds
+    // Re-evaluate all known quotes immediately with new thresholds
     this.reevaluateAll();
     return { ...this.config };
   }
@@ -61,6 +63,13 @@ export class ScannerEngine {
    * Evaluates a stock quote / order book update.
    */
   processQuote(quote: StockQuote): void {
+    if (!quote.swingPlan) {
+      quote.swingPlan = calculateSwingTradePlan(quote);
+      quote.swingSetup = quote.swingPlan.setupType;
+    }
+
+    this.latestQuotes.set(quote.symbol, quote);
+
     if (!this.config.enabled) {
       if (this.activeResults.size > 0) {
         this.activeResults.clear();
@@ -77,7 +86,12 @@ export class ScannerEngine {
       quote.volume,
       this.config.minVolume,
       quote.changePercent,
-      this.config.minPriceChange
+      this.config.minPriceChange,
+      quote.prediction,
+      this.config.requireAiJump,
+      this.config.minAiConfidence,
+      quote.swingPlan,
+      this.config.strategyPreset
     );
 
     const isCurrentlyActive = this.activeResults.has(quote.symbol);
@@ -93,6 +107,9 @@ export class ScannerEngine {
         totalSellQuantity: quote.totalSellQuantity,
         buyPercentage: quote.buyPercentage,
         sellPercentage: quote.sellPercentage,
+        prediction: quote.prediction,
+        swingPlan: quote.swingPlan,
+        swingSetup: quote.swingSetup,
         ruleId: this.config.id,
         ruleName: this.config.name,
         reason: evaluation.reason,
@@ -109,7 +126,7 @@ export class ScannerEngine {
           id: `alert-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
           symbol: quote.symbol,
           type: 'SCANNER_TRIGGER',
-          title: `New Stock Under Your Eyes: ${quote.symbol}`,
+          title: `Swing Setup Triggered: ${quote.symbol} (${quote.swingPlan?.setupName || 'Bullish Pressure'})`,
           message: evaluation.reason,
           timestamp: new Date().toISOString(),
           read: false,
@@ -117,6 +134,8 @@ export class ScannerEngine {
             buyPercentage: quote.buyPercentage,
             sellPercentage: quote.sellPercentage,
             ltp: quote.ltp,
+            prediction: quote.prediction,
+            swingPlan: quote.swingPlan,
           },
         };
 
@@ -138,8 +157,91 @@ export class ScannerEngine {
   }
 
   private reevaluateAll(): void {
-    // When config changes, clear active results and notify UI so they regenerate dynamically
-    this.activeResults.clear();
+    if (!this.config.enabled) {
+      this.activeResults.clear();
+      this.notifyUpdate();
+      return;
+    }
+
+    const currentSymbols = new Set(this.activeResults.keys());
+    const nextResults = new Map<string, ScannerResult>();
+
+    for (const [symbol, quote] of this.latestQuotes.entries()) {
+      if (!quote.swingPlan) {
+        quote.swingPlan = calculateSwingTradePlan(quote);
+        quote.swingSetup = quote.swingPlan.setupType;
+      }
+
+      const evaluation = evaluateBuyPressure(
+        quote.buyPercentage,
+        quote.sellPercentage,
+        this.config.buyThreshold,
+        this.config.sellThreshold,
+        quote.volume,
+        this.config.minVolume,
+        quote.changePercent,
+        this.config.minPriceChange,
+        quote.prediction,
+        this.config.requireAiJump,
+        this.config.minAiConfidence,
+        quote.swingPlan,
+        this.config.strategyPreset
+      );
+
+      if (evaluation.matches) {
+        const wasActive = currentSymbols.has(symbol);
+        const result: ScannerResult = {
+          symbol: quote.symbol,
+          companyName: quote.companyName,
+          ltp: quote.ltp,
+          changePercent: quote.changePercent,
+          volume: quote.volume,
+          totalBuyQuantity: quote.totalBuyQuantity,
+          totalSellQuantity: quote.totalSellQuantity,
+          buyPercentage: quote.buyPercentage,
+          sellPercentage: quote.sellPercentage,
+          prediction: quote.prediction,
+          swingPlan: quote.swingPlan,
+          swingSetup: quote.swingSetup,
+          ruleId: this.config.id,
+          ruleName: this.config.name,
+          reason: evaluation.reason,
+          surfacedAt: wasActive
+            ? this.activeResults.get(symbol)!.surfacedAt
+            : new Date().toISOString(),
+        };
+
+        nextResults.set(symbol, result);
+
+        if (!wasActive) {
+          const alert: MarketAlert = {
+            id: `alert-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+            symbol: quote.symbol,
+            type: 'SCANNER_TRIGGER',
+            title: `Swing Setup Triggered: ${quote.symbol} (${quote.swingPlan?.setupName || 'Bullish Pressure'})`,
+            message: evaluation.reason,
+            timestamp: new Date().toISOString(),
+            read: false,
+            metadata: {
+              buyPercentage: quote.buyPercentage,
+              sellPercentage: quote.sellPercentage,
+              ltp: quote.ltp,
+              prediction: quote.prediction,
+              swingPlan: quote.swingPlan,
+            },
+          };
+          this.repository.addAlert(alert).catch((err) => {
+            console.error('[ScannerEngine] Failed to persist alert:', err);
+          });
+          this.listeners.forEach((l) => l.onTrigger?.(result, alert));
+        }
+      } else if (currentSymbols.has(symbol)) {
+        const dropReason = `Buy percentage dropped to ${quote.buyPercentage.toFixed(1)}% (below ${this.config.buyThreshold.toFixed(1)}% threshold)`;
+        this.listeners.forEach((l) => l.onRemove?.(symbol, dropReason));
+      }
+    }
+
+    this.activeResults = nextResults;
     this.notifyUpdate();
   }
 

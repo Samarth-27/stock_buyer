@@ -14,6 +14,8 @@ import { createMarketStatusRouter } from './routes/marketStatus.js';
 import { createHealthRouter } from './routes/health.js';
 import { createProviderRouter } from './routes/provider.js';
 import { createUpstoxAuthRouter } from './routes/upstoxAuth.js';
+import { createNewsRouter } from './routes/news.js';
+import { NewsService } from './services/NewsService.js';
 import { openApiSpec } from './docs/swagger.js';
 import { AppWebSocketServer } from './websocket/wsServer.js';
 
@@ -25,7 +27,8 @@ export function createApp(
   providerHolder: ProviderHolder,
   scannerEngine: ScannerEngine,
   repository: IRepository,
-  wsServerRef?: { current: AppWebSocketServer | null }
+  wsServerRef?: { current: AppWebSocketServer | null },
+  newsService?: NewsService
 ): Express {
   const app = express();
 
@@ -85,7 +88,7 @@ export function createApp(
   // Mount API Routers
   app.use('/api/health', createHealthRouter(dynamicProviderProxy));
   app.use('/api/market-status', createMarketStatusRouter(dynamicProviderProxy));
-  app.use('/api/stocks', createStocksRouter(dynamicProviderProxy));
+  app.use('/api/stocks', createStocksRouter(dynamicProviderProxy, newsService));
   app.use('/api/scanner', createScannerRouter(scannerEngine));
   app.use('/api/watchlist', createWatchlistRouter(repository, dynamicProviderProxy));
   app.use('/api/alerts', createAlertsRouter(repository));
@@ -117,6 +120,10 @@ export function createApp(
       scannerEngine,
     })
   );
+
+  if (newsService) {
+    app.use('/api/news', createNewsRouter(newsService));
+  }
 
   // 404 Handler
   app.use('/api/*', (_req: Request, res: Response) => {

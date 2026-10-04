@@ -230,6 +230,14 @@ export class AppWebSocketServer {
     });
   }
 
+  broadcastAlert(alert: MarketAlert): void {
+    this.broadcastChannel('alerts', {
+      type: 'ALERT',
+      data: alert,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
   close(): void {
     if (this.unsubTick) this.unsubTick();
     if (this.unsubOrderBook) this.unsubOrderBook();

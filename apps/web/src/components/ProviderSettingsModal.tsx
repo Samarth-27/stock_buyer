@@ -9,7 +9,7 @@ import {
   Database,
   RefreshCw,
 } from 'lucide-react';
-import { ProviderInfo, switchProviderMode } from '../services/api.js';
+import { ProviderInfo, switchProviderMode, angelOneLogin } from '../services/api.js';
 
 interface ProviderSettingsModalProps {
   isOpen: boolean;
@@ -24,17 +24,24 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
   providerInfo,
   onProviderChanged,
 }) => {
-  const [selectedMode, setSelectedMode] = useState<string>('kite');
+  const [selectedMode, setSelectedMode] = useState<string>('angel');
   const [apiKey, setApiKey] = useState('');
+  const [apiSecret, setApiSecret] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const [clientId, setClientId] = useState('');
+  const [angelClientCode, setAngelClientCode] = useState('');
+  const [angelPin, setAngelPin] = useState('');
+  const [angelTotp, setAngelTotp] = useState('');
+  const [showUpstoxGuide, setShowUpstoxGuide] = useState(true);
+  const [showAngelGuide, setShowAngelGuide] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   useEffect(() => {
     if (providerInfo) {
-      if (providerInfo.id === 'kite-connect') setSelectedMode('kite');
+      if (providerInfo.id === 'angel-feed') setSelectedMode('angel');
+      else if (providerInfo.id === 'kite-connect') setSelectedMode('kite');
       else if (providerInfo.id === 'upstox-feed') setSelectedMode('upstox');
       else if (providerInfo.id === 'dhan-feed') setSelectedMode('dhan');
       else setSelectedMode('mock');
@@ -43,7 +50,47 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
 
   if (!isOpen) return null;
 
+  const handleAngelLogin = async () => {
+    try {
+      setLoading(true);
+      setErrorMsg(null);
+      setSuccessMsg(null);
+
+      const res = await angelOneLogin({
+        clientCode: angelClientCode.trim(),
+        pin: angelPin.trim(),
+        totp: angelTotp.trim(),
+        apiKey: apiKey.trim(),
+      });
+
+      if (res.jwtToken) {
+        setAccessToken(res.jwtToken);
+      }
+
+      if (res.connected) {
+        setSuccessMsg(`Successfully connected to ${res.name}! Closing...`);
+        onProviderChanged();
+        setTimeout(() => {
+          onClose();
+        }, 1200);
+      } else {
+        setErrorMsg(res.statusMessage || 'Connected. Awaiting live market quote stream.');
+        onProviderChanged();
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Angel One login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleConnect = async () => {
+    // If already connected to Angel One and no new token provided, simply close modal
+    if (selectedMode === 'angel' && !accessToken && providerInfo?.id === 'angel-feed' && providerInfo?.connected) {
+      onClose();
+      return;
+    }
+
     try {
       setLoading(true);
       setErrorMsg(null);
@@ -53,16 +100,19 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
         mode: selectedMode,
         apiKey: apiKey.trim(),
         accessToken: accessToken.trim(),
-        clientId: clientId.trim(),
+        clientId: (selectedMode === 'angel' ? angelClientCode : clientId).trim(),
       });
 
       if (res.connected) {
         setSuccessMsg(`Successfully connected to ${res.name}!`);
+        onProviderChanged();
+        setTimeout(() => {
+          onClose();
+        }, 1000);
       } else {
         setErrorMsg(res.statusMessage || 'Provider initialized. Awaiting market data feed.');
+        onProviderChanged();
       }
-
-      onProviderChanged();
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to switch provider');
     } finally {
@@ -131,10 +181,11 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
           <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
             Select Live Feed Source
           </label>
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             {[
-              { id: 'kite', name: 'Zerodha Kite', tag: 'Live L2 Depth' },
+              { id: 'angel', name: 'Angel One', tag: 'SmartAPI (Free)' },
               { id: 'upstox', name: 'Upstox API', tag: 'Live TBQ/TSQ' },
+              { id: 'kite', name: 'Zerodha Kite', tag: 'Live L2 Depth' },
               { id: 'dhan', name: 'Dhan HQ', tag: 'Free Token' },
               { id: 'mock', name: 'Mock Feed', tag: '24/7 Simulator' },
             ].map((p) => (
@@ -156,6 +207,150 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
         </div>
 
         {/* Credential Inputs for Selected Real Provider */}
+        {selectedMode === 'angel' && (
+          <div className="space-y-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                <Key className="w-3.5 h-3.5 text-emerald-400" />
+                Angel One SmartAPI Configuration (100% Free)
+              </span>
+              <a
+                href="https://smartapi.angelbroking.com/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20"
+              >
+                <span>SmartAPI Portal</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+
+            {/* Step-by-Step Helper Box */}
+            <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-xs">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="font-bold text-indigo-300 flex items-center gap-1">
+                  <span>How to Connect Your Angel One Account:</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowAngelGuide(!showAngelGuide)}
+                  className="text-[10px] text-indigo-400 hover:underline"
+                >
+                  {showAngelGuide ? 'Hide Steps' : 'Show Steps'}
+                </button>
+              </div>
+
+              {showAngelGuide && (
+                <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-slate-300/90 pl-1 mt-2">
+                  <li>
+                    Log in to{' '}
+                    <a
+                      href="https://smartapi.angelbroking.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-emerald-400 underline font-semibold"
+                    >
+                      smartapi.angelbroking.com
+                    </a>{' '}
+                    using your Angel One Demat account (It's 100% Free).
+                  </li>
+                  <li>
+                    Click <strong>"Create App"</strong> &rarr; Select <strong>"Trading API"</strong> &rarr; Name: <code className="text-emerald-300 bg-slate-900 px-1 py-0.5 rounded">MarketEye</code>.
+                  </li>
+                  <li>
+                    Copy your generated <strong>API Key</strong>.
+                  </li>
+                  <li>
+                    Use the <strong>1-Click Login below</strong> with your Client Code, PIN, and TOTP, or paste your session JWT token directly!
+                  </li>
+                </ol>
+              )}
+            </div>
+
+            {/* 1-Click TOTP Login Section */}
+            <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
+                  ⚡ 1-Click Angel One Login (Recommended)
+                </span>
+                <span className="text-[10px] text-emerald-400 font-mono">Auto JWT Authentication</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-0.5">Angel Client Code</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. A123456"
+                    value={angelClientCode}
+                    onChange={(e) => setAngelClientCode(e.target.value)}
+                    className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-0.5">MPIN / Password</label>
+                  <input
+                    type="password"
+                    placeholder="4-digit MPIN"
+                    value={angelPin}
+                    onChange={(e) => setAngelPin(e.target.value)}
+                    className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-0.5">TOTP (Google Authenticator)</label>
+                  <input
+                    type="text"
+                    maxLength={6}
+                    placeholder="6-digit TOTP"
+                    value={angelTotp}
+                    onChange={(e) => setAngelTotp(e.target.value)}
+                    className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono tracking-wider"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-0.5">SmartAPI API Key</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. your_api_key"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAngelLogin}
+                disabled={loading || !angelClientCode || !angelPin || !angelTotp || !apiKey}
+                className="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-indigo-600/30"
+              >
+                {loading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <ShieldCheck className="w-3.5 h-3.5" />}
+                <span>Log In & Connect Angel One Live Feed</span>
+              </button>
+            </div>
+
+            {/* Direct JWT Token Input */}
+            <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
+              <label className="text-[11px] font-semibold text-slate-400 block">
+                Or Paste Existing Angel One JWT Session Token:
+              </label>
+              <input
+                type="password"
+                placeholder="Paste active Angel One JWT Token (ey...)"
+                value={accessToken}
+                onChange={(e) => setAccessToken(e.target.value)}
+                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+              />
+            </div>
+          </div>
+        )}
+
         {selectedMode === 'kite' && (
           <div className="space-y-3 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
             <div className="flex items-center justify-between">
@@ -199,64 +394,129 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
         )}
 
         {selectedMode === 'upstox' && (
-          <div className="space-y-3 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div className="space-y-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
                 <Key className="w-3.5 h-3.5 text-emerald-400" />
                 Upstox API v2/v3 Configuration
               </span>
               <a
-                href="https://upstox.com/developer/api-documentation"
+                href="https://upstox.com/developer/apps/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[11px] text-emerald-400 hover:underline flex items-center gap-1"
+                className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20"
               >
-                <span>Upstox Portal</span>
+                <span>Upstox Developer Console</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
 
-            <div>
-              <label className="text-[11px] text-slate-400 block mb-1">
-                Upstox API Key (Client ID)
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. your_upstox_api_key"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
-              />
+            {/* Step-by-Step Helper Box */}
+            <div className="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/20 text-xs">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="font-bold text-indigo-300 flex items-center gap-1">
+                  <span>How to Get & Redeem Your Upstox Token:</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowUpstoxGuide(!showUpstoxGuide)}
+                  className="text-[10px] text-indigo-400 hover:underline"
+                >
+                  {showUpstoxGuide ? 'Hide Steps' : 'Show Steps'}
+                </button>
+              </div>
+
+              {showUpstoxGuide && (
+                <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-slate-300/90 pl-1 mt-2">
+                  <li>
+                    Log in to{' '}
+                    <a
+                      href="https://upstox.com/developer/apps/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-emerald-400 underline font-semibold"
+                    >
+                      upstox.com/developer/apps/
+                    </a>{' '}
+                    using your Upstox mobile number & PIN.
+                  </li>
+                  <li>
+                    Click <strong>"New App"</strong> (or click your existing app).
+                    <div className="text-[10px] text-slate-400 ml-4 mt-0.5">
+                      Set Redirect URL to: <code className="text-emerald-300 bg-slate-900 px-1 py-0.5 rounded">http://localhost:3001/api/auth/upstox/callback</code>
+                    </div>
+                  </li>
+                  <li>
+                    Inside your app card, click <strong>"Generate Access Token"</strong> and verify with your mobile OTP.
+                  </li>
+                  <li>
+                    Copy the generated <strong>Access Token</strong> (starts with <code className="text-amber-300 font-mono">eyJhbGciOi...</code>) and paste it below.
+                  </li>
+                </ol>
+              )}
             </div>
 
+            {/* Access Token Input */}
             <div>
-              <label className="text-[11px] text-slate-400 block mb-1">
-                Upstox Access Token (Bearer Token)
-              </label>
-              <input
-                type="password"
-                placeholder="Paste your active Upstox access token..."
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[11px] font-semibold text-slate-300">
+                  Upstox Access Token (Bearer Token) <span className="text-rose-400">*</span>
+                </label>
+                <span className="text-[10px] text-amber-400 font-mono">Starts with &quot;eyJ...&quot;</span>
+              </div>
+              <textarea
+                rows={3}
+                placeholder="Paste the generated Upstox access token (eyJhbGciOi...)"
                 value={accessToken}
                 onChange={(e) => setAccessToken(e.target.value)}
-                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono leading-relaxed resize-none"
               />
-              <p className="text-[10px] text-slate-500 mt-1">
-                Generated daily via Upstox Developer Console or Mobile TOTP login.
+              <p className="text-[10px] text-slate-400 mt-1">
+                ⚠️ <strong className="text-slate-300">Important:</strong> Do not paste your API Key or Secret here. The Access Token is a 300+ character JWT generated after 2FA login.
               </p>
             </div>
 
-            {apiKey && (
-              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400">Need to generate a new token?</span>
-                <a
-                  href={`/api/auth/upstox/login?apiKey=${encodeURIComponent(apiKey)}`}
-                  className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1 transition-all shadow-md shadow-indigo-600/30"
-                >
-                  <span>1-Click Upstox Login</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+            {/* Optional API Key & Secret for 1-Click Login */}
+            <div className="pt-2 border-t border-slate-800/80 space-y-2.5">
+              <div className="text-[11px] font-semibold text-slate-400">
+                Optional: 1-Click Browser Login (Automatic OAuth)
               </div>
-            )}
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-0.5">API Key (Client ID)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 52c938b8..."
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-0.5">API Secret</label>
+                  <input
+                    type="password"
+                    placeholder="e.g. ab38e..."
+                    value={apiSecret}
+                    onChange={(e) => setApiSecret(e.target.value)}
+                    className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono"
+                  />
+                </div>
+              </div>
+
+              {apiKey && apiSecret && (
+                <div className="flex items-center justify-between pt-1">
+                  <span className="text-[10px] text-slate-400">Generate token automatically via browser:</span>
+                  <a
+                    href={`/api/auth/upstox/login?apiKey=${encodeURIComponent(apiKey)}&apiSecret=${encodeURIComponent(apiSecret)}`}
+                    className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1 transition-all shadow-md shadow-indigo-600/30"
+                  >
+                    <span>1-Click Upstox Login</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         )}
 

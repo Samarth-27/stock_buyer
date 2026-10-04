@@ -8,6 +8,8 @@ import {
   NSEInstrumentDefinition,
   calculateBuySellPercentages,
   calculateOrderBookImbalance,
+  calculateAIPrediction,
+  calculateSwingTradePlan,
   MarketDepthEntry,
 } from '@marketeye/shared';
 import { MarketDataProvider } from './MarketDataProvider.js';
@@ -26,6 +28,7 @@ interface StockState {
   orderBook: OrderBook;
   lastUpdated: number;
   targetBuyBias: number; // e.g. 0.64 for buy pressure, 0.50 for neutral, 0.35 for sell pressure
+  dailyCandles: HistoricalCandle[];
 }
 
 export class MockMarketDataProvider implements MarketDataProvider {
@@ -41,6 +44,35 @@ export class MockMarketDataProvider implements MarketDataProvider {
 
   constructor() {
     this.initializeStocks();
+  }
+
+  private generateDailyCandles(basePrice: number, isBullish: boolean): HistoricalCandle[] {
+    const candles: HistoricalCandle[] = [];
+    const count = 60;
+    const now = Date.now();
+    let price = isBullish ? basePrice * 0.85 : basePrice * 1.05;
+
+    for (let i = count; i >= 1; i--) {
+      const date = new Date(now - i * 24 * 60 * 60 * 1000).toISOString();
+      const drift = isBullish ? (basePrice - price) / (i + 1) + (Math.random() - 0.45) * (basePrice * 0.012) : (Math.random() - 0.52) * (basePrice * 0.015);
+      const open = Number(price.toFixed(2));
+      const close = Number(Math.max(10, open + drift).toFixed(2));
+      const high = Number((Math.max(open, close) + Math.random() * (basePrice * 0.008)).toFixed(2));
+      const low = Number((Math.min(open, close) - Math.random() * (basePrice * 0.008)).toFixed(2));
+      const volume = Math.floor(Math.random() * 800000) + 150000;
+
+      candles.push({
+        timestamp: date,
+        open,
+        high,
+        low,
+        close,
+        volume,
+      });
+
+      price = close;
+    }
+    return candles;
   }
 
   private initializeStocks(): void {
@@ -106,6 +138,7 @@ export class MockMarketDataProvider implements MarketDataProvider {
         orderBook,
         lastUpdated: Date.now(),
         targetBuyBias: bias,
+        dailyCandles: this.generateDailyCandles(basePrice, bias >= 0.58),
       });
     }
   }
@@ -265,6 +298,31 @@ export class MockMarketDataProvider implements MarketDataProvider {
       state.totalSellQuantity
     );
 
+    const prediction = calculateAIPrediction(state.orderBook, {
+      ltp: state.ltp,
+      changePercent,
+      volume: state.volume,
+    });
+    if (state.orderBook) {
+      state.orderBook.prediction = prediction;
+    }
+
+    const swingPlan = calculateSwingTradePlan(
+      {
+        symbol: state.definition.symbol,
+        ltp: state.ltp,
+        previousClose: state.previousClose,
+        changePercent,
+        volume: state.volume,
+        high: state.high,
+        low: state.low,
+        buyPercentage,
+        sellPercentage,
+      },
+      state.orderBook,
+      state.dailyCandles
+    );
+
     return {
       symbol: state.definition.symbol,
       companyName: state.definition.companyName,
@@ -282,6 +340,9 @@ export class MockMarketDataProvider implements MarketDataProvider {
       totalSellQuantity: state.totalSellQuantity,
       buyPercentage,
       sellPercentage,
+      prediction,
+      swingPlan,
+      swingSetup: swingPlan.setupType,
       timestamp,
       source: 'MOCK_FEED',
       isStale: false,
@@ -313,6 +374,9 @@ export class MockMarketDataProvider implements MarketDataProvider {
     range: ChartRange = '1d'
   ): Promise<HistoricalCandle[]> {
     const state = this.stockStates.get(symbol.toUpperCase());
+    if (interval === '1D' && state?.dailyCandles?.length) {
+      return state.dailyCandles;
+    }
     const basePrice = state ? state.ltp : 1000;
 
     const candlesCount = range === '1d' ? (interval === '1m' ? 60 : interval === '5m' ? 45 : 25) : 30;

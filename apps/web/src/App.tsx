@@ -1,30 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import {
-  StockQuote,
-  OrderBook,
-  ScannerResult,
-  ScannerRuleConfig,
-  WatchlistItem,
-  MarketAlert,
-  MarketStatusInfo,
-  DEFAULT_SCANNER_CONFIG,
-} from '@marketeye/shared';
-import {
-  fetchMarketStatus,
-  fetchAllStocks,
-  fetchScannerResults,
-  fetchScannerConfig,
-  updateScannerConfig,
-  fetchWatchlist,
-  addToWatchlist,
-  removeFromWatchlist,
-  fetchAlerts,
-  clearAllAlerts,
-  fetchProviderInfo,
-  ProviderInfo,
-} from './services/api.js';
-import { useWebSocket } from './hooks/useWebSocket.js';
-import { soundManager } from './services/audio.js';
+import { useState } from 'react';
+import { useMarketData } from './hooks/useMarketData.js';
 import { Header } from './components/Header.js';
 import { ScannerControls } from './components/ScannerControls.js';
 import { SurfacedStocksTable } from './components/SurfacedStocksTable.js';
@@ -35,191 +10,46 @@ import { WatchlistPanel } from './components/WatchlistPanel.js';
 import { AlertsDrawer } from './components/AlertsDrawer.js';
 import { ToastNotifications } from './components/ToastNotifications.js';
 import { ProviderSettingsModal } from './components/ProviderSettingsModal.js';
+import { QuickStartGuide } from './components/QuickStartGuide.js';
 import { AlertTriangle, RefreshCw, RadioTower, KeyRound } from 'lucide-react';
 
 export function App() {
-  // State
-  const [marketStatus, setMarketStatus] = useState<MarketStatusInfo | null>(null);
-  const [providerInfo, setProviderInfo] = useState<ProviderInfo | null>(null);
-  const [scannerConfig, setScannerConfig] = useState<ScannerRuleConfig>({ ...DEFAULT_SCANNER_CONFIG });
-  const [surfacedResults, setSurfacedResults] = useState<ScannerResult[]>([]);
-  const [allStocks, setAllStocks] = useState<StockQuote[]>([]);
-  const [quotesMap, setQuotesMap] = useState<Map<string, StockQuote>>(new Map());
-  const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
-  const [alerts, setAlerts] = useState<MarketAlert[]>([]);
-  const [latestTrigger, setLatestTrigger] = useState<ScannerResult | null>(null);
+  const {
+    marketStatus,
+    providerInfo,
+    scannerConfig,
+    surfacedResults,
+    allStocks,
+    quotesMap,
+    watchlist,
+    watchlistSymbols,
+    surfacedSymbols,
+    alerts,
+    unreadAlertsCount,
+    latestTrigger,
+    networkError,
+    isConfigUpdating,
+    soundEnabled,
+    liveOrderBook,
+    isConnected,
+    isConnecting,
+    loadInitialData,
+    updateConfig,
+    toggleWatchlist,
+    toggleSound,
+    clearAlerts,
+    subscribeOrderBook,
+    unsubscribeOrderBook,
+  } = useMarketData();
 
-  // UI State
+  // Navigation & Dialog State
   const [activeTab, setActiveTab] = useState<'scanner' | 'all-stocks'>('scanner');
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
-  const [liveOrderBook, setLiveOrderBook] = useState<OrderBook | undefined>(undefined);
   const [isWatchlistOpen, setIsWatchlistOpen] = useState(false);
   const [isAlertsOpen, setIsAlertsOpen] = useState(false);
   const [isProviderModalOpen, setIsProviderModalOpen] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [isConfigUpdating, setIsConfigUpdating] = useState(false);
-  const [networkError, setNetworkError] = useState<string | null>(null);
 
-  // Derived
-  const watchlistSymbols = useMemo(() => new Set(watchlist.map((w) => w.symbol)), [watchlist]);
-  const surfacedSymbols = useMemo(() => new Set(surfacedResults.map((r) => r.symbol)), [surfacedResults]);
-  const unreadAlertsCount = useMemo(() => alerts.filter((a) => !a.read).length, [alerts]);
   const selectedQuote = selectedSymbol ? quotesMap.get(selectedSymbol) : undefined;
-
-  // Real-time WebSocket Callbacks
-  const handleTick = useCallback((quote: StockQuote) => {
-    setQuotesMap((prev) => {
-      const next = new Map(prev);
-      next.set(quote.symbol, quote);
-      return next;
-    });
-
-    setAllStocks((prev) => {
-      const idx = prev.findIndex((s) => s.symbol === quote.symbol);
-      if (idx >= 0) {
-        const copy = [...prev];
-        copy[idx] = quote;
-        return copy;
-      }
-      return [...prev, quote];
-    });
-  }, []);
-
-  const handleOrderBook = useCallback((ob: OrderBook) => {
-    setLiveOrderBook(ob);
-  }, []);
-
-  const handleScannerSnapshot = useCallback((results: ScannerResult[]) => {
-    setSurfacedResults(results);
-  }, []);
-
-  const handleScannerTrigger = useCallback((result: ScannerResult) => {
-    setLatestTrigger(result);
-    setSurfacedResults((prev) => {
-      const exists = prev.some((r) => r.symbol === result.symbol);
-      if (exists) {
-        return prev.map((r) => (r.symbol === result.symbol ? result : r));
-      }
-      return [result, ...prev];
-    });
-
-    setAlerts((prev) => [
-      {
-        id: `alert-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-        symbol: result.symbol,
-        type: 'SCANNER_TRIGGER',
-        title: `New Stock Under Eyes: ${result.symbol}`,
-        message: result.reason,
-        timestamp: new Date().toISOString(),
-        read: false,
-      },
-      ...prev,
-    ]);
-  }, []);
-
-  const handleScannerRemove = useCallback((symbol: string) => {
-    setSurfacedResults((prev) => prev.filter((r) => r.symbol !== symbol));
-  }, []);
-
-  const handleAlert = useCallback((alert: MarketAlert) => {
-    setAlerts((prev) => [alert, ...prev]);
-  }, []);
-
-  // Initialize WebSocket connection
-  const { isConnected, isConnecting, subscribeOrderBook, unsubscribeOrderBook } = useWebSocket({
-    onTick: handleTick,
-    onOrderBook: handleOrderBook,
-    onScannerSnapshot: handleScannerSnapshot,
-    onScannerTrigger: handleScannerTrigger,
-    onScannerRemove: handleScannerRemove,
-    onAlert: handleAlert,
-  });
-
-  // Initial Data Fetch
-  const loadInitialData = useCallback(async () => {
-    try {
-      setNetworkError(null);
-      const [status, pInfo, cfg, surfaced, stocks, watched, alertList] = await Promise.all([
-        fetchMarketStatus().catch(() => null),
-        fetchProviderInfo().catch(() => null),
-        fetchScannerConfig().catch(() => DEFAULT_SCANNER_CONFIG),
-        fetchScannerResults().catch(() => []),
-        fetchAllStocks().catch(() => []),
-        fetchWatchlist().catch(() => []),
-        fetchAlerts().catch(() => []),
-      ]);
-
-      if (status) setMarketStatus(status);
-      if (pInfo) setProviderInfo(pInfo);
-      setScannerConfig(cfg);
-      setSurfacedResults(surfaced);
-      setAllStocks(stocks);
-
-      const qMap = new Map<string, StockQuote>();
-      stocks.forEach((s) => qMap.set(s.symbol, s));
-      setQuotesMap(qMap);
-
-      setWatchlist(watched);
-      setAlerts(alertList);
-    } catch (err: unknown) {
-      console.error('[MarketEye] Data load error:', err);
-      setNetworkError('Failed to connect to MarketEye backend API. Is the server running?');
-    }
-  }, []);
-
-  useEffect(() => {
-    loadInitialData();
-  }, [loadInitialData]);
-
-  // Periodic Market Status Polling (every 30s)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      fetchMarketStatus().then(setMarketStatus).catch(() => {});
-      fetchProviderInfo().then(setProviderInfo).catch(() => {});
-    }, 30000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Handlers
-  const handleUpdateConfig = async (newConfig: Partial<ScannerRuleConfig>) => {
-    try {
-      setIsConfigUpdating(true);
-      const updated = await updateScannerConfig(newConfig);
-      setScannerConfig(updated);
-      const refreshed = await fetchScannerResults();
-      setSurfacedResults(refreshed);
-    } catch (err) {
-      console.error('Config update failed:', err);
-    } finally {
-      setIsConfigUpdating(false);
-    }
-  };
-
-  const handleToggleWatchlist = async (symbol: string) => {
-    try {
-      if (watchlistSymbols.has(symbol)) {
-        await removeFromWatchlist(symbol);
-        setWatchlist((prev) => prev.filter((w) => w.symbol !== symbol));
-      } else {
-        const added = await addToWatchlist(symbol);
-        setWatchlist((prev) => [...prev, added]);
-      }
-    } catch (err) {
-      console.error('Watchlist toggle failed:', err);
-    }
-  };
-
-  const handleToggleSound = () => {
-    const next = !soundEnabled;
-    setSoundEnabled(next);
-    soundManager.setSoundEnabled(next);
-  };
-
-  const handleClearAlerts = async () => {
-    await clearAllAlerts();
-    setAlerts([]);
-  };
-
   const topSurfacedStock = surfacedResults[0];
 
   return (
@@ -261,7 +91,7 @@ export function App() {
         isConnected={isConnected}
         isConnecting={isConnecting}
         soundEnabled={soundEnabled}
-        onToggleSound={handleToggleSound}
+        onToggleSound={toggleSound}
         unreadAlertsCount={unreadAlertsCount}
         onOpenAlerts={() => setIsAlertsOpen(true)}
         watchlistCount={watchlist.length}
@@ -282,10 +112,13 @@ export function App() {
           topStock={topSurfacedStock}
         />
 
+        {/* User-Friendly Quick-Start Guide */}
+        <QuickStartGuide />
+
         {/* Scanner Threshold Controls */}
         <ScannerControls
           config={scannerConfig}
-          onUpdateConfig={handleUpdateConfig}
+          onUpdateConfig={updateConfig}
           isUpdating={isConfigUpdating}
         />
 
@@ -296,7 +129,7 @@ export function App() {
             quotes={quotesMap}
             watchlistSymbols={watchlistSymbols}
             onSelectStock={setSelectedSymbol}
-            onToggleWatchlist={handleToggleWatchlist}
+            onToggleWatchlist={toggleWatchlist}
             buyThreshold={scannerConfig.buyThreshold}
           />
         ) : (
@@ -305,7 +138,7 @@ export function App() {
             watchlistSymbols={watchlistSymbols}
             surfacedSymbols={surfacedSymbols}
             onSelectStock={setSelectedSymbol}
-            onToggleWatchlist={handleToggleWatchlist}
+            onToggleWatchlist={toggleWatchlist}
             buyThreshold={scannerConfig.buyThreshold}
           />
         )}
@@ -317,11 +150,8 @@ export function App() {
           symbol={selectedSymbol}
           quote={selectedQuote}
           isWatched={watchlistSymbols.has(selectedSymbol)}
-          onToggleWatchlist={handleToggleWatchlist}
-          onClose={() => {
-            setSelectedSymbol(null);
-            setLiveOrderBook(undefined);
-          }}
+          onToggleWatchlist={toggleWatchlist}
+          onClose={() => setSelectedSymbol(null)}
           onSubscribeOrderBook={subscribeOrderBook}
           onUnsubscribeOrderBook={unsubscribeOrderBook}
           liveOrderBook={liveOrderBook}
@@ -344,8 +174,8 @@ export function App() {
         quotes={quotesMap}
         allStocks={allStocks}
         onSelectStock={setSelectedSymbol}
-        onRemove={handleToggleWatchlist}
-        onAdd={handleToggleWatchlist}
+        onRemove={toggleWatchlist}
+        onAdd={toggleWatchlist}
       />
 
       {/* Alerts Center Slide-Over */}
@@ -353,7 +183,7 @@ export function App() {
         isOpen={isAlertsOpen}
         onClose={() => setIsAlertsOpen(false)}
         alerts={alerts}
-        onClearAlerts={handleClearAlerts}
+        onClearAlerts={clearAlerts}
         onSelectStock={setSelectedSymbol}
       />
 

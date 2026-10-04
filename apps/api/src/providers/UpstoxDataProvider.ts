@@ -131,7 +131,18 @@ export class UpstoxDataProvider implements MarketDataProvider {
 
     if (!res.ok) {
       const errText = await res.text();
-      this.statusMessage = `Market data unavailable: Upstox API error (HTTP ${res.status}): ${errText}`;
+      let friendlyError = `Upstox API error (HTTP ${res.status})`;
+      try {
+        const parsed = JSON.parse(errText);
+        if (parsed.errors?.[0]?.errorCode === 'UDAPI100050') {
+          friendlyError = 'Invalid or expired Access Token (UDAPI100050). The Upstox access token must be a long JWT starting with "eyJ...". Ensure you generated it today in the Upstox Developer Console.';
+        } else if (parsed.errors?.[0]?.message) {
+          friendlyError = parsed.errors[0].message;
+        }
+      } catch {
+        friendlyError = errText;
+      }
+      this.statusMessage = `Market data unavailable: ${friendlyError}`;
       console.error('[UpstoxDataProvider] API error:', this.statusMessage);
       return false;
     }

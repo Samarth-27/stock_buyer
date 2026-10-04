@@ -1,11 +1,17 @@
 import { z } from 'zod';
 
 export const ScannerConfigSchema = z.object({
+  name: z.string().optional(),
   buyThreshold: z.number().min(50).max(95, { message: 'Buy threshold must be between 50% and 95%' }),
   sellThreshold: z.number().min(5).max(50, { message: 'Sell threshold must be between 5% and 50%' }),
   minVolume: z.number().min(0, { message: 'Minimum volume must be non-negative' }),
+  strategyPreset: z.enum(['SWING_BREAKOUT', 'EMA20_PULLBACK', 'ACCUMULATION_SQUEEZE', 'ORDER_BOOK_PRESSURE', 'EPISODIC_PIVOT', 'INSTITUTIONAL_SNIPER']).optional(),
+  swingMinTargetPercent: z.number().optional(),
+  swingMinRiskReward: z.number().optional(),
   minPriceChange: z.number().optional(),
   maxPriceChange: z.number().optional(),
+  requireAiJump: z.boolean().optional(),
+  minAiConfidence: z.number().optional(),
   enabled: z.boolean().optional(),
 });
 

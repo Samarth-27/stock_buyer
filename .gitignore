@@ -17,3 +17,6 @@ coverage/
 .idea/
 .vscode/
 *.tsbuildinfo
+__pycache__/
+*.py[cod]
+.pytest_cache/

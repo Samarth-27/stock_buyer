@@ -16,9 +16,164 @@ export interface OrderBook {
   imbalanceRatio: number; // in range [-1.0, 1.0]
   bids: MarketDepthEntry[]; // Top 5 bids descending by price
   asks: MarketDepthEntry[]; // Top 5 asks ascending by price
+  prediction?: AIPrediction;
   timestamp: string; // ISO 8601
   source: string; // e.g. 'MOCK_FEED' | 'KITE_CONNECT' | 'UPSTOX'
   isStale: boolean;
+}
+
+export type AIPredictionSignal = 'JUMP' | 'DROP' | 'NEUTRAL';
+export type QuantAction = 'STRONG_BUY' | 'BUY' | 'WAIT' | 'SELL' | 'STRONG_SELL';
+
+export interface ChartTechnicalAnalysis {
+  rsi14: number; // 0 to 100
+  rsiStatus: 'OVERSOLD' | 'BULLISH_MOMENTUM' | 'NEUTRAL' | 'OVERBOUGHT';
+  ema9: number;
+  ema21: number;
+  trend: 'STRONG_UPTREND' | 'UPTREND' | 'SIDEWAYS' | 'DOWNTREND' | 'STRONG_DOWNTREND';
+  vwap: number;
+  priceVsVwapPercent: number; // e.g. +0.45%
+  volumeSurgeRatio: number; // e.g. 1.8x average volume
+  supportPrice: number;
+  resistancePrice: number;
+  candlestickPattern: string; // e.g. 'BULLISH_ENGULFING', 'HAMMER', 'MOMENTUM_EXPANSION', 'NONE'
+  technicalScore: number; // 0 to 100
+  keyObservations: string[];
+}
+
+export interface QuantExecutionPlan {
+  action: QuantAction;
+  entryPrice: number;
+  targetPrice: number;
+  expectedMovePercent: number; // e.g. +1.25%
+  stopLossPrice: number;
+  stopLossPercent: number; // e.g. -0.38%
+  riskRewardRatio: number; // e.g. 3.3 (Risk:Reward)
+  kellyAllocationPercent: number; // Optimal Kelly capital % (e.g. 7.5%)
+  spoofRisk: 'LOW' | 'MEDIUM' | 'HIGH';
+  regime: 'BULLISH_BREAKOUT' | 'BEARISH_BREAKDOWN' | 'CHOPPY_RANGE' | 'MOMENTUM_ACCELERATION';
+  investorVerdict: 'PRIME_BREAKOUT_BUY' | 'ACCUMULATE' | 'NEUTRAL_WAIT' | 'DISTRIBUTION_SELL' | 'AVOID';
+  alignment: 'FULL_ALIGNMENT' | 'PARTIAL_ALIGNMENT' | 'DIVERGENT';
+  calibratedWinProbability: number; // 0 to 100 (%)
+}
+
+export interface AIPrediction {
+  signal: AIPredictionSignal;
+  direction: 1 | -1 | 0;
+  confidence: number; // 0 to 100 (%)
+  consensusScore: number; // 0 to 100 (%)
+  expectedMovePercent: number; // e.g. +1.15% or -0.80%
+  microPrice: number;
+  microPriceDeltaBps: number; // Basis points difference from LTP
+  weightedImbalance: number; // -1.0 to 1.0
+  chartAnalysis?: ChartTechnicalAnalysis;
+  executionPlan?: QuantExecutionPlan;
+  reasons: string[];
+  timestamp: string;
+}
+
+export type SwingTradeSetupType =
+  | 'STAGE2_BREAKOUT'
+  | 'EMA20_PULLBACK'
+  | 'ACCUMULATION_SQUEEZE'
+  | '52W_HIGH_MOMENTUM'
+  | 'ORDER_BOOK_PRESSURE'
+  | 'EPISODIC_PIVOT';
+
+export interface MinerviniTemplateResult {
+  passed: boolean;
+  score: number; // 0 to 8
+  maxScore: 8;
+  criteria: {
+    priceAbove150and200: boolean;
+    sma150Above200: boolean;
+    sma200TrendingUp: boolean;
+    sma50Above150and200: boolean;
+    priceAbove50: boolean;
+    price30PctAbove52wLow: boolean;
+    priceWithin25Pct52wHigh: boolean;
+    relativeStrengthHigh: boolean;
+  };
+  passedRules: string[];
+  failedRules: string[];
+}
+
+export interface VcpPatternResult {
+  isVcpDetected: boolean;
+  tightnessScore: number; // 0 to 100
+  contractionCount: number;
+  contractions: { depthPercent: number; bars: number }[];
+  isVolumeDryingUp: boolean;
+  pivotPrice: number;
+}
+
+export interface QullamaggieTrailingPlan {
+  initialStopLoss: number;
+  initialStopLossPercent: number;
+  partialExitTarget: number; // Target 1 (1/3 to 1/2 size)
+  partialExitPercent: number;
+  breakevenPrice: number;
+  trailing10Ema: number;
+  trailing20Ema: number;
+  exitRule: string;
+}
+
+export interface ConfluenceEngineResult {
+  overallScore: number; // 0 to 100
+  tier: 'GRADE_A_PLUS_SNIPER' | 'GRADE_A_HIGH_CONFLUENCE' | 'GRADE_B_MODERATE' | 'GRADE_C_AVOID';
+  tierLabel: string;
+  breakdown: {
+    minerviniScore: number; // 0-100 (weight 25%)
+    vcpTightnessScore: number; // 0-100 (weight 20%)
+    orderBookDepthScore: number; // 0-100 (weight 20%)
+    mlStatisticalScore: number; // 0-100 (weight 20%)
+    qullamaggieEmaScore: number; // 0-100 (weight 15%)
+  };
+  kellyAllocation: {
+    recommendedPositionSizePercent: number; // e.g. 12.5%
+    halfKellyPercent: number;
+    maxCapitalRiskPercent: number; // e.g. 0.75%
+    rationale: string;
+  };
+  macroMarketEdge: {
+    niftyRegime: 'BULLISH_TREND' | 'NEUTRAL_CHOP' | 'BEARISH_CORRECTION';
+    breadthAdvancers: number;
+    breadthDecliners: number;
+    regimeMultiplier: number;
+  };
+}
+
+export interface SwingTradePlan {
+  setupType: SwingTradeSetupType;
+  setupName: string;
+  stage: 'Stage 2 Markup' | 'Pullback Test' | 'Volatility Contraction' | 'Breakout Confirmation' | 'Accumulation Base' | 'Episodic Pivot Gap';
+  entryRange: { min: number; max: number };
+  target1: number;
+  target1Percent: number; // e.g. +6.5%
+  target2: number;
+  target2Percent: number; // e.g. +14.0%
+  stopLoss: number;
+  stopLossPercent: number; // e.g. -2.8%
+  riskRewardRatio: number; // e.g. 3.2 (1:3.2)
+  holdingHorizon: string; // e.g. "5 – 12 Trading Days"
+  dailyRsi: number;
+  trendAlignment: 'BULLISH_STACK' | 'PULLBACK_TEST' | 'NEUTRAL';
+  catalysts: string[];
+  summary: string;
+  mlEngine?: {
+    modelType: string;
+    trainingSamples: number;
+    winProbability: number;
+    confidenceTier: 'ELITE' | 'HIGH' | 'MODERATE';
+    topFeatureDrivers: string[];
+    backtestedRocAuc: number;
+  };
+  // Proven GitHub Benchmarked Strategies
+  adrPercent?: number; // Average Daily Range % (20D)
+  minerviniTemplate?: MinerviniTemplateResult;
+  vcp?: VcpPatternResult;
+  qullamaggieTrailing?: QullamaggieTrailingPlan;
+  confluence?: ConfluenceEngineResult;
 }
 
 export interface StockQuote {
@@ -38,6 +193,9 @@ export interface StockQuote {
   totalSellQuantity: number;
   buyPercentage: number;
   sellPercentage: number;
+  prediction?: AIPrediction;
+  swingPlan?: SwingTradePlan;
+  swingSetup?: SwingTradeSetupType;
   timestamp: string;
   source: string;
   isStale: boolean;
@@ -62,8 +220,13 @@ export interface ScannerRuleConfig {
   buyThreshold: number; // Default 60.0%
   sellThreshold: number; // Default 40.0%
   minVolume: number; // Default 10000
+  strategyPreset?: 'SWING_BREAKOUT' | 'EMA20_PULLBACK' | 'ACCUMULATION_SQUEEZE' | 'ORDER_BOOK_PRESSURE' | 'EPISODIC_PIVOT' | 'INSTITUTIONAL_SNIPER';
+  swingMinTargetPercent?: number; // e.g. 5.0%
+  swingMinRiskReward?: number; // e.g. 2.5
   minPriceChange?: number; // Optional filter
   maxPriceChange?: number; // Optional filter
+  requireAiJump?: boolean; // When true, only surface stocks with AI 'JUMP' prediction
+  minAiConfidence?: number; // e.g. 60 or 70 (%)
   updatedAt: string;
 }
 
@@ -77,6 +240,9 @@ export interface ScannerResult {
   totalSellQuantity: number;
   buyPercentage: number;
   sellPercentage: number;
+  prediction?: AIPrediction;
+  swingPlan?: SwingTradePlan;
+  swingSetup?: SwingTradeSetupType;
   ruleId: string;
   ruleName: string;
   reason: string;
@@ -91,10 +257,23 @@ export interface WatchlistItem {
   quote?: StockQuote;
 }
 
+export interface StockNewsItem {
+  id: string;
+  symbol: string;
+  title: string;
+  link: string;
+  source: string;
+  pubDate: string;
+  sentiment: 'BULLISH' | 'BEARISH' | 'NEUTRAL';
+  sentimentScore: number; // range -1.0 to 1.0
+  impact: 'HIGH' | 'MEDIUM' | 'LOW';
+  keywords: string[];
+}
+
 export interface MarketAlert {
   id: string;
   symbol: string;
-  type: 'SCANNER_TRIGGER' | 'SCANNER_DROP' | 'FEED_STATUS' | 'SYSTEM';
+  type: 'SCANNER_TRIGGER' | 'SCANNER_DROP' | 'FEED_STATUS' | 'SYSTEM' | 'NEWS_ALERT' | 'SWING_SETUP';
   title: string;
   message: string;
   timestamp: string;

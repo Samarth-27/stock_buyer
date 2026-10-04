@@ -1,0 +1,175 @@
+{
+  "modelName": "MarketEye Swing Trade Real-Data Engine",
+  "algorithm": "XGBoost (Extreme Gradient Boosted Decision Trees)",
+  "targetHorizon": "10 Trading Days",
+  "targetProfit": "+7.5%",
+  "stopLoss": "-2.5%",
+  "trainingTimeline": {
+    "start": "2021-10-11",
+    "end": "2025-06-16",
+    "samples": 11987
+  },
+  "testTimeline": {
+    "start": "2025-07-01",
+    "end": "2026-09-17",
+    "samples": 3584
+  },
+  "performanceMetrics": {
+    "rocAuc": 0.5269,
+    "baseWinRate": 26.79,
+    "modelWinRate60": 26.32,
+    "modelWinRate68": 57.14,
+    "tradesEvaluated": 3584,
+    "highConfidenceTrades": 171
+  },
+  "featureColumns": [
+    "ema20_dist",
+    "ema50_dist",
+    "ema200_dist",
+    "ema_trend_aligned",
+    "ema20_slope_5d",
+    "rsi14",
+    "atr_pct",
+    "dist_20d_high",
+    "dist_52w_high",
+    "volume_surge",
+    "body_ratio",
+    "lower_wick_ratio",
+    "upper_wick_ratio",
+    "is_green",
+    "ret_3d",
+    "ret_5d",
+    "ret_10d",
+    "ret_20d"
+  ],
+  "featureStats": {
+    "ema20_dist": {
+      "mean": 2.064065130965632,
+      "std": 2.5508495077388824,
+      "min": -9.090048659249652,
+      "max": 31.55523674598533
+    },
+    "ema50_dist": {
+      "mean": 4.098947018827399,
+      "std": 3.6209259147556243,
+      "min": -9.088271696079133,
+      "max": 32.54277649687272
+    },
+    "ema200_dist": {
+      "mean": 9.658255699908457,
+      "std": 8.760153549359414,
+      "min": -20.257569877317295,
+      "max": 63.35448543256845
+    },
+    "ema_trend_aligned": {
+      "mean": 0.7377158588470843,
+      "std": 0.4398946618798773,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "ema20_slope_5d": {
+      "mean": 1.0515765944867372,
+      "std": 1.1124985812186086,
+      "min": -3.4264648827911683,
+      "max": 9.358249076093768
+    },
+    "rsi14": {
+      "mean": 59.04730937090514,
+      "std": 10.46315030244758,
+      "min": 0.0,
+      "max": 92.28032941182592
+    },
+    "atr_pct": {
+      "mean": 2.110646738055961,
+      "std": 0.6136757036297453,
+      "min": 0.0,
+      "max": 7.051028802181864
+    },
+    "dist_20d_high": {
+      "mean": -2.733784039882115,
+      "std": 2.372015018275483,
+      "min": -21.438864420258103,
+      "max": 0.0
+    },
+    "dist_52w_high": {
+      "mean": -5.238401995285856,
+      "std": 6.454231702634726,
+      "min": -52.63365386710856,
+      "max": 0.0
+    },
+    "volume_surge": {
+      "mean": 1.05462832105974,
+      "std": 0.6305656156365697,
+      "min": 0.0,
+      "max": 12.51615737176033
+    },
+    "body_ratio": {
+      "mean": 0.4427744822962844,
+      "std": 0.25428780025271114,
+      "min": 0.0,
+      "max": 0.97173245585625
+    },
+    "lower_wick_ratio": {
+      "mean": 0.2863470004423016,
+      "std": 0.19858009087428036,
+      "min": 0.0,
+      "max": 0.9434129770127964
+    },
+    "upper_wick_ratio": {
+      "mean": 0.2700442801712329,
+      "std": 0.19622071681305814,
+      "min": 0.0,
+      "max": 0.9262903638731552
+    },
+    "is_green": {
+      "mean": 0.5282389255026279,
+      "std": 0.499222750105642,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "ret_3d": {
+      "mean": 0.8026786848773951,
+      "std": 2.6662037334337727,
+      "min": -12.608183222022118,
+      "max": 39.349201194376285
+    },
+    "ret_5d": {
+      "mean": 1.3218074821984072,
+      "std": 3.2754574627363398,
+      "min": -12.204701875726846,
+      "max": 39.41189466908938
+    },
+    "ret_10d": {
+      "mean": 2.530288821370781,
+      "std": 4.093274817705073,
+      "min": -16.44370208502166,
+      "max": 38.90090070450519
+    },
+    "ret_20d": {
+      "mean": 4.492550644528561,
+      "std": 5.373647845440592,
+      "min": -14.462171329018265,
+      "max": 46.15832692275716
+    }
+  },
+  "featureImportances": {
+    "atr_pct": 0.0945,
+    "ema20_slope_5d": 0.0766,
+    "ema200_dist": 0.0728,
+    "rsi14": 0.0662,
+    "dist_52w_high": 0.0659,
+    "ret_10d": 0.0639,
+    "ret_20d": 0.0636,
+    "ema50_dist": 0.0625,
+    "ema20_dist": 0.0611,
+    "ret_5d": 0.0567,
+    "dist_20d_high": 0.0561,
+    "ret_3d": 0.0534,
+    "upper_wick_ratio": 0.0463,
+    "volume_surge": 0.0458,
+    "lower_wick_ratio": 0.0432,
+    "body_ratio": 0.0421,
+    "is_green": 0.0294,
+    "ema_trend_aligned": 0.0
+  }
+}
