@@ -3,6 +3,7 @@
 # 🦅 MarketEye
 ### *Autonomous Institutional Stock Market Scanner & Swing Trading Intelligence Platform*
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-00c853?style=for-the-badge&logo=githubpages&logoColor=white)](https://samarth-27.github.io/stock_buyer/)
 [![Build Status](https://img.shields.io/badge/Build-Passing%20(33%2F33%20Tests)-10b981?style=for-the-badge&logo=vitest&logoColor=white)](https://github.com/Samarth-27/stock_buyer)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React 18](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
