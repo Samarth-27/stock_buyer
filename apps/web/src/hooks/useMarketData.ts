@@ -8,6 +8,8 @@ import {
   MarketAlert,
   MarketStatusInfo,
   DEFAULT_SCANNER_CONFIG,
+  MONITORED_NSE_STOCKS,
+  calculateSwingTradePlan,
 } from '@marketeye/shared';
 import {
   fetchMarketStatus,
@@ -174,19 +176,103 @@ export function useMarketData(): UseMarketDataReturn {
 
       if (status) setMarketStatus(status);
       if (pInfo) setProviderInfo(pInfo);
-      setScannerConfig(cfg);
-      setSurfacedResults(surfaced);
-      setAllStocks(stocks);
+      if (stocks.length > 0) {
+        setAllStocks(stocks);
+        setSurfacedResults(surfaced);
+        const qMap = new Map<string, StockQuote>();
+        stocks.forEach((s) => qMap.set(s.symbol, s));
+        setQuotesMap(qMap);
+      } else {
+        // Fallback simulation mode for static deployments (GitHub Pages)
+        const simQuotes: StockQuote[] = MONITORED_NSE_STOCKS.map((inst, index) => {
+          const buyPct = 48 + ((index * 9 + 7) % 36);
+          const sellPct = 100 - buyPct;
+          const priceOffset = Math.sin(index + 1) * 0.015;
+          const ltp = Number((inst.basePrice * (1 + priceOffset)).toFixed(2));
+          const changePercent = Number((priceOffset * 100).toFixed(2));
+          const change = Number((ltp - inst.basePrice).toFixed(2));
+          const totalQty = 60000 + index * 4500;
+          const totalBuy = Math.round(totalQty * (buyPct / 100));
+          const totalSell = totalQty - totalBuy;
 
-      const qMap = new Map<string, StockQuote>();
-      stocks.forEach((s) => qMap.set(s.symbol, s));
-      setQuotesMap(qMap);
+          const baseQuote: StockQuote = {
+            symbol: inst.symbol,
+            companyName: inst.companyName,
+            exchange: 'NSE',
+            ltp,
+            open: Number((inst.basePrice * 0.995).toFixed(2)),
+            high: Number((ltp * 1.012).toFixed(2)),
+            low: Number((ltp * 0.988).toFixed(2)),
+            close: ltp,
+            previousClose: inst.basePrice,
+            change,
+            changePercent,
+            volume: totalQty,
+            totalBuyQuantity: totalBuy,
+            totalSellQuantity: totalSell,
+            buyPercentage: buyPct,
+            sellPercentage: sellPct,
+            timestamp: new Date().toISOString(),
+            source: 'GitHub Pages Demo Simulation',
+            isStale: false,
+          };
+          baseQuote.swingPlan = calculateSwingTradePlan(baseQuote);
+          return baseQuote;
+        });
+
+        const simSurfaced: ScannerResult[] = simQuotes
+          .filter((q) => q.buyPercentage >= cfg.buyThreshold)
+          .map((q) => ({
+            symbol: q.symbol,
+            companyName: q.companyName,
+            ltp: q.ltp,
+            changePercent: q.changePercent,
+            volume: q.volume,
+            totalBuyQuantity: q.totalBuyQuantity,
+            totalSellQuantity: q.totalSellQuantity,
+            buyPercentage: q.buyPercentage,
+            sellPercentage: q.sellPercentage,
+            ruleId: 'rule-institutional-sniper',
+            ruleName: 'Institutional Sniper (Grade A+)',
+            reason: `Buy quantity reached ${q.buyPercentage.toFixed(1)}%, exceeding your ${cfg.buyThreshold.toFixed(1)}% threshold.`,
+            surfacedAt: new Date().toISOString(),
+            swingPlan: q.swingPlan,
+          }));
+
+        setAllStocks(simQuotes);
+        setSurfacedResults(simSurfaced);
+        const qMap = new Map<string, StockQuote>();
+        simQuotes.forEach((s) => qMap.set(s.symbol, s));
+        setQuotesMap(qMap);
+
+        if (!status) {
+          setMarketStatus({
+            status: 'OPEN',
+            statusLabel: 'Market Open (Simulation)',
+            isLiveTradingHours: true,
+            serverTimeIST: new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' }),
+            tradingHours: '09:15 - 15:30 IST',
+            mode: 'mock',
+            providerName: 'MarketEye Live Browser Simulation',
+            monitoredStocksCount: MONITORED_NSE_STOCKS.length,
+          });
+        }
+        if (!pInfo) {
+          setProviderInfo({
+            id: 'mock-sim',
+            name: 'Simulation Provider',
+            isMock: true,
+            connected: true,
+            statusMessage: 'Client-side simulation running (GitHub Pages)',
+            supportedProviders: [],
+          });
+        }
+      }
 
       setWatchlist(watched);
       setAlerts(alertList);
     } catch (err: unknown) {
       console.error('[MarketEye] Data load error:', err);
-      setNetworkError('Failed to connect to MarketEye backend API. Is the server running?');
     }
   }, []);
 

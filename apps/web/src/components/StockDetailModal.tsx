@@ -75,8 +75,61 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
       fetchStockHistory(symbol, interval, range).catch(() => []),
     ]).then(([ob, hist]) => {
       if (!isCancelled) {
-        if (ob) setOrderBook(ob);
-        setHistory(hist);
+        const curLtp = quote?.ltp ?? 1000;
+        if (ob) {
+          setOrderBook(ob);
+        } else if (quote) {
+          const bids = [1, 2, 3, 4, 5].map((lvl) => ({
+            price: Number((curLtp * (1 - lvl * 0.001)).toFixed(2)),
+            quantity: Math.round(quote.totalBuyQuantity * (0.35 - lvl * 0.05)),
+            orders: 12 - lvl * 2,
+          }));
+          const asks = [1, 2, 3, 4, 5].map((lvl) => ({
+            price: Number((curLtp * (1 + lvl * 0.001)).toFixed(2)),
+            quantity: Math.round(quote.totalSellQuantity * (0.35 - lvl * 0.05)),
+            orders: 11 - lvl * 2,
+          }));
+          setOrderBook({
+            symbol,
+            exchange: 'NSE',
+            timestamp: new Date().toISOString(),
+            bids,
+            asks,
+            totalBuyQuantity: quote.totalBuyQuantity,
+            totalSellQuantity: quote.totalSellQuantity,
+            buyPercentage: quote.buyPercentage,
+            sellPercentage: quote.sellPercentage,
+            imbalanceRatio: (quote.buyPercentage - quote.sellPercentage) / 100,
+            source: 'MOCK_FEED',
+            isStale: false,
+          });
+        }
+
+        if (hist && hist.length > 0) {
+          setHistory(hist);
+        } else {
+          // Fallback realistic candles for GitHub Pages preview
+          const synthetic: HistoricalCandle[] = [];
+          const now = Date.now();
+          for (let i = 24; i >= 0; i--) {
+            const t = now - i * 15 * 60 * 1000;
+            const wave = Math.sin((24 - i) * 0.45) * (curLtp * 0.012);
+            const c = Number((curLtp - wave).toFixed(2));
+            const o = Number((c - Math.sin(i) * curLtp * 0.004).toFixed(2));
+            const h = Number((Math.max(o, c) + curLtp * 0.003).toFixed(2));
+            const l = Number((Math.min(o, c) - curLtp * 0.003).toFixed(2));
+            synthetic.push({
+              timestamp: new Date(t).toISOString(),
+              open: o,
+              high: h,
+              low: l,
+              close: c,
+              volume: 3500 + Math.round(Math.abs(Math.cos(i)) * 8000),
+            });
+          }
+          setHistory(synthetic);
+        }
+
         setLoading(false);
       }
     });
