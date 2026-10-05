@@ -53,6 +53,8 @@ export interface UseMarketDataReturn {
   networkError: string | null;
   isConfigUpdating: boolean;
   soundEnabled: boolean;
+  notificationsEnabled: boolean;
+  toggleNotifications: () => void;
   liveOrderBook: OrderBook | undefined;
   isConnected: boolean;
   isConnecting: boolean;
@@ -90,7 +92,15 @@ export function useMarketData(): UseMarketDataReturn {
   );
 
   const [liveOrderBook, setLiveOrderBook] = useState<OrderBook | undefined>(undefined);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem('marketeye_notifications_enabled');
+      return stored !== null ? stored === 'true' : false; // Default disabled as requested
+    } catch {
+      return false;
+    }
+  });
   const [isConfigUpdating, setIsConfigUpdating] = useState(false);
   const [networkError, setNetworkError] = useState<string | null>(null);
   const [isTurboScanning, setIsTurboScanning] = useState(false);
@@ -421,8 +431,12 @@ export function useMarketData(): UseMarketDataReturn {
             const map = new Map(prevResults.map((r) => [r.symbol, r]));
             newlySurfaced.forEach((r) => {
               if (!map.has(r.symbol)) {
-                soundManager.playAlertChime();
-                setLatestTrigger(r);
+                if (soundEnabled) {
+                  soundManager.playAlertChime();
+                }
+                if (notificationsEnabled) {
+                  setLatestTrigger(r);
+                }
                 setAlerts((prevAlerts) => [
                   {
                     id: `alert-sim-${Date.now()}-${r.symbol}`,
@@ -540,6 +554,16 @@ export function useMarketData(): UseMarketDataReturn {
     soundManager.setSoundEnabled(next);
   };
 
+  const toggleNotifications = () => {
+    setNotificationsEnabled((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('marketeye_notifications_enabled', String(next));
+      } catch {}
+      return next;
+    });
+  };
+
   const clearAlerts = async () => {
     try {
       await clearAllAlerts();
@@ -597,10 +621,12 @@ export function useMarketData(): UseMarketDataReturn {
     surfacedSymbols,
     alerts,
     unreadAlertsCount,
-    latestTrigger,
+    latestTrigger: notificationsEnabled ? latestTrigger : null,
     networkError,
     isConfigUpdating,
     soundEnabled,
+    notificationsEnabled,
+    toggleNotifications,
     liveOrderBook,
     isConnected,
     isConnecting,

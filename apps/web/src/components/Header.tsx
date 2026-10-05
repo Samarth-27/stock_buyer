@@ -6,6 +6,7 @@ import {
   Volume2,
   VolumeX,
   Bell,
+  BellOff,
   Bookmark,
   ShieldCheck,
   Settings2,
@@ -20,6 +21,8 @@ interface HeaderProps {
   isConnecting: boolean;
   soundEnabled: boolean;
   onToggleSound: () => void;
+  notificationsEnabled: boolean;
+  onToggleNotifications: () => void;
   unreadAlertsCount: number;
   onOpenAlerts: () => void;
   watchlistCount: number;
@@ -39,6 +42,8 @@ export const Header: React.FC<HeaderProps> = ({
   isConnecting,
   soundEnabled,
   onToggleSound,
+  notificationsEnabled,
+  onToggleNotifications,
   unreadAlertsCount,
   onOpenAlerts,
   watchlistCount,
@@ -204,6 +209,19 @@ export const Header: React.FC<HeaderProps> = ({
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
 
+            {/* Notification Popups Toggle */}
+            <button
+              onClick={onToggleNotifications}
+              className={`p-2 rounded-lg border transition-all ${
+                notificationsEnabled
+                  ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/20'
+                  : 'bg-slate-900 border-slate-800 text-slate-500 hover:text-slate-300'
+              }`}
+              title={notificationsEnabled ? 'Screen notification popups enabled (Click to silence)' : 'Screen notification popups disabled / muted'}
+            >
+              {notificationsEnabled ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
+            </button>
+
             {/* Watchlist Toggle */}
             <button
               onClick={onOpenWatchlist}
@@ -218,15 +236,15 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </button>
 
-            {/* Alerts Center Toggle */}
+            {/* Alerts Center Drawer Toggle */}
             <button
               onClick={onOpenAlerts}
               className="relative p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all"
-              title="Scanner Alerts"
+              title="View Alerts History"
             >
-              <Bell className="w-4 h-4" />
+              <span className="text-xs font-semibold px-1 text-slate-400 hover:text-white">Alerts</span>
               {unreadAlertsCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-rose-500 text-[10px] font-bold text-white animate-bounce">
+                <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-rose-500 text-[10px] font-bold text-white">
                   {unreadAlertsCount}
                 </span>
               )}

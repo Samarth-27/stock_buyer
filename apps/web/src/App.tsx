@@ -34,6 +34,8 @@ export function App() {
     networkError,
     isConfigUpdating,
     soundEnabled,
+    notificationsEnabled,
+    toggleNotifications,
     liveOrderBook,
     isConnected,
     isConnecting,
@@ -146,6 +148,8 @@ export function App() {
         isConnecting={isConnecting}
         soundEnabled={soundEnabled}
         onToggleSound={toggleSound}
+        notificationsEnabled={notificationsEnabled}
+        onToggleNotifications={toggleNotifications}
         unreadAlertsCount={unreadAlertsCount}
         onOpenAlerts={() => setIsAlertsOpen(true)}
         watchlistCount={watchlist.length}
@@ -283,11 +287,13 @@ export function App() {
         onSelectStock={setSelectedSymbol}
       />
 
-      {/* Real-time Alert Toasts */}
-      <ToastNotifications
-        latestTrigger={latestTrigger}
-        onSelectStock={setSelectedSymbol}
-      />
+      {/* Real-time Alert Toasts - Display only if notifications are enabled */}
+      {notificationsEnabled && (
+        <ToastNotifications
+          latestTrigger={latestTrigger}
+          onSelectStock={setSelectedSymbol}
+        />
+      )}
 
       {/* Regulatory Footer */}
       <footer className="w-full border-t border-slate-900 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
