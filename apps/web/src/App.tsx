@@ -40,6 +40,9 @@ export function App() {
     clearAlerts,
     subscribeOrderBook,
     unsubscribeOrderBook,
+    triggerTurboRescan,
+    isTurboScanning,
+    lastScanLatencyMs,
   } = useMarketData();
 
   // Navigation & Dialog State
@@ -120,6 +123,9 @@ export function App() {
           config={scannerConfig}
           onUpdateConfig={updateConfig}
           isUpdating={isConfigUpdating}
+          onTurboRescan={triggerTurboRescan}
+          isTurboScanning={isTurboScanning}
+          lastScanLatencyMs={lastScanLatencyMs}
         />
 
         {/* Tab View: Surfaced Stocks vs All Stocks */}

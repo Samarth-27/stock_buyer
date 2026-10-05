@@ -180,10 +180,10 @@ export class MockMarketDataProvider implements MarketDataProvider {
     this.connected = true;
     console.log('[MockMarketDataProvider] Connected to mock NSE feed');
 
-    // Run simulation tick every 1000ms
+    // Run high-speed simulation tick every 600ms
     this.intervalTimer = setInterval(() => {
       this.simulateMarketTick();
-    }, 1000);
+    }, 600);
   }
 
   async disconnect(): Promise<void> {
@@ -210,9 +210,9 @@ export class MockMarketDataProvider implements MarketDataProvider {
   private simulateMarketTick(): void {
     if (!this.connected) return;
 
-    // Pick 3 to 6 random stocks to tick each second
+    // Pick 6 to 12 stocks to tick rapidly
     const symbols = Array.from(this.stockStates.keys());
-    const countToUpdate = Math.floor(Math.random() * 4) + 3;
+    const countToUpdate = Math.floor(Math.random() * 7) + 6;
     const shuffled = [...symbols].sort(() => 0.5 - Math.random()).slice(0, countToUpdate);
 
     const now = new Date();

@@ -23,6 +23,7 @@ import {
   fetchAlerts,
   clearAllAlerts,
   fetchProviderInfo,
+  rescanScanner,
   ProviderInfo,
 } from '../services/api.js';
 import { useWebSocket } from './useWebSocket.js';
@@ -55,6 +56,9 @@ export interface UseMarketDataReturn {
   subscribeOrderBook: (symbol: string) => void;
   unsubscribeOrderBook: (symbol: string) => void;
   reconnect: () => void;
+  triggerTurboRescan: () => Promise<void>;
+  isTurboScanning: boolean;
+  lastScanLatencyMs: number | null;
 }
 
 export function useMarketData(): UseMarketDataReturn {
@@ -69,11 +73,12 @@ export function useMarketData(): UseMarketDataReturn {
   const [alerts, setAlerts] = useState<MarketAlert[]>([]);
   const [latestTrigger, setLatestTrigger] = useState<ScannerResult | null>(null);
 
-  // Transient / Status State
   const [liveOrderBook, setLiveOrderBook] = useState<OrderBook | undefined>(undefined);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [isConfigUpdating, setIsConfigUpdating] = useState(false);
   const [networkError, setNetworkError] = useState<string | null>(null);
+  const [isTurboScanning, setIsTurboScanning] = useState(false);
+  const [lastScanLatencyMs, setLastScanLatencyMs] = useState<number | null>(null);
 
   // Derived Lookup Sets & Metrics
   const watchlistSymbols = useMemo(() => new Set(watchlist.map((w) => w.symbol)), [watchlist]);
@@ -290,6 +295,166 @@ export function useMarketData(): UseMarketDataReturn {
     return () => clearInterval(timer);
   }, []);
 
+  // High-Speed In-Browser Real-Time Simulation Ticker
+  // When running on GitHub Pages or when offline, this active engine simulates live ticks,
+  // order book volume jiggles, and recalculates setups every 1.5 seconds!
+  useEffect(() => {
+    if (isConnected) return;
+
+    const simTimer = setInterval(() => {
+      setAllStocks((prev) => {
+        if (!prev || prev.length === 0) return prev;
+
+        const count = Math.min(prev.length, Math.floor(Math.random() * 3) + 2);
+        const indices = new Set<number>();
+        while (indices.size < count) {
+          indices.add(Math.floor(Math.random() * prev.length));
+        }
+
+        const next = [...prev];
+        const newlySurfaced: ScannerResult[] = [];
+
+        indices.forEach((idx) => {
+          const old = next[idx];
+          const priceJiggle = (Math.random() - 0.48) * (old.ltp * 0.003);
+          const newLtp = Number(Math.max(1, old.ltp + priceJiggle).toFixed(2));
+          const change = Number((newLtp - old.previousClose).toFixed(2));
+          const changePercent = Number(((change / old.previousClose) * 100).toFixed(2));
+
+          const buyJiggle = Math.round((Math.random() - 0.48) * 4);
+          const newBuyPct = Math.max(25, Math.min(92, old.buyPercentage + buyJiggle));
+          const newSellPct = 100 - newBuyPct;
+          const volDelta = Math.floor(Math.random() * 1200) + 150;
+          const newVol = old.volume + volDelta;
+
+          const updatedQuote: StockQuote = {
+            ...old,
+            ltp: newLtp,
+            high: Math.max(old.high, newLtp),
+            low: Math.min(old.low, newLtp),
+            close: newLtp,
+            change,
+            changePercent,
+            volume: newVol,
+            buyPercentage: newBuyPct,
+            sellPercentage: newSellPct,
+            totalBuyQuantity: Math.round(newVol * (newBuyPct / 100)),
+            totalSellQuantity: Math.round(newVol * (newSellPct / 100)),
+            timestamp: new Date().toISOString(),
+          };
+
+          updatedQuote.swingPlan = calculateSwingTradePlan(updatedQuote);
+          updatedQuote.swingSetup = updatedQuote.swingPlan.setupType;
+          next[idx] = updatedQuote;
+
+          if (newBuyPct >= scannerConfig.buyThreshold) {
+            newlySurfaced.push({
+              symbol: updatedQuote.symbol,
+              companyName: updatedQuote.companyName,
+              ltp: updatedQuote.ltp,
+              changePercent: updatedQuote.changePercent,
+              volume: updatedQuote.volume,
+              totalBuyQuantity: updatedQuote.totalBuyQuantity,
+              totalSellQuantity: updatedQuote.totalSellQuantity,
+              buyPercentage: updatedQuote.buyPercentage,
+              sellPercentage: updatedQuote.sellPercentage,
+              ruleId: scannerConfig.id || 'rule-institutional-sniper',
+              ruleName: scannerConfig.name || 'Institutional Sniper (Grade A+)',
+              reason: `Buy quantity reached ${newBuyPct.toFixed(1)}%, exceeding your ${scannerConfig.buyThreshold.toFixed(1)}% threshold.`,
+              surfacedAt: new Date().toISOString(),
+              swingPlan: updatedQuote.swingPlan,
+            });
+          }
+        });
+
+        setQuotesMap((prevMap) => {
+          const m = new Map(prevMap);
+          indices.forEach((idx) => m.set(next[idx].symbol, next[idx]));
+          return m;
+        });
+
+        if (newlySurfaced.length > 0) {
+          setSurfacedResults((prevResults) => {
+            const map = new Map(prevResults.map((r) => [r.symbol, r]));
+            newlySurfaced.forEach((r) => {
+              if (!map.has(r.symbol)) {
+                soundManager.playAlertChime();
+                setLatestTrigger(r);
+                setAlerts((prevAlerts) => [
+                  {
+                    id: `alert-sim-${Date.now()}-${r.symbol}`,
+                    symbol: r.symbol,
+                    type: 'SCANNER_TRIGGER',
+                    title: `${r.symbol} Sniper Setup Triggered`,
+                    message: `${r.symbol}: Buy Pressure at ${r.buyPercentage}%! Stage 2 Setup confirmed.`,
+                    timestamp: new Date().toISOString(),
+                    read: false,
+                    metadata: { ltp: r.ltp, changePercent: r.changePercent },
+                  },
+                  ...prevAlerts,
+                ]);
+              }
+              map.set(r.symbol, r);
+            });
+            return Array.from(map.values());
+          });
+        }
+
+        return next;
+      });
+    }, 1500);
+
+    return () => clearInterval(simTimer);
+  }, [isConnected, scannerConfig]);
+
+  // Instant Turbo Rescan
+  const triggerTurboRescan = useCallback(async () => {
+    const t0 = performance.now();
+    setIsTurboScanning(true);
+    try {
+      if (isConnected) {
+        const refreshed = await rescanScanner();
+        setSurfacedResults(refreshed);
+      } else {
+        setAllStocks((currentStocks) => {
+          const surfaced: ScannerResult[] = [];
+          const updatedStocks = currentStocks.map((q) => {
+            const plan = calculateSwingTradePlan(q);
+            const copy = { ...q, swingPlan: plan, swingSetup: plan.setupType };
+            if (copy.buyPercentage >= scannerConfig.buyThreshold) {
+              surfaced.push({
+                symbol: copy.symbol,
+                companyName: copy.companyName,
+                ltp: copy.ltp,
+                changePercent: copy.changePercent,
+                volume: copy.volume,
+                totalBuyQuantity: copy.totalBuyQuantity,
+                totalSellQuantity: copy.totalSellQuantity,
+                buyPercentage: copy.buyPercentage,
+                sellPercentage: copy.sellPercentage,
+                ruleId: scannerConfig.id,
+                ruleName: scannerConfig.name,
+                reason: `Buy quantity is ${copy.buyPercentage.toFixed(1)}% (Threshold: ${scannerConfig.buyThreshold.toFixed(1)}%).`,
+                surfacedAt: new Date().toISOString(),
+                swingPlan: copy.swingPlan,
+              });
+            }
+            return copy;
+          });
+          setSurfacedResults(surfaced);
+          return updatedStocks;
+        });
+      }
+      soundManager.playAlertChime();
+    } catch (err) {
+      console.warn('[MarketEye] Turbo rescan error:', err);
+    } finally {
+      const elapsed = Math.round(performance.now() - t0);
+      setLastScanLatencyMs(Math.max(1, elapsed));
+      setIsTurboScanning(false);
+    }
+  }, [isConnected, scannerConfig]);
+
   // Handlers
   const updateConfig = async (newConfig: Partial<ScannerRuleConfig>) => {
     try {
@@ -361,5 +526,8 @@ export function useMarketData(): UseMarketDataReturn {
     subscribeOrderBook,
     unsubscribeOrderBook,
     reconnect,
+    triggerTurboRescan,
+    isTurboScanning,
+    lastScanLatencyMs,
   };
 }

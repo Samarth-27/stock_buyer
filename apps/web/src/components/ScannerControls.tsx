@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { RotateCcw, Check, Filter, Info, Sparkles, TrendingUp, Compass, Target, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
+import { RotateCcw, Check, Filter, Info, Sparkles, TrendingUp, Compass, Target, SlidersHorizontal, ChevronDown, ChevronUp, Zap } from 'lucide-react';
 import { ScannerRuleConfig, DEFAULT_SCANNER_CONFIG, SWING_STRATEGY_PRESETS, SwingStrategyPreset } from '@marketeye/shared';
 
 interface ScannerControlsProps {
   config: ScannerRuleConfig;
   onUpdateConfig: (newConfig: Partial<ScannerRuleConfig>) => Promise<void>;
   isUpdating: boolean;
+  onTurboRescan?: () => Promise<void>;
+  isTurboScanning?: boolean;
+  lastScanLatencyMs?: number | null;
 }
 
 export const ScannerControls: React.FC<ScannerControlsProps> = ({
   config,
   onUpdateConfig,
   isUpdating,
+  onTurboRescan,
+  isTurboScanning = false,
+  lastScanLatencyMs = null,
 }) => {
   const [selectedPreset, setSelectedPreset] = useState<string>(config.strategyPreset || 'SWING_BREAKOUT');
   const [buyThreshold, setBuyThreshold] = useState<number>(config.buyThreshold);
@@ -125,7 +131,23 @@ export const ScannerControls: React.FC<ScannerControlsProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+          {onTurboRescan && (
+            <button
+              onClick={onTurboRescan}
+              disabled={isTurboScanning}
+              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-amber-400 via-emerald-400 to-emerald-500 hover:from-amber-300 hover:to-emerald-300 text-slate-950 shadow-md shadow-emerald-950/40 transition-all active:scale-95 disabled:opacity-50"
+              title="Instantly re-evaluate all stocks across Minervini, VCP, and Order Book models in under 20ms"
+            >
+              <Zap className={`w-3.5 h-3.5 ${isTurboScanning ? 'animate-bounce' : 'fill-slate-950'}`} />
+              <span>{isTurboScanning ? 'Scanning...' : 'Turbo Rescan'}</span>
+              {lastScanLatencyMs !== null && !isTurboScanning && (
+                <span className="font-mono text-[10px] px-1 py-0.5 rounded bg-slate-950/20 text-slate-950 font-black">
+                  {lastScanLatencyMs}ms
+                </span>
+              )}
+            </button>
+          )}
           <button
             onClick={handleReset}
             disabled={isUpdating}

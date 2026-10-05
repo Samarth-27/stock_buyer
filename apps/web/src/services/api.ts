@@ -102,6 +102,12 @@ export async function fetchScannerResults(): Promise<ScannerResult[]> {
   return res.json();
 }
 
+export async function rescanScanner(): Promise<ScannerResult[]> {
+  const res = await fetch(`${getApiBaseUrl()}/scanner/rescan`, { method: 'POST' });
+  if (!res.ok) throw new Error('Failed to trigger scanner rescan');
+  return res.json();
+}
+
 export async function fetchScannerConfig(): Promise<ScannerRuleConfig> {
   const res = await fetch(`${getApiBaseUrl()}/scanner/config`);
   if (!res.ok) throw new Error('Failed to fetch scanner config');

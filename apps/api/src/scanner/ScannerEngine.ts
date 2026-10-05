@@ -156,11 +156,11 @@ export class ScannerEngine {
     }
   }
 
-  private reevaluateAll(): void {
+  public reevaluateAll(): ScannerResult[] {
     if (!this.config.enabled) {
       this.activeResults.clear();
       this.notifyUpdate();
-      return;
+      return [];
     }
 
     const currentSymbols = new Set(this.activeResults.keys());
@@ -243,6 +243,7 @@ export class ScannerEngine {
 
     this.activeResults = nextResults;
     this.notifyUpdate();
+    return Array.from(this.activeResults.values());
   }
 
   private notifyUpdate(): void {

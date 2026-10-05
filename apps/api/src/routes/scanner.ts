@@ -44,5 +44,15 @@ export function createScannerRouter(scannerEngine: ScannerEngine): Router {
     }
   });
 
+  // POST /api/scanner/rescan (Instant Turbo Market Rescan)
+  router.post('/rescan', (_req: Request, res: Response) => {
+    try {
+      const results = scannerEngine.reevaluateAll();
+      res.json(results);
+    } catch (err: unknown) {
+      res.status(500).json({ error: (err as Error).message });
+    }
+  });
+
   return router;
 }
