@@ -435,7 +435,27 @@ const SurfacedStocksTableComponent: React.FC<SurfacedStocksTableProps> = ({
                             ADR: {swingPlan.adrPercent.toFixed(1)}%
                           </span>
                         )}
+                        {swingPlan?.ensembleConfluence && (
+                          <>
+                            <span className="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                              OFI: {swingPlan.ensembleConfluence.ofiScore}/100
+                            </span>
+                            <span className="px-2 py-0.5 rounded bg-teal-500/10 text-teal-300 border border-teal-500/20">
+                              Qullamaggie: {swingPlan.ensembleConfluence.qullamaggieBreakoutScore}/100
+                            </span>
+                          </>
+                        )}
                       </div>
+
+                      {swingPlan?.ensembleConfluence?.keyInsights && swingPlan.ensembleConfluence.keyInsights.length > 0 && (
+                        <div className="space-y-1 text-[11px] text-slate-300 pl-2 border-l-2 border-indigo-500/50">
+                          {swingPlan.ensembleConfluence.keyInsights.slice(0, 2).map((insight, idx) => (
+                            <div key={idx} className="leading-snug">
+                              ⚡ {insight}
+                            </div>
+                          ))}
+                        </div>
+                      )}
 
                       {prediction?.reasons && prediction.reasons.length > 0 && (
                         <div className="text-[11px] text-slate-400 leading-relaxed pl-2 border-l-2 border-cyan-500/40">

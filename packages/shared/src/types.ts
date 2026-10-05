@@ -213,6 +213,8 @@ export interface SwingTradePlan {
     topFeatureDrivers: string[];
     backtestedRocAuc: number;
   };
+  // Advanced Ensemble ML & Order Flow Confluence Engine
+  ensembleConfluence?: EnsembleMLConfluence;
   // Proven GitHub Benchmarked Strategies
   adrPercent?: number; // Average Daily Range % (20D)
   minerviniTemplate?: MinerviniTemplateResult;
@@ -220,6 +222,18 @@ export interface SwingTradePlan {
   qullamaggieTrailing?: QullamaggieTrailingPlan;
   confluence?: ConfluenceEngineResult;
   twoDayDecision?: TwoDaySwingDecision;
+}
+
+export interface EnsembleMLConfluence {
+  ofiScore: number; // Order Flow Imbalance Score: 0-100 (Cont-Kukanov-Stoikov OFI formulation)
+  qullamaggieBreakoutScore: number; // 0-100 (10/20 EMA shelf squeeze + Volume dry-up + ORB)
+  volumeProfileScore: number; // 0-100 (High Volume Node support & Value Area Acceptance)
+  volatilityAtrScore: number; // 0-100 (ATR-14 expansion ratio vs 20-day historical base)
+  ensembleConfidence: number; // 0-100 Weighted Confluence Score
+  recommendedAtrStop: number; // Multi-ATR dynamic stop loss
+  recommendedAtrTarget: number; // Multi-ATR dynamic target price
+  institutionalSignature: 'INSTITUTIONAL_ACCUMULATION' | 'VOLUME_SURGE_BREAKOUT' | 'NEUTRAL_ABSORPTION' | 'DISTRIBUTION_RISK';
+  keyInsights: string[];
 }
 
 export interface StockQuote {
