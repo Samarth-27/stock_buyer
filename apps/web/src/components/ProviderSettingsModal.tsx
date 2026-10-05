@@ -494,15 +494,20 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-[10px] text-slate-400 block mb-0.5">TOTP (Google Authenticator)</label>
+                  <div className="flex items-center justify-between mb-0.5">
+                    <label className="text-[10px] text-slate-400">TOTP or Secret Key</label>
+                  </div>
                   <input
                     type="text"
-                    maxLength={6}
-                    placeholder="6-digit TOTP"
+                    maxLength={64}
+                    placeholder="6-digit TOTP or Secret Key"
                     value={angelTotp}
                     onChange={(e) => setAngelTotp(e.target.value)}
                     className="w-full px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 font-mono tracking-wider"
                   />
+                  <span className="text-[9px] text-slate-500 block mt-0.5">
+                    Enter fresh 6-digit code or your base32 TOTP secret.
+                  </span>
                 </div>
                 <div>
                   <label className="text-[10px] text-slate-400 block mb-0.5">SmartAPI API Key</label>

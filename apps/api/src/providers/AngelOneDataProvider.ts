@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import {
   StockQuote,
   OrderBook,
@@ -13,6 +14,50 @@ import {
   MarketDepthEntry,
 } from '@marketeye/shared';
 import { MarketDataProvider } from './MarketDataProvider.js';
+
+/**
+ * Computes live 6-digit TOTP code if a Base32 TOTP secret key is provided,
+ * or returns the 6-digit code directly if already provided by the user.
+ */
+function computeTotpIfSecret(input: string): string {
+  const clean = input.trim();
+  if (/^\d{6}$/.test(clean)) {
+    return clean;
+  }
+  try {
+    const base32chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let bits = '';
+    const cleanSecret = clean.replace(/[\s-]+/g, '').toUpperCase();
+    for (let i = 0; i < cleanSecret.length; i++) {
+      const val = base32chars.indexOf(cleanSecret[i]);
+      if (val === -1) return clean; // Not standard Base32, send as-is
+      bits += val.toString(2).padStart(5, '0');
+    }
+    const bytes: number[] = [];
+    for (let i = 0; i + 8 <= bits.length; i += 8) {
+      bytes.push(parseInt(bits.substring(i, i + 8), 2));
+    }
+    const key = Buffer.from(bytes);
+    const epoch = Math.floor(Date.now() / 1000);
+    const time = Math.floor(epoch / 30);
+    const timeBuffer = Buffer.alloc(8);
+    timeBuffer.writeUInt32BE(0, 0);
+    timeBuffer.writeUInt32BE(time, 4);
+
+    const hmac = crypto.createHmac('sha1', key).update(timeBuffer).digest();
+    const offset = hmac[hmac.length - 1] & 0xf;
+    const code =
+      ((hmac[offset] & 0x7f) << 24) |
+      ((hmac[offset + 1] & 0xff) << 16) |
+      ((hmac[offset + 2] & 0xff) << 8) |
+      (hmac[offset + 3] & 0xff);
+    const generated = (code % 1000000).toString().padStart(6, '0');
+    console.log(`[AngelOne] Computed fresh live TOTP from secret key: ${generated}`);
+    return generated;
+  } catch {
+    return clean;
+  }
+}
 
 interface AngelDepthEntry {
   price: number;
@@ -177,17 +222,25 @@ export class AngelOneDataProvider implements MarketDataProvider {
   }
 
   /**
-   * Helper to perform 1-Click Login to Angel One SmartAPI using TOTP
+   * Helper to perform 1-Click Login to Angel One SmartAPI using TOTP or TOTP Secret
    */
   async loginWithTotp(clientCode: string, passwordOrPin: string, totp: string, apiKey: string): Promise<string> {
+    const cleanApiKey = apiKey.trim();
+    const cleanClientCode = clientCode.trim().toUpperCase();
+    const cleanPin = passwordOrPin.trim();
+    const cleanTotp = computeTotpIfSecret(totp.trim());
+
     const url = 'https://apiconnect.angelone.in/rest/auth/angelbroking/user/v1/loginByPassword';
     const publicIp = await resolvePublicIp();
+
+    console.log(`[AngelOne] Authenticating client ${cleanClientCode} via SmartAPI (Public IP: ${publicIp})...`);
+
     const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        'X-PrivateKey': apiKey,
+        'X-PrivateKey': cleanApiKey,
         'X-UserType': 'USER',
         'X-SourceID': 'WEB',
         'X-ClientLocalIP': '127.0.0.1',
@@ -195,20 +248,32 @@ export class AngelOneDataProvider implements MarketDataProvider {
         'X-MACAddress': 'fe80::216e:6507:4b9c:3719',
       },
       body: JSON.stringify({
-        clientcode: clientCode,
-        password: passwordOrPin,
-        totp,
+        clientcode: cleanClientCode,
+        password: cleanPin,
+        totp: cleanTotp,
       }),
     });
 
     const data = (await res.json()) as any;
+    console.log(`[AngelOne] Response HTTP ${res.status}:`, JSON.stringify(data));
+
     if (!res.ok || !data.status || !data.data?.jwtToken) {
-      throw new Error(data.message || 'Angel One login failed. Please verify Client Code, PIN, and TOTP.');
+      const serverMsg = data.message || data.errorcode || '';
+      let advice = 'Please verify Client Code, MPIN/Password, and 6-digit TOTP.';
+      if (serverMsg.toLowerCase().includes('totp') || serverMsg.toLowerCase().includes('otp')) {
+        advice = 'TOTP may have expired (it refreshes every 30s) or is invalid. Paste a fresh 6-digit code or your base32 TOTP secret.';
+      } else if (serverMsg.toLowerCase().includes('client') || serverMsg.toLowerCase().includes('user')) {
+        advice = 'Client code was not recognized by Angel One. Double-check your Angel One Account ID.';
+      } else if (serverMsg.toLowerCase().includes('password') || serverMsg.toLowerCase().includes('pin')) {
+        advice = 'Invalid MPIN/Password. Please enter your 4-digit Angel One MPIN.';
+      }
+      throw new Error(serverMsg ? `${serverMsg}. (${advice})` : `Angel One login failed. ${advice}`);
     }
 
-    this.apiKey = apiKey;
+    this.apiKey = cleanApiKey;
     this.jwtToken = data.data.jwtToken;
-    this.clientCode = clientCode;
+    this.clientCode = cleanClientCode;
+    console.log(`[AngelOne] Successfully authenticated client ${cleanClientCode}!`);
     return this.jwtToken;
   }
 
