@@ -225,54 +225,60 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
 
               {/* Autocomplete Dropdown */}
               {showSymbolDropdown && !editingHolding && (
-                <div className="absolute top-full left-0 right-0 mt-1 z-50 rounded-xl bg-slate-950 border border-slate-700 shadow-2xl p-2 max-h-72 overflow-y-auto">
-                  <div className="relative mb-2">
-                    <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
-                    <input
-                      type="text"
-                      placeholder="Search across all 2,692 NSE stocks (e.g. TATA, ZOMATO, SBIN)..."
-                      value={searchFilter}
-                      onChange={(e) => setSearchFilter(e.target.value)}
-                      className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
-                      autoFocus
-                    />
-                  </div>
-                  <div className="text-[10px] text-slate-500 px-2 py-0.5 mb-1 font-mono flex justify-between">
-                    <span>MATCHING NSE EQUITIES</span>
-                    <span>{filteredStocks.length} shown of 2,692</span>
-                  </div>
-                  <div className="space-y-1">
-                    {filteredStocks.map((s) => {
-                      const q = quotesMap.get(s.symbol);
-                      return (
-                        <div
-                          key={s.symbol}
-                          onClick={() => handleSelectSymbol(s.symbol)}
-                          className="px-3 py-2 rounded-lg hover:bg-slate-800/80 cursor-pointer flex items-center justify-between transition-colors text-xs"
-                        >
-                          <div className="truncate pr-2">
-                            <span className="font-mono font-bold text-white mr-2">{s.symbol}</span>
-                            <span className="text-slate-400 text-[11px] truncate">{s.companyName}</span>
+                <>
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setShowSymbolDropdown(false)}
+                  />
+                  <div className="absolute top-full left-0 right-0 mt-1 z-50 rounded-xl bg-slate-950 border border-slate-700 shadow-2xl p-2 max-h-72 overflow-y-auto">
+                    <div className="relative mb-2">
+                      <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                      <input
+                        type="text"
+                        placeholder="Search across all 2,692 NSE stocks (e.g. TATA, ZOMATO, SBIN)..."
+                        value={searchFilter}
+                        onChange={(e) => setSearchFilter(e.target.value)}
+                        className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 font-mono"
+                        autoFocus
+                      />
+                    </div>
+                    <div className="text-[10px] text-slate-500 px-2 py-0.5 mb-1 font-mono flex justify-between">
+                      <span>MATCHING NSE EQUITIES</span>
+                      <span>{filteredStocks.length} shown of 2,692</span>
+                    </div>
+                    <div className="space-y-1">
+                      {filteredStocks.map((s) => {
+                        const q = quotesMap.get(s.symbol);
+                        return (
+                          <div
+                            key={s.symbol}
+                            onClick={() => handleSelectSymbol(s.symbol)}
+                            className="px-3 py-2 rounded-lg hover:bg-slate-800/80 cursor-pointer flex items-center justify-between transition-colors text-xs"
+                          >
+                            <div className="truncate pr-2">
+                              <span className="font-mono font-bold text-white mr-2">{s.symbol}</span>
+                              <span className="text-slate-400 text-[11px] truncate">{s.companyName}</span>
+                            </div>
+                            {q && (
+                              <span className="font-mono text-emerald-400 font-bold shrink-0">
+                                ₹{q.ltp.toFixed(2)}
+                              </span>
+                            )}
                           </div>
-                          {q && (
-                            <span className="font-mono text-emerald-400 font-bold shrink-0">
-                              ₹{q.ltp.toFixed(2)}
-                            </span>
-                          )}
+                        );
+                      })}
+                      {filteredStocks.length === 0 && searchFilter.trim() && (
+                        <div
+                          onClick={() => handleSelectSymbol(searchFilter.trim().toUpperCase())}
+                          className="px-3 py-2 rounded-lg bg-indigo-950/40 border border-indigo-500/30 hover:bg-indigo-900/50 cursor-pointer text-xs text-indigo-300 flex items-center justify-between"
+                        >
+                          <span>Use custom ticker <strong>{searchFilter.trim().toUpperCase()}</strong></span>
+                          <span className="text-[10px] uppercase font-bold text-indigo-400">Select</span>
                         </div>
-                      );
-                    })}
-                    {filteredStocks.length === 0 && searchFilter.trim() && (
-                      <div
-                        onClick={() => handleSelectSymbol(searchFilter.trim().toUpperCase())}
-                        className="px-3 py-2 rounded-lg bg-indigo-950/40 border border-indigo-500/30 hover:bg-indigo-900/50 cursor-pointer text-xs text-indigo-300 flex items-center justify-between"
-                      >
-                        <span>Use custom ticker <strong>{searchFilter.trim().toUpperCase()}</strong></span>
-                        <span className="text-[10px] uppercase font-bold text-indigo-400">Select</span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
           </div>
