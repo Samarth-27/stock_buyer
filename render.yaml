@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: marketeye-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install && npm run build:api
+    startCommand: node apps/api/dist/server.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        value: https://samarth-27.github.io
+      - key: MARKET_DATA_MODE
+        value: mock

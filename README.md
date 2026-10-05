@@ -9,6 +9,7 @@
 [![React 18](https://img.shields.io/badge/React-18.3-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-ML%20Trained-e34c26?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://xgboost.readthedocs.io/)
 [![Exchange](https://img.shields.io/badge/Exchange-NSE%20India-ff9933?style=for-the-badge&logo=indiana-jones&logoColor=white)](https://www.nseindia.com)
+[![Deploy to Render](https://img.shields.io/badge/Render-Deploy%20Cloud%20API-46E3B7?style=for-the-badge&logo=render&logoColor=black)](docs/RENDER_DEPLOYMENT_GUIDE.md)
 [![License](https://img.shields.io/badge/License-MIT-a855f7?style=for-the-badge)](LICENSE)
 
 <br/>
@@ -192,6 +193,23 @@ npm run build
 
 ---
 
+## ☁️ Deploy Backend to Render.com (1-Click Free Cloud Hosting)
+
+Want to connect your live [GitHub Pages Dashboard](https://samarth-27.github.io/stock_buyer/) to real-time NSE equities in the cloud without running local servers on your laptop?
+
+Deploy the MarketEye backend (`apps/api`) directly to Render.com for free using the included Blueprint:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+1. Connect your repository `Samarth-27/stock_buyer` to **[Render.com](https://render.com)**.
+2. Render automatically detects the root `render.yaml` Blueprint (Singapore low-latency region, Node.js runtime).
+3. Once deployed, copy your public Render URL (e.g. `https://marketeye-api-xxxx.onrender.com`).
+4. Open the [MarketEye Web Terminal](https://samarth-27.github.io/stock_buyer/), click the **Feed Mode Badge** (top right), paste your Render URL under **Backend Server API**, and click **Test & Save**.
+
+See the full [Render.com Deployment Guide](docs/RENDER_DEPLOYMENT_GUIDE.md) for step-by-step instructions.
+
+---
+
 ## 🐳 Docker Deployment
 
 Run the complete multi-tier stack (Frontend, API, WebSocket, and Persistence) with a single command:
@@ -206,6 +224,7 @@ docker-compose up --build -d
 
 ## 📚 Documentation Suite
 
+* 📖 [Render.com 1-Click Cloud Deployment Guide](docs/RENDER_DEPLOYMENT_GUIDE.md)
 * 📖 [System Architecture Document](docs/ARCHITECTURE.md)
 * 📖 [Mathematical Formulations & Scanner Rules](docs/SCANNER_RULES.md)
 * 📖 [Upstox OAuth 2.0 Integration Guide](docs/UPSTOX_SETUP_GUIDE.md)

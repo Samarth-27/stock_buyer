@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Build shared package and web dashboard
-        run: npm run build --workspace=apps/web
+        run: npm run build --workspace=packages/shared && npm run build --workspace=apps/web
 
       - name: Deploy to GitHub Pages (gh-pages branch)
         uses: JamesIves/github-pages-deploy-action@v4

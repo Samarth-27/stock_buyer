@@ -42,20 +42,42 @@ export function createApp(
 
   // CORS Configuration
   const allowedOrigin = process.env.CORS_ORIGIN || 'http://localhost:5173';
-  app.use(
-    cors({
-      origin: (origin, callback) => {
-        if (!origin || origin === allowedOrigin || origin.startsWith('http://localhost:')) {
-          callback(null, true);
-        } else {
-          callback(null, true);
-        }
-      },
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    })
-  );
+  const corsOptions = {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) {
+        return callback(null, true);
+      }
+      if (
+        origin === allowedOrigin ||
+        origin.startsWith('http://localhost:') ||
+        origin.endsWith('.github.io') ||
+        origin.endsWith('.onrender.com') ||
+        origin.includes('github.io')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  };
+
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
+
+  // Welcome Route for root (e.g. visiting https://<app>.onrender.com directly)
+  app.get('/', (_req: Request, res: Response) => {
+    res.json({
+      service: 'MarketEye Autonomous Indian Stock Scanner API',
+      status: 'active',
+      version: '1.0.0',
+      docs: '/api/docs',
+      health: '/api/health',
+      frontend: 'https://samarth-27.github.io/stock_buyer/',
+    });
+  });
 
   // Rate Limiting (300 requests per 1 minute window)
   const limiter = rateLimit({

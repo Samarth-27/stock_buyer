@@ -56,10 +56,11 @@ async function bootstrap() {
   initialQuotes.forEach((q) => scannerEngine.processQuote(q));
 
   // 8. Start Listening
-  server.listen(PORT, () => {
-    console.log(`[MarketEye API] REST Server listening on: http://localhost:${PORT}/api`);
-    console.log(`[MarketEye API] Swagger Documentation:     http://localhost:${PORT}/api/docs`);
-    console.log(`[MarketEye API] WebSocket Feed:            ws://localhost:${PORT}/ws`);
+  const HOST = process.env.HOST || '0.0.0.0';
+  server.listen(PORT, HOST, () => {
+    console.log(`[MarketEye API] REST Server listening on: http://${HOST}:${PORT}/api`);
+    console.log(`[MarketEye API] Swagger Documentation:     http://${HOST}:${PORT}/api/docs`);
+    console.log(`[MarketEye API] WebSocket Feed:            ws://${HOST}:${PORT}/ws`);
     console.log(`[MarketEye API] Mode:                      ${initialProvider.name}`);
     console.log('----------------------------------------------------');
   });

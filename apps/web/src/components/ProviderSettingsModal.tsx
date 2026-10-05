@@ -8,9 +8,18 @@ import {
   AlertCircle,
   Database,
   RefreshCw,
-  Info,
+  Cloud,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
-import { ProviderInfo, switchProviderMode, angelOneLogin } from '../services/api.js';
+import {
+  ProviderInfo,
+  switchProviderMode,
+  angelOneLogin,
+  getBackendBaseUrl,
+  setCustomBackendUrl,
+  testBackendConnection,
+} from '../services/api.js';
 
 interface ProviderSettingsModalProps {
   isOpen: boolean;
@@ -39,6 +48,14 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  // Render.com / Remote Cloud Backend State
+  const [customBackendUrl, setCustomBackendUrlState] = useState(() => getBackendBaseUrl());
+  const [isBackendCardOpen, setIsBackendCardOpen] = useState(() => {
+    return !getBackendBaseUrl() && typeof window !== 'undefined' && window.location.hostname.endsWith('github.io');
+  });
+  const [testingBackend, setTestingBackend] = useState(false);
+  const [backendFeedback, setBackendFeedback] = useState<{ ok: boolean; msg: string } | null>(null);
+
   useEffect(() => {
     if (providerInfo) {
       if (providerInfo.id === 'angel-feed') setSelectedMode('angel');
@@ -51,14 +68,42 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
 
   const isStaticDeployment =
     typeof window !== 'undefined' && window.location.hostname.endsWith('github.io');
+  const hasRemoteBackend = Boolean(getBackendBaseUrl().trim());
 
   if (!isOpen) return null;
 
+  const handleSaveBackend = async () => {
+    try {
+      setTestingBackend(true);
+      setBackendFeedback(null);
+      const url = customBackendUrl.trim();
+      if (!url) {
+        setCustomBackendUrl(null);
+        setBackendFeedback({ ok: true, msg: 'Reset to local / default endpoint.' });
+        onProviderChanged();
+        return;
+      }
+
+      const res = await testBackendConnection(url);
+      if (res.ok) {
+        setCustomBackendUrl(url);
+        setBackendFeedback({ ok: true, msg: res.message || 'Connected to Render cloud backend!' });
+        setErrorMsg(null);
+        onProviderChanged();
+      } else {
+        setBackendFeedback({ ok: false, msg: `Could not reach backend: ${res.message}` });
+      }
+    } finally {
+      setTestingBackend(false);
+    }
+  };
+
   const handleAngelLogin = async () => {
-    if (isStaticDeployment) {
+    if (isStaticDeployment && !hasRemoteBackend) {
       setErrorMsg(
-        'Live Broker Feeds require the local MarketEye backend API. Please run MarketEye locally via "npm run dev" at http://localhost:5173 to connect your Angel One credentials.'
+        'Live Broker Feeds require the MarketEye backend API. Please configure your Render.com cloud backend URL above, or run MarketEye locally via "npm run dev" at http://localhost:5173.'
       );
+      setIsBackendCardOpen(true);
       return;
     }
 
@@ -103,10 +148,11 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
   };
 
   const handleConnect = async () => {
-    if (isStaticDeployment && selectedMode !== 'mock') {
+    if (isStaticDeployment && !hasRemoteBackend && selectedMode !== 'mock') {
       setErrorMsg(
-        'Live Broker Feeds require the local MarketEye backend API. Please run MarketEye locally via "npm run dev" at http://localhost:5173 to connect your live broker credentials.'
+        'Live Broker Feeds require the MarketEye backend API. Please configure your Render.com cloud backend URL above, or run MarketEye locally via "npm run dev" at http://localhost:5173.'
       );
+      setIsBackendCardOpen(true);
       return;
     }
 
@@ -192,20 +238,111 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
           </button>
         </div>
 
-        {/* Static Deployment Notice */}
-        {isStaticDeployment && (
-          <div className="my-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start space-x-2.5">
-            <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <span className="font-bold block text-amber-200">Browsing GitHub Pages Static Demo</span>
-              <p className="text-[11px] text-amber-300/90 leading-relaxed">
-                Live broker APIs (Angel One, Upstox, Kite) authenticate securely through your backend server. To trade with live broker feeds, run MarketEye locally with{' '}
-                <code className="text-emerald-300 font-mono px-1 py-0.5 bg-slate-900 rounded border border-slate-800">npm run dev</code>{' '}
-                at <strong className="text-white">http://localhost:5173</strong>.
+        {/* Backend Server & Cloud (Render.com) Connection Card */}
+        <div className="my-4 rounded-2xl bg-slate-900/90 border border-slate-800 p-4 transition-all">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2.5">
+              <div className="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+                <Cloud className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="text-xs font-bold text-white flex items-center gap-2">
+                  <span>Backend Server API</span>
+                  {hasRemoteBackend ? (
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">
+                      RENDER CLOUD
+                    </span>
+                  ) : isStaticDeployment ? (
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold">
+                      OFFLINE DEMO
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-bold">
+                      LOCAL DEV (PORT 3001)
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  {hasRemoteBackend
+                    ? customBackendUrl
+                    : isStaticDeployment
+                    ? 'Connect Render.com cloud backend to stream live Angel One & NSE feeds.'
+                    : 'Running locally on http://localhost:3001'}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsBackendCardOpen(!isBackendCardOpen)}
+              className="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center space-x-1 transition-all"
+            >
+              <span>{isBackendCardOpen ? 'Hide' : 'Configure'}</span>
+              {isBackendCardOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          {isBackendCardOpen && (
+            <div className="mt-3.5 pt-3.5 border-t border-slate-800/80 space-y-3">
+              <label className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider block">
+                Render.com / Cloud Backend URL
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  placeholder="https://marketeye-api.onrender.com"
+                  value={customBackendUrl}
+                  onChange={(e) => setCustomBackendUrlState(e.target.value)}
+                  className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={handleSaveBackend}
+                  disabled={testingBackend}
+                  className="px-3 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center space-x-1.5 disabled:opacity-50"
+                >
+                  {testingBackend ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Testing...</span>
+                    </>
+                  ) : (
+                    <span>Test & Save</span>
+                  )}
+                </button>
+              </div>
+
+              {backendFeedback && (
+                <div
+                  className={`p-2.5 rounded-xl text-xs flex items-center space-x-2 ${
+                    backendFeedback.ok
+                      ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
+                      : 'bg-rose-500/10 border border-rose-500/20 text-rose-300'
+                  }`}
+                >
+                  {backendFeedback.ok ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  ) : (
+                    <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                  )}
+                  <span>{backendFeedback.msg}</span>
+                </div>
+              )}
+
+              <p className="text-[10px] text-slate-400 leading-relaxed">
+                Deploy the MarketEye backend free on{' '}
+                <a
+                  href="https://render.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-cyan-400 hover:underline font-semibold inline-flex items-center gap-0.5"
+                >
+                  <span>Render.com</span>
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>{' '}
+                using the included <code className="text-cyan-300 font-mono">render.yaml</code> Blueprint to stream 2,692 NSE live stocks directly to this dashboard.
               </p>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Current Feed Status Badge */}
         <div className="my-4 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">

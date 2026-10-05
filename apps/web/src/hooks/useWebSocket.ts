@@ -8,12 +8,14 @@ import {
   MarketAlert,
 } from '@marketeye/shared';
 import { soundManager } from '../services/audio.js';
+import { getBackendBaseUrl } from '../services/api.js';
 
 export interface UseWebSocketReturn {
   isConnected: boolean;
   isConnecting: boolean;
   subscribeOrderBook: (symbol: string) => void;
   unsubscribeOrderBook: (symbol: string) => void;
+  reconnect: () => void;
 }
 
 export interface WebSocketCallbacks {
@@ -36,10 +38,35 @@ export function useWebSocket(callbacks: WebSocketCallbacks): UseWebSocketReturn 
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
+    const backendBase = getBackendBaseUrl();
+    const isGitHubPages = typeof window !== 'undefined' && window.location.hostname.endsWith('github.io');
+
+    if (isGitHubPages && !backendBase && !import.meta.env.VITE_WS_URL) {
+      // On static GitHub pages without a remote backend, gracefully run in offline simulation
+      setIsConnecting(false);
+      setIsConnected(false);
+      return;
+    }
+
     setIsConnecting(true);
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const host = window.location.host; // Vite proxies /ws to 3001
-    const wsUrl = `${protocol}//${host}/ws`;
+
+    let wsUrl: string;
+    if (backendBase) {
+      try {
+        const url = new URL(backendBase);
+        const wsProtocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${wsProtocol}//${url.host}/ws`;
+      } catch {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${protocol}//${backendBase.replace(/^https?:\/\//, '')}/ws`;
+      }
+    } else if (import.meta.env.VITE_WS_URL) {
+      wsUrl = import.meta.env.VITE_WS_URL as string;
+    } else {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const host = window.location.host; // Vite proxies /ws to 3001
+      wsUrl = `${protocol}//${host}/ws`;
+    }
 
     try {
       const ws = new WebSocket(wsUrl);
@@ -145,10 +172,18 @@ export function useWebSocket(callbacks: WebSocketCallbacks): UseWebSocketReturn 
     }
   }, []);
 
+  const reconnect = useCallback(() => {
+    if (wsRef.current) {
+      wsRef.current.close();
+    }
+    connect();
+  }, [connect]);
+
   return {
     isConnected,
     isConnecting,
     subscribeOrderBook,
     unsubscribeOrderBook,
+    reconnect,
   };
 }

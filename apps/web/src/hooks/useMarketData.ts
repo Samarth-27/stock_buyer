@@ -54,6 +54,7 @@ export interface UseMarketDataReturn {
   clearAlerts: () => Promise<void>;
   subscribeOrderBook: (symbol: string) => void;
   unsubscribeOrderBook: (symbol: string) => void;
+  reconnect: () => void;
 }
 
 export function useMarketData(): UseMarketDataReturn {
@@ -151,7 +152,7 @@ export function useMarketData(): UseMarketDataReturn {
   }, []);
 
   // WebSocket Connection
-  const { isConnected, isConnecting, subscribeOrderBook, unsubscribeOrderBook } = useWebSocket({
+  const { isConnected, isConnecting, subscribeOrderBook, unsubscribeOrderBook, reconnect } = useWebSocket({
     onTick: handleTick,
     onOrderBook: handleOrderBook,
     onScannerSnapshot: handleScannerSnapshot,
@@ -359,5 +360,6 @@ export function useMarketData(): UseMarketDataReturn {
     clearAlerts,
     subscribeOrderBook,
     unsubscribeOrderBook,
+    reconnect,
   };
 }
