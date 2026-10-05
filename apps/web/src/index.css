@@ -5,13 +5,69 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --bg-page: #000000;
+    --bg-card: #0a0a0a;
+    --bg-card-elevated: #121212;
+    --border-primary: #27272a;
+    --text-primary: #f4f4f5;
+    --text-secondary: #a1a1aa;
+    --accent-color: #f59e0b;
+  }
+
+  /* Bloomberg / OLED Jet Black & Amber Gold */
+  :root.theme-terminal {
+    color-scheme: dark;
+    --bg-page: #000000;
+    --bg-card: #080808;
+    --bg-card-elevated: #111111;
+    --border-primary: #242424;
+    --text-primary: #fafafa;
+    --text-secondary: #a3a3a3;
+    --accent-color: #f59e0b;
+  }
+
+  /* Midnight Navy (Classic) */
+  :root.theme-midnight {
+    color-scheme: dark;
+    --bg-page: #080d1a;
+    --bg-card: #0f172a;
+    --bg-card-elevated: #1e293b;
+    --border-primary: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --accent-color: #6366f1;
+  }
+
+  /* Clean Crisp Light */
+  :root.theme-light {
+    color-scheme: light;
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-elevated: #f1f5f9;
+    --border-primary: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --accent-color: #2563eb;
+  }
+
+  /* Cyber Emerald */
+  :root.theme-emerald {
+    color-scheme: dark;
+    --bg-page: #021a12;
+    --bg-card: #04261c;
+    --bg-card-elevated: #063628;
+    --border-primary: #065f46;
+    --text-primary: #ecfdf5;
+    --text-secondary: #a7f3d0;
+    --accent-color: #10b981;
   }
   
   body {
-    background-color: #080d1a;
-    color: #f1f5f9;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   /* Custom Sleek Scrollbar */
@@ -20,14 +76,14 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0b1120;
+    background: var(--bg-page);
   }
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: var(--border-primary);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #52525b;
   }
 }
 
@@ -58,18 +114,55 @@
   animation: pulse-subtle 2s infinite ease-in-out;
 }
 
-/* Glassmorphism utility */
+/* Glassmorphism / Themed utility */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
+  background: var(--bg-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.45);
+  border: 1px solid var(--border-primary);
 }
 
 .glass-panel-elevated {
-  background: rgba(15, 23, 42, 0.88);
+  background: var(--bg-card-elevated);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(71, 85, 105, 0.5);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-primary);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+}
+
+/* Specific terminal styling enhancements */
+.theme-terminal .bg-slate-950 {
+  background-color: #000000 !important;
+}
+
+.theme-terminal .bg-slate-900 {
+  background-color: #080808 !important;
+}
+
+.theme-terminal .bg-slate-850 {
+  background-color: #0d0d0d !important;
+}
+
+.theme-terminal .border-slate-800 {
+  border-color: #262626 !important;
+}
+
+.theme-terminal .border-slate-700 {
+  border-color: #404040 !important;
+}
+
+.theme-terminal .text-white {
+  color: #fffbeb !important;
+}
+
+/* Terminal amber accent highlights */
+.theme-terminal .terminal-amber {
+  color: #f59e0b !important;
+}
+
+/* Bloomberg terminal status tags */
+.theme-terminal .bloomberg-tag {
+  background-color: #17120a !important;
+  border-color: #78350f !important;
+  color: #fbbf24 !important;
 }

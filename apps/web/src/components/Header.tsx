@@ -12,8 +12,10 @@ import {
   Settings2,
   Briefcase,
   RadioTower,
+  Palette,
 } from 'lucide-react';
 import { MarketStatusInfo } from '@marketeye/shared';
+import { useTheme } from '../context/ThemeContext.js';
 
 interface HeaderProps {
   marketStatus: MarketStatusInfo | null;
@@ -56,6 +58,8 @@ export const Header: React.FC<HeaderProps> = ({
   isMockProvider,
   providerName,
 }) => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -194,6 +198,36 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-[11px] font-mono text-slate-300 hidden sm:inline">
                 {isConnected ? 'LIVE' : isConnecting ? 'SYNC' : 'OFFLINE'}
               </span>
+            </div>
+
+            {/* Theme Selector Toggle */}
+            <div className="relative group">
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg border transition-all flex items-center space-x-1.5 ${
+                  theme === 'terminal'
+                    ? 'bg-amber-500/10 border-amber-500/40 text-amber-400 hover:bg-amber-500/20'
+                    : theme === 'emerald'
+                    ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
+                    : theme === 'light'
+                    ? 'bg-slate-200 border-slate-300 text-slate-800'
+                    : 'bg-slate-900 border-slate-800 text-indigo-400'
+                }`}
+                title={`Current Theme: ${
+                  theme === 'terminal'
+                    ? 'Bloomberg Terminal (OLED Black & Amber)'
+                    : theme === 'midnight'
+                    ? 'Midnight Slate'
+                    : theme === 'light'
+                    ? 'Clean Light'
+                    : 'Cyber Emerald'
+                }. Click to switch theme.`}
+              >
+                <Palette className="w-4 h-4" />
+                <span className="text-[10px] font-bold uppercase tracking-wider hidden xl:inline">
+                  {theme === 'terminal' ? 'Bloomberg' : theme}
+                </span>
+              </button>
             </div>
 
             {/* Audio Toggle */}
