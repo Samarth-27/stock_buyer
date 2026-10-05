@@ -362,9 +362,8 @@ export class AngelOneDataProvider implements MarketDataProvider {
       try {
         cycleCount++;
 
-        // 3:1 ratio: Sweep 3 rotating batches of the wider market for every 1 priority refresh
-        // This cuts full-market cycle time by ~65% while keeping core stocks fresh!
-        if (cycleCount % 4 === 1 && this.priorityTokens.size > 0) {
+        // Sweep rotating batches of the wider market while prioritizing active tokens
+        if (cycleCount % 3 === 1 && this.priorityTokens.size > 0) {
           const priorityBatch = Array.from(this.priorityTokens).slice(0, 50);
           await this.fetchQuotesForTokens(priorityBatch);
         } else if (this.rotatingBatches.length > 0) {
@@ -377,7 +376,7 @@ export class AngelOneDataProvider implements MarketDataProvider {
       } finally {
         this.isScanning = false;
       }
-    }, 750);
+    }, 1500);
   }
 
   private async fetchQuotesForTokens(tokens: string[]): Promise<boolean> {

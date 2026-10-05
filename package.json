@@ -13,8 +13,8 @@
     "dev:web": "npm run dev --workspace=apps/web",
     "build": "npm run build --workspace=packages/shared && npm run build --workspace=apps/api && npm run build --workspace=apps/web",
     "build:api": "npm run build --workspace=packages/shared && npm run build --workspace=apps/api",
-    "start": "node apps/api/dist/server.js",
-    "start:api": "node apps/api/dist/server.js",
+    "start": "node --max-old-space-size=4096 apps/api/dist/server.js",
+    "start:api": "node --max-old-space-size=4096 apps/api/dist/server.js",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present"
   },

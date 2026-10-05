@@ -6,7 +6,7 @@
     "buyThreshold": 62,
     "sellThreshold": 38,
     "minVolume": 15000,
-    "updatedAt": "2026-10-05T08:01:01.969Z",
+    "updatedAt": "2026-10-05T12:54:00.751Z",
     "strategyPreset": "INSTITUTIONAL_SNIPER",
     "requireAiJump": false,
     "minAiConfidence": 60
@@ -29,1605 +29,6 @@
     }
   },
   "alerts": [
-    {
-      "id": "alert-1791178214989-kdoed",
-      "symbol": "KOTAKBANK",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: KOTAKBANK (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 60.7%, exceeding your 60.0% threshold (Sell is 39.3%). [AI Confidence: 64% JUMP, Target: +0.74%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:14.990Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 60.72,
-        "sellPercentage": 39.28,
-        "ltp": 1810.61,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 64,
-          "consensusScore": 60,
-          "expectedMovePercent": 0.74,
-          "microPrice": 1810.61,
-          "microPriceDeltaBps": 0,
-          "weightedImbalance": 0.106,
-          "chartAnalysis": {
-            "rsi14": 49.3,
-            "rsiStatus": "NEUTRAL",
-            "ema9": 1811.19,
-            "ema21": 1810.61,
-            "trend": "SIDEWAYS",
-            "vwap": 1810.61,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.02,
-            "supportPrice": 1803.37,
-            "resistancePrice": 1817.85,
-            "candlestickPattern": "NONE",
-            "technicalScore": 40,
-            "keyObservations": [
-              "RSI at 49.3 indicates balanced consolidation",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹1810.61)"
-            ]
-          },
-          "executionPlan": {
-            "action": "BUY",
-            "entryPrice": 1810.61,
-            "targetPrice": 1824.01,
-            "expectedMovePercent": 0.74,
-            "stopLossPrice": 1810.29,
-            "stopLossPercent": -0.02,
-            "riskRewardRatio": 41.88,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "ACCUMULATE",
-            "alignment": "PARTIAL_ALIGNMENT",
-            "calibratedWinProbability": 65
-          },
-          "reasons": [
-            "Consistent buying pressure across order depth"
-          ],
-          "timestamp": "2026-10-05T05:30:14.989Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 1803.37,
-            "max": 1825.09
-          },
-          "target1": 1973.56,
-          "target1Percent": 9,
-          "target2": 2109.36,
-          "target2Percent": 16.5,
-          "stopLoss": 1752.67,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 69.6,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (60.7% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹1973.56), Target 2 +16.5% (₹2109.36), Stop Loss -3.2% (₹1752.67) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.22,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 5.5,
-                "bars": 12
-              },
-              {
-                "depthPercent": 2.9,
-                "bars": 8
-              },
-              {
-                "depthPercent": 1.5,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 1831.99
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 1752.67,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 1973.56,
-            "partialExitPercent": 9,
-            "breakevenPrice": 1810.61,
-            "trailing10Ema": 1807.37,
-            "trailing20Ema": 1781.66,
-            "exitRule": "Sell 33%–50% at Target 1 (₹1973.56 / +9%), move stop to breakeven (₹1810.61). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹1781.66)."
-          },
-          "confluence": {
-            "overallScore": 76,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 80,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 65
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 33.7,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +5.62% JEV expectancy. Anchored to 20-day structural support (₹1781.66) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 1803.37,
-              "max": 1825.09
-            },
-            "invalidationStopPrice": 1752.67,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 1973.56,
-            "target1Percent": 9,
-            "target2Price": 2109.36,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 5.62,
-              "winProbability": 72.3,
-              "lossProbability": 27.7,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 61,
-              "qullamaggieEmaScore": 95,
-              "compositeScore": 84
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +5.62% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 60.7% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹1752.67 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:14.989Z"
-          }
-        }
-      }
-    },
-    {
-      "id": "alert-1791178226336-a6dow",
-      "symbol": "KOTAKBANK",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: KOTAKBANK (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 62.1%, exceeding your 60.0% threshold (Sell is 37.9%). [AI Confidence: 79% JUMP, Target: +1.14%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:26.336Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 62.07,
-        "sellPercentage": 37.93,
-        "ltp": 1807.46,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 79,
-          "consensusScore": 71,
-          "expectedMovePercent": 1.14,
-          "microPrice": 1807.48,
-          "microPriceDeltaBps": 0.1,
-          "weightedImbalance": 0.322,
-          "chartAnalysis": {
-            "rsi14": 48.5,
-            "rsiStatus": "NEUTRAL",
-            "ema9": 1808.69,
-            "ema21": 1807.46,
-            "trend": "SIDEWAYS",
-            "vwap": 1807.46,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.05,
-            "supportPrice": 1800.23,
-            "resistancePrice": 1814.69,
-            "candlestickPattern": "NONE",
-            "technicalScore": 40,
-            "keyObservations": [
-              "RSI at 48.5 indicates balanced consolidation",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹1807.46)"
-            ]
-          },
-          "executionPlan": {
-            "action": "BUY",
-            "entryPrice": 1807.46,
-            "targetPrice": 1828.07,
-            "expectedMovePercent": 1.14,
-            "stopLossPrice": 1807.12,
-            "stopLossPercent": -0.02,
-            "riskRewardRatio": 60.62,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "ACCUMULATE",
-            "alignment": "PARTIAL_ALIGNMENT",
-            "calibratedWinProbability": 76.7
-          },
-          "reasons": [
-            "Multi-level depth buy pressure (+32%)"
-          ],
-          "timestamp": "2026-10-05T05:30:26.336Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 1800.23,
-            "max": 1821.92
-          },
-          "target1": 1970.13,
-          "target1Percent": 9,
-          "target2": 2105.69,
-          "target2Percent": 16.5,
-          "stopLoss": 1749.62,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 69.6,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (62.1% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹1970.13), Target 2 +16.5% (₹2105.69), Stop Loss -3.2% (₹1749.62) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.22,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 5.5,
-                "bars": 12
-              },
-              {
-                "depthPercent": 2.9,
-                "bars": 8
-              },
-              {
-                "depthPercent": 1.5,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 1831.99
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 1749.62,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 1970.13,
-            "partialExitPercent": 9,
-            "breakevenPrice": 1807.46,
-            "trailing10Ema": 1807.37,
-            "trailing20Ema": 1781.66,
-            "exitRule": "Sell 33%–50% at Target 1 (₹1970.13 / +9%), move stop to breakeven (₹1807.46). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹1781.66)."
-          },
-          "confluence": {
-            "overallScore": 77,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 80,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 75
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 34.4,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +5.68% JEV expectancy. Anchored to 20-day structural support (₹1781.66) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 1800.23,
-              "max": 1821.92
-            },
-            "invalidationStopPrice": 1749.62,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 1970.13,
-            "target1Percent": 9,
-            "target2Price": 2105.69,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 5.68,
-              "winProbability": 72.8,
-              "lossProbability": 27.2,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 62,
-              "qullamaggieEmaScore": 95,
-              "compositeScore": 84
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +5.68% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 62.1% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹1749.62 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:26.336Z"
-          }
-        }
-      }
-    },
-    {
-      "id": "alert-1791178230138-9fw7u",
-      "symbol": "RELIANCE",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: RELIANCE (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 62.2%, exceeding your 60.0% threshold (Sell is 37.8%). [AI Confidence: 74% JUMP, Target: +1%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:30.155Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 62.18,
-        "sellPercentage": 37.82,
-        "ltp": 2947.06,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 74,
-          "consensusScore": 67,
-          "expectedMovePercent": 1,
-          "microPrice": 2947.07,
-          "microPriceDeltaBps": 0,
-          "weightedImbalance": 0.245,
-          "chartAnalysis": {
-            "rsi14": 47.8,
-            "rsiStatus": "NEUTRAL",
-            "ema9": 2950.01,
-            "ema21": 2947.06,
-            "trend": "SIDEWAYS",
-            "vwap": 2947.06,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.07,
-            "supportPrice": 2935.27,
-            "resistancePrice": 2958.85,
-            "candlestickPattern": "NONE",
-            "technicalScore": 40,
-            "keyObservations": [
-              "RSI at 47.8 indicates balanced consolidation",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹2947.06)"
-            ]
-          },
-          "executionPlan": {
-            "action": "BUY",
-            "entryPrice": 2947.06,
-            "targetPrice": 2976.53,
-            "expectedMovePercent": 1,
-            "stopLossPrice": 2946.79,
-            "stopLossPercent": -0.01,
-            "riskRewardRatio": 109.15,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "ACCUMULATE",
-            "alignment": "PARTIAL_ALIGNMENT",
-            "calibratedWinProbability": 72.1
-          },
-          "reasons": [
-            "Consistent buying pressure across order depth"
-          ],
-          "timestamp": "2026-10-05T05:30:30.137Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 2935.27,
-            "max": 2970.64
-          },
-          "target1": 3212.3,
-          "target1Percent": 9,
-          "target2": 3433.32,
-          "target2Percent": 16.5,
-          "stopLoss": 2852.75,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 76.1,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (62.2% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹3212.3), Target 2 +16.5% (₹3433.32), Stop Loss -3.2% (₹2852.75) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.21,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 4.6,
-                "bars": 12
-              },
-              {
-                "depthPercent": 4.1,
-                "bars": 8
-              },
-              {
-                "depthPercent": 2,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 3018.58
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 2852.75,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 3212.3,
-            "partialExitPercent": 9,
-            "breakevenPrice": 2947.06,
-            "trailing10Ema": 2965.85,
-            "trailing20Ema": 2920.35,
-            "exitRule": "Sell 33%–50% at Target 1 (₹3212.30 / +9%), move stop to breakeven (₹2947.06). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹2920.35)."
-          },
-          "confluence": {
-            "overallScore": 77,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 80,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 75
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 34.4,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +4.95% JEV expectancy. Anchored to 20-day structural support (₹2920.35) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 2935.27,
-              "max": 2970.64
-            },
-            "invalidationStopPrice": 2852.75,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 3212.3,
-            "target1Percent": 9,
-            "target2Price": 3433.32,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 4.95,
-              "winProbability": 66.8,
-              "lossProbability": 33.2,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 62,
-              "qullamaggieEmaScore": 95,
-              "compositeScore": 84
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +4.95% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 62.2% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹2852.75 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:30.138Z"
-          }
-        }
-      }
-    },
-    {
-      "id": "alert-1791178230956-xudc9",
-      "symbol": "KOTAKBANK",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: KOTAKBANK (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 61.2%, exceeding your 60.0% threshold (Sell is 38.8%). [AI Confidence: 73% JUMP, Target: +0.97%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:30.956Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 61.24,
-        "sellPercentage": 38.76,
-        "ltp": 1810.11,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 73,
-          "consensusScore": 66,
-          "expectedMovePercent": 0.97,
-          "microPrice": 1810.12,
-          "microPriceDeltaBps": 0.1,
-          "weightedImbalance": 0.244,
-          "chartAnalysis": {
-            "rsi14": 49.1,
-            "rsiStatus": "NEUTRAL",
-            "ema9": 1810.8,
-            "ema21": 1810.11,
-            "trend": "SIDEWAYS",
-            "vwap": 1810.11,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.03,
-            "supportPrice": 1802.87,
-            "resistancePrice": 1817.35,
-            "candlestickPattern": "NONE",
-            "technicalScore": 40,
-            "keyObservations": [
-              "RSI at 49.1 indicates balanced consolidation",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹1810.11)"
-            ]
-          },
-          "executionPlan": {
-            "action": "BUY",
-            "entryPrice": 1810.11,
-            "targetPrice": 1827.67,
-            "expectedMovePercent": 0.97,
-            "stopLossPrice": 1809.8,
-            "stopLossPercent": -0.02,
-            "riskRewardRatio": 56.65,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "ACCUMULATE",
-            "alignment": "PARTIAL_ALIGNMENT",
-            "calibratedWinProbability": 71.2
-          },
-          "reasons": [
-            "Consistent buying pressure across order depth"
-          ],
-          "timestamp": "2026-10-05T05:30:30.952Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 1802.87,
-            "max": 1824.59
-          },
-          "target1": 1973.02,
-          "target1Percent": 9,
-          "target2": 2108.78,
-          "target2Percent": 16.5,
-          "stopLoss": 1752.19,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 69.6,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (61.2% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹1973.02), Target 2 +16.5% (₹2108.78), Stop Loss -3.2% (₹1752.19) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.22,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 5.5,
-                "bars": 12
-              },
-              {
-                "depthPercent": 2.9,
-                "bars": 8
-              },
-              {
-                "depthPercent": 1.5,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 1831.99
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 1752.19,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 1973.02,
-            "partialExitPercent": 9,
-            "breakevenPrice": 1810.11,
-            "trailing10Ema": 1807.37,
-            "trailing20Ema": 1781.66,
-            "exitRule": "Sell 33%–50% at Target 1 (₹1973.02 / +9%), move stop to breakeven (₹1810.11). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹1781.66)."
-          },
-          "confluence": {
-            "overallScore": 76,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 80,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 65
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 33.7,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +5.64% JEV expectancy. Anchored to 20-day structural support (₹1781.66) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 1802.87,
-              "max": 1824.59
-            },
-            "invalidationStopPrice": 1752.19,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 1973.02,
-            "target1Percent": 9,
-            "target2Price": 2108.78,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 5.64,
-              "winProbability": 72.5,
-              "lossProbability": 27.5,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 61,
-              "qullamaggieEmaScore": 95,
-              "compositeScore": 84
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +5.64% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 61.2% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹1752.19 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:30.954Z"
-          }
-        }
-      }
-    },
-    {
-      "id": "alert-1791178236534-crovt",
-      "symbol": "KOTAKBANK",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: KOTAKBANK (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 61.4%, exceeding your 60.0% threshold (Sell is 38.6%). [AI Confidence: 74% JUMP, Target: +0.99%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:36.534Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 61.38,
-        "sellPercentage": 38.62,
-        "ltp": 1811.81,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 74,
-          "consensusScore": 67,
-          "expectedMovePercent": 0.99,
-          "microPrice": 1811.82,
-          "microPriceDeltaBps": 0.1,
-          "weightedImbalance": 0.262,
-          "chartAnalysis": {
-            "rsi14": 49.5,
-            "rsiStatus": "NEUTRAL",
-            "ema9": 1812.17,
-            "ema21": 1811.81,
-            "trend": "SIDEWAYS",
-            "vwap": 1811.81,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.01,
-            "supportPrice": 1804.56,
-            "resistancePrice": 1819.06,
-            "candlestickPattern": "NONE",
-            "technicalScore": 40,
-            "keyObservations": [
-              "RSI at 49.5 indicates balanced consolidation",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹1811.81)"
-            ]
-          },
-          "executionPlan": {
-            "action": "BUY",
-            "entryPrice": 1811.81,
-            "targetPrice": 1829.75,
-            "expectedMovePercent": 0.99,
-            "stopLossPrice": 1811.49,
-            "stopLossPercent": -0.02,
-            "riskRewardRatio": 56.06,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "ACCUMULATE",
-            "alignment": "PARTIAL_ALIGNMENT",
-            "calibratedWinProbability": 72.1
-          },
-          "reasons": [
-            "Consistent buying pressure across order depth"
-          ],
-          "timestamp": "2026-10-05T05:30:36.534Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 1804.56,
-            "max": 1826.3
-          },
-          "target1": 1974.87,
-          "target1Percent": 9,
-          "target2": 2110.76,
-          "target2Percent": 16.5,
-          "stopLoss": 1753.83,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 69.6,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (61.4% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹1974.87), Target 2 +16.5% (₹2110.76), Stop Loss -3.2% (₹1753.83) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.22,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 5.5,
-                "bars": 12
-              },
-              {
-                "depthPercent": 2.9,
-                "bars": 8
-              },
-              {
-                "depthPercent": 1.5,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 1831.99
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 1753.83,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 1974.87,
-            "partialExitPercent": 9,
-            "breakevenPrice": 1811.81,
-            "trailing10Ema": 1807.37,
-            "trailing20Ema": 1781.66,
-            "exitRule": "Sell 33%–50% at Target 1 (₹1974.87 / +9%), move stop to breakeven (₹1811.81). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹1781.66)."
-          },
-          "confluence": {
-            "overallScore": 76,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 80,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 65
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 33.7,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +5.64% JEV expectancy. Anchored to 20-day structural support (₹1781.66) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 1804.56,
-              "max": 1826.3
-            },
-            "invalidationStopPrice": 1753.83,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 1974.87,
-            "target1Percent": 9,
-            "target2Price": 2110.76,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 5.64,
-              "winProbability": 72.5,
-              "lossProbability": 27.5,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 61,
-              "qullamaggieEmaScore": 95,
-              "compositeScore": 84
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +5.64% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 61.4% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹1753.83 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:36.534Z"
-          }
-        }
-      }
-    },
-    {
-      "id": "alert-1791178241960-6v8di",
-      "symbol": "TATAMOTORS",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: TATAMOTORS (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 65.3%, exceeding your 60.0% threshold (Sell is 34.8%). [AI Confidence: 78% JUMP, Target: +1.1%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:41.960Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 65.25,
-        "sellPercentage": 34.75,
-        "ltp": 990.39,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 78,
-          "consensusScore": 75,
-          "expectedMovePercent": 1.1,
-          "microPrice": 990.4,
-          "microPriceDeltaBps": 0.1,
-          "weightedImbalance": 0.286,
-          "chartAnalysis": {
-            "rsi14": 60.1,
-            "rsiStatus": "BULLISH_MOMENTUM",
-            "ema9": 985.95,
-            "ema21": 990.39,
-            "trend": "SIDEWAYS",
-            "vwap": 990.39,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.34,
-            "supportPrice": 986.43,
-            "resistancePrice": 994.35,
-            "candlestickPattern": "MOMENTUM_EXPANSION",
-            "technicalScore": 65,
-            "keyObservations": [
-              "RSI at 60.1 in ideal institutional expansion zone (50-68)",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹990.39)",
-              "Chart Pattern: MOMENTUM EXPANSION detected"
-            ]
-          },
-          "executionPlan": {
-            "action": "BUY",
-            "entryPrice": 990.39,
-            "targetPrice": 1001.28,
-            "expectedMovePercent": 1.1,
-            "stopLossPrice": 990.13,
-            "stopLossPercent": -0.03,
-            "riskRewardRatio": 41.88,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "PRIME_BREAKOUT_BUY",
-            "alignment": "FULL_ALIGNMENT",
-            "calibratedWinProbability": 75.8
-          },
-          "reasons": [
-            "Order flow buy dominance (65% Buy)"
-          ],
-          "timestamp": "2026-10-05T05:30:41.960Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 986.43,
-            "max": 998.31
-          },
-          "target1": 1079.53,
-          "target1Percent": 9,
-          "target2": 1153.8,
-          "target2Percent": 16.5,
-          "stopLoss": 958.7,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 82.6,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (65.3% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹1079.53), Target 2 +16.5% (₹1153.8), Stop Loss -3.2% (₹958.7) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.18,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 3.1,
-                "bars": 12
-              },
-              {
-                "depthPercent": 3.3,
-                "bars": 8
-              },
-              {
-                "depthPercent": 2.5,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 982.05
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 958.7,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 1079.53,
-            "partialExitPercent": 9,
-            "breakevenPrice": 990.39,
-            "trailing10Ema": 969.2,
-            "trailing20Ema": 957.53,
-            "exitRule": "Sell 33%–50% at Target 1 (₹1079.53 / +9%), move stop to breakeven (₹990.39). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹957.53)."
-          },
-          "confluence": {
-            "overallScore": 75,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 90,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 50
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 33.1,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 83%) with +5.83% JEV expectancy. Anchored to 20-day structural support (₹957.53) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 986.43,
-              "max": 998.31
-            },
-            "invalidationStopPrice": 958.7,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 1079.53,
-            "target1Percent": 9,
-            "target2Price": 1153.8,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 5.83,
-              "winProbability": 74,
-              "lossProbability": 26,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 65,
-              "qullamaggieEmaScore": 80,
-              "compositeScore": 83
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +5.83% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 65.3% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹958.70 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:41.960Z"
-          }
-        }
-      }
-    },
-    {
-      "id": "alert-1791178252394-chrdg",
-      "symbol": "TATAMOTORS",
-      "type": "SCANNER_TRIGGER",
-      "title": "Swing Setup Triggered: TATAMOTORS (Institutional Accumulation Base)",
-      "message": "Buy quantity reached 66.6%, exceeding your 60.0% threshold (Sell is 33.4%). [AI Confidence: 82% JUMP, Target: +1.19%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
-      "timestamp": "2026-10-05T05:30:52.395Z",
-      "read": false,
-      "metadata": {
-        "buyPercentage": 66.58,
-        "sellPercentage": 33.42,
-        "ltp": 989.04,
-        "prediction": {
-          "signal": "JUMP",
-          "direction": 1,
-          "confidence": 82,
-          "consensusScore": 78,
-          "expectedMovePercent": 1.19,
-          "microPrice": 989.06,
-          "microPriceDeltaBps": 0.2,
-          "weightedImbalance": 0.339,
-          "chartAnalysis": {
-            "rsi14": 59.5,
-            "rsiStatus": "BULLISH_MOMENTUM",
-            "ema9": 984.89,
-            "ema21": 989.04,
-            "trend": "SIDEWAYS",
-            "vwap": 989.04,
-            "priceVsVwapPercent": 0,
-            "volumeSurgeRatio": 1.31,
-            "supportPrice": 985.08,
-            "resistancePrice": 993,
-            "candlestickPattern": "MOMENTUM_EXPANSION",
-            "technicalScore": 65,
-            "keyObservations": [
-              "RSI at 59.5 in ideal institutional expansion zone (50-68)",
-              "Price consolidating between key moving averages",
-              "Trading 0% below intraday VWAP (₹989.04)",
-              "Chart Pattern: MOMENTUM EXPANSION detected"
-            ]
-          },
-          "executionPlan": {
-            "action": "STRONG_BUY",
-            "entryPrice": 989.04,
-            "targetPrice": 1000.81,
-            "expectedMovePercent": 1.19,
-            "stopLossPrice": 988.71,
-            "stopLossPercent": -0.03,
-            "riskRewardRatio": 35.67,
-            "kellyAllocationPercent": 15,
-            "spoofRisk": "LOW",
-            "regime": "BULLISH_BREAKOUT",
-            "investorVerdict": "PRIME_BREAKOUT_BUY",
-            "alignment": "FULL_ALIGNMENT",
-            "calibratedWinProbability": 79.4
-          },
-          "reasons": [
-            "Order flow buy dominance (67% Buy)",
-            "Multi-level depth buy pressure (+34%)"
-          ],
-          "timestamp": "2026-10-05T05:30:52.394Z"
-        },
-        "swingPlan": {
-          "setupType": "ACCUMULATION_SQUEEZE",
-          "setupName": "Institutional Accumulation Base",
-          "stage": "Volatility Contraction",
-          "entryRange": {
-            "min": 985.08,
-            "max": 996.95
-          },
-          "target1": 1078.05,
-          "target1Percent": 9,
-          "target2": 1152.23,
-          "target2Percent": 16.5,
-          "stopLoss": 957.39,
-          "stopLossPercent": 3.2,
-          "riskRewardRatio": 2.8,
-          "holdingHorizon": "7 – 20 Trading Days",
-          "dailyRsi": 82.6,
-          "trendAlignment": "BULLISH_STACK",
-          "catalysts": [
-            "Price holding firmly above rising 20-day EMA",
-            "Heavy buy liquidity concentration (66.6% TBQ)",
-            "Prolonged base accumulation preceding multi-week expansion"
-          ],
-          "summary": "Institutional Accumulation Base: Target 1 +9% (₹1078.05), Target 2 +16.5% (₹1152.23), Stop Loss -3.2% (₹957.39) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
-          "mlEngine": {
-            "modelType": "XGBoost (Real NSE Historical Data)",
-            "trainingSamples": 29520,
-            "winProbability": 51.5,
-            "confidenceTier": "HIGH",
-            "topFeatureDrivers": [
-              "ATR Volatility Scaling (9.5% weight)",
-              "20 EMA Momentum Slope (7.7% weight)",
-              "200 EMA Macro Regime (7.3% weight)",
-              "RSI 14 Momentum (6.6% weight)"
-            ],
-            "backtestedRocAuc": 0.53
-          },
-          "adrPercent": 1.18,
-          "minerviniTemplate": {
-            "passed": true,
-            "score": 6,
-            "maxScore": 8,
-            "criteria": {
-              "priceAbove150and200": true,
-              "sma150Above200": false,
-              "sma200TrendingUp": true,
-              "sma50Above150and200": true,
-              "priceAbove50": true,
-              "price30PctAbove52wLow": false,
-              "priceWithin25Pct52wHigh": true,
-              "relativeStrengthHigh": true
-            },
-            "passedRules": [
-              "Price > 150 & 200 SMA (Long-term uptrend)",
-              "200 SMA slope is rising",
-              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
-              "Price > 50 SMA (Institutional support)",
-              "Price within 25% of 52-week high (Leader proximity)",
-              "Positive relative strength vs broad market"
-            ],
-            "failedRules": [
-              "150 SMA lagging 200 SMA",
-              "Price near 52-week low"
-            ]
-          },
-          "vcp": {
-            "isVcpDetected": true,
-            "tightnessScore": 90,
-            "contractionCount": 3,
-            "contractions": [
-              {
-                "depthPercent": 3.1,
-                "bars": 12
-              },
-              {
-                "depthPercent": 3.3,
-                "bars": 8
-              },
-              {
-                "depthPercent": 2.5,
-                "bars": 4
-              }
-            ],
-            "isVolumeDryingUp": false,
-            "pivotPrice": 982.05
-          },
-          "qullamaggieTrailing": {
-            "initialStopLoss": 957.39,
-            "initialStopLossPercent": 3.2,
-            "partialExitTarget": 1078.05,
-            "partialExitPercent": 9,
-            "breakevenPrice": 989.04,
-            "trailing10Ema": 969.2,
-            "trailing20Ema": 957.53,
-            "exitRule": "Sell 33%–50% at Target 1 (₹1078.05 / +9%), move stop to breakeven (₹989.04). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹957.53)."
-          },
-          "confluence": {
-            "overallScore": 75,
-            "tier": "GRADE_A_HIGH_CONFLUENCE",
-            "tierLabel": "High Confluence Setup (Grade A)",
-            "breakdown": {
-              "minerviniScore": 75,
-              "vcpTightnessScore": 90,
-              "orderBookDepthScore": 90,
-              "mlStatisticalScore": 65,
-              "qullamaggieEmaScore": 50
-            },
-            "kellyAllocation": {
-              "recommendedPositionSizePercent": 20,
-              "halfKellyPercent": 33.1,
-              "maxCapitalRiskPercent": 0.64,
-              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
-            },
-            "macroMarketEdge": {
-              "niftyRegime": "BULLISH_TREND",
-              "breadthAdvancers": 36,
-              "breadthDecliners": 14,
-              "regimeMultiplier": 1.15
-            }
-          },
-          "twoDayDecision": {
-            "verdict": "CONVINCING_BUY",
-            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
-            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
-            "sustainabilityReason": "High multi-model confluence (Score: 83%) with +5.89% JEV expectancy. Anchored to 20-day structural support (₹957.53) which sustains against intraday noise.",
-            "entryZone": {
-              "min": 985.08,
-              "max": 996.95
-            },
-            "invalidationStopPrice": 957.39,
-            "invalidationStopPercent": 3.2,
-            "target1Price": 1078.05,
-            "target1Percent": 9,
-            "target2Price": 1152.23,
-            "target2Percent": 16.5,
-            "jev": {
-              "expectedValuePercent": 5.89,
-              "winProbability": 74.5,
-              "lossProbability": 25.5,
-              "targetGainPercent": 9,
-              "stopLossRiskPercent": 3.2,
-              "riskRewardRatio": 2.8,
-              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
-              "halfKellyCapitalPercent": 15,
-              "maxCapitalRiskPercent": 0.48
-            },
-            "confluence": {
-              "jevEdgeScore": 100,
-              "minerviniScore": 75,
-              "vcpScore": 90,
-              "mlStatisticalScore": 77,
-              "orderBookScore": 67,
-              "qullamaggieEmaScore": 80,
-              "compositeScore": 83
-            },
-            "convictionTier": "ELITE_5_STAR",
-            "primaryCatalysts": [
-              "Jev Joint Expected Value: +5.89% edge across 2–5 day swing window",
-              "Minervini Stage 2 Validated: 6/8 criteria passed",
-              "Order Book Depth: 66.6% TBQ institutional absorption"
-            ],
-            "riskWarnings": [],
-            "invalidationRule": "Daily candle close below ₹957.39 (-3.2%) invalidates this setup.",
-            "generatedAt": "2026-10-05T05:30:52.394Z"
-          }
-        }
-      }
-    },
     {
       "id": "alert-1791178261138-jcy2n",
       "symbol": "TATAMOTORS",
@@ -44328,6 +42729,1606 @@
             "riskWarnings": [],
             "invalidationRule": "Daily candle close below ₹2909.15 (-3.2%) invalidates this setup.",
             "generatedAt": "2026-10-05T08:01:01.638Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204837639-ynmdx",
+      "symbol": "RELIANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: RELIANCE (Institutional Accumulation Base)",
+      "message": "Buy quantity reached 63.5%, exceeding your 60.0% threshold (Sell is 36.5%). [AI Confidence: 79% JUMP, Target: +1.14%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
+      "timestamp": "2026-10-05T12:53:57.639Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 63.5,
+        "sellPercentage": 36.5,
+        "ltp": 2963.11,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 79,
+          "consensusScore": 74,
+          "expectedMovePercent": 1.14,
+          "microPrice": 2963.13,
+          "microPriceDeltaBps": 0.1,
+          "weightedImbalance": 0.299,
+          "chartAnalysis": {
+            "rsi14": 51.1,
+            "rsiStatus": "BULLISH_MOMENTUM",
+            "ema9": 2961.63,
+            "ema21": 2963.11,
+            "trend": "SIDEWAYS",
+            "vwap": 2963.11,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1.04,
+            "supportPrice": 2951.26,
+            "resistancePrice": 2974.96,
+            "candlestickPattern": "NONE",
+            "technicalScore": 55,
+            "keyObservations": [
+              "RSI at 51.1 in ideal institutional expansion zone (50-68)",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹2963.11)"
+            ]
+          },
+          "executionPlan": {
+            "action": "BUY",
+            "entryPrice": 2963.11,
+            "targetPrice": 2996.89,
+            "expectedMovePercent": 1.14,
+            "stopLossPrice": 2962.85,
+            "stopLossPercent": -0.01,
+            "riskRewardRatio": 129.92,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 76.7
+          },
+          "reasons": [
+            "Consistent buying pressure across order depth"
+          ],
+          "timestamp": "2026-10-05T12:53:57.622Z"
+        },
+        "swingPlan": {
+          "setupType": "ACCUMULATION_SQUEEZE",
+          "setupName": "Institutional Accumulation Base",
+          "stage": "Volatility Contraction",
+          "entryRange": {
+            "min": 2951.26,
+            "max": 2986.81
+          },
+          "target1": 3229.79,
+          "target1Percent": 9,
+          "target2": 3452.02,
+          "target2Percent": 16.5,
+          "stopLoss": 2868.29,
+          "stopLossPercent": 3.2,
+          "riskRewardRatio": 2.8,
+          "holdingHorizon": "7 – 20 Trading Days",
+          "dailyRsi": 64.9,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Heavy buy liquidity concentration (63.5% TBQ)",
+            "Prolonged base accumulation preceding multi-week expansion"
+          ],
+          "summary": "Institutional Accumulation Base: Target 1 +9% (₹3229.79), Target 2 +16.5% (₹3452.02), Stop Loss -3.2% (₹2868.29) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 51.5,
+            "confidenceTier": "HIGH",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.21,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 90,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 4.5,
+                "bars": 12
+              },
+              {
+                "depthPercent": 3,
+                "bars": 8
+              },
+              {
+                "depthPercent": 1.7,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": false,
+            "pivotPrice": 2996.48
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 2868.29,
+            "initialStopLossPercent": 3.2,
+            "partialExitTarget": 3229.79,
+            "partialExitPercent": 9,
+            "breakevenPrice": 2963.11,
+            "trailing10Ema": 2966.33,
+            "trailing20Ema": 2929.72,
+            "exitRule": "Sell 33%–50% at Target 1 (₹3229.79 / +9%), move stop to breakeven (₹2963.11). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹2929.72)."
+          },
+          "confluence": {
+            "overallScore": 77,
+            "tier": "GRADE_A_HIGH_CONFLUENCE",
+            "tierLabel": "High Confluence Setup (Grade A)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 90,
+              "orderBookDepthScore": 80,
+              "mlStatisticalScore": 65,
+              "qullamaggieEmaScore": 75
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 34.4,
+              "maxCapitalRiskPercent": 0.64,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +5.01% JEV expectancy. Anchored to 20-day structural support (₹2929.72) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 2951.26,
+              "max": 2986.81
+            },
+            "invalidationStopPrice": 2868.29,
+            "invalidationStopPercent": 3.2,
+            "target1Price": 3229.79,
+            "target1Percent": 9,
+            "target2Price": 3452.02,
+            "target2Percent": 16.5,
+            "jev": {
+              "expectedValuePercent": 5.01,
+              "winProbability": 67.3,
+              "lossProbability": 32.7,
+              "targetGainPercent": 9,
+              "stopLossRiskPercent": 3.2,
+              "riskRewardRatio": 2.8,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.48
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 90,
+              "mlStatisticalScore": 77,
+              "orderBookScore": 64,
+              "qullamaggieEmaScore": 95,
+              "compositeScore": 84
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +5.01% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 63.5% TBQ institutional absorption"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹2868.29 (-3.2%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.628Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204837742-y08z6",
+      "symbol": "TATAMOTORS",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: TATAMOTORS (Stage 2 Swing Breakout)",
+      "message": "Buy quantity reached 65.8%, exceeding your 60.0% threshold (Sell is 34.2%). [AI Confidence: 83% JUMP, Target: +1.22%] [Stage 2 Swing Breakout | Target: +8.5% | Horizon: 5 – 15 Trading Days]",
+      "timestamp": "2026-10-05T12:53:57.742Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 65.8,
+        "sellPercentage": 34.2,
+        "ltp": 988.09,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 83,
+          "consensusScore": 77,
+          "expectedMovePercent": 1.22,
+          "microPrice": 988.11,
+          "microPriceDeltaBps": 0.2,
+          "weightedImbalance": 0.365,
+          "chartAnalysis": {
+            "rsi14": 51.4,
+            "rsiStatus": "BULLISH_MOMENTUM",
+            "ema9": 987.48,
+            "ema21": 988.09,
+            "trend": "SIDEWAYS",
+            "vwap": 988.09,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1.05,
+            "supportPrice": 984.14,
+            "resistancePrice": 992.04,
+            "candlestickPattern": "NONE",
+            "technicalScore": 55,
+            "keyObservations": [
+              "RSI at 51.4 in ideal institutional expansion zone (50-68)",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹988.09)"
+            ]
+          },
+          "executionPlan": {
+            "action": "STRONG_BUY",
+            "entryPrice": 988.09,
+            "targetPrice": 1000.14,
+            "expectedMovePercent": 1.22,
+            "stopLossPrice": 987.87,
+            "stopLossPercent": -0.02,
+            "riskRewardRatio": 54.77,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 80.4
+          },
+          "reasons": [
+            "Order flow buy dominance (66% Buy)",
+            "Multi-level depth buy pressure (+37%)"
+          ],
+          "timestamp": "2026-10-05T12:53:57.631Z"
+        },
+        "swingPlan": {
+          "setupType": "STAGE2_BREAKOUT",
+          "setupName": "Stage 2 Swing Breakout",
+          "stage": "Stage 2 Markup",
+          "entryRange": {
+            "min": 984.14,
+            "max": 995.99
+          },
+          "target1": 1072.08,
+          "target1Percent": 8.5,
+          "target2": 1136.3,
+          "target2Percent": 15,
+          "stopLoss": 960.42,
+          "stopLossPercent": 2.8,
+          "riskRewardRatio": 3,
+          "holdingHorizon": "5 – 15 Trading Days",
+          "dailyRsi": 63.2,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Breaking multi-day consolidation resistance with volume expansion",
+            "Daily RSI at 63 in prime momentum acceleration zone"
+          ],
+          "summary": "Stage 2 Swing Breakout: Target 1 +8.5% (₹1072.08), Target 2 +15% (₹1136.3), Stop Loss -2.8% (₹960.42) [R:R 1:3 | Horizon: 5 – 15 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 57.1,
+            "confidenceTier": "ELITE",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.02,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 98,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 3.1,
+                "bars": 12
+              },
+              {
+                "depthPercent": 2.3,
+                "bars": 8
+              },
+              {
+                "depthPercent": 2.2,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": true,
+            "pivotPrice": 980.52
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 960.42,
+            "initialStopLossPercent": 2.8,
+            "partialExitTarget": 1072.08,
+            "partialExitPercent": 8.5,
+            "breakevenPrice": 988.09,
+            "trailing10Ema": 967.97,
+            "trailing20Ema": 959.77,
+            "exitRule": "Sell 33%–50% at Target 1 (₹1072.08 / +8.5%), move stop to breakeven (₹988.09). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹959.77)."
+          },
+          "confluence": {
+            "overallScore": 84,
+            "tier": "GRADE_A_PLUS_SNIPER",
+            "tierLabel": "Elite Institutional Sniper (Grade A+)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 100,
+              "orderBookDepthScore": 90,
+              "mlStatisticalScore": 88,
+              "qullamaggieEmaScore": 65
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 39.4,
+              "maxCapitalRiskPercent": 0.56,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.56% portfolio equity to target +8.5% at 1:3.0 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 86%) with +5.99% JEV expectancy. Anchored to 20-day structural support (₹959.77) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 984.14,
+              "max": 995.99
+            },
+            "invalidationStopPrice": 960.42,
+            "invalidationStopPercent": 2.8,
+            "target1Price": 1072.08,
+            "target1Percent": 8.5,
+            "target2Price": 1136.3,
+            "target2Percent": 15,
+            "jev": {
+              "expectedValuePercent": 5.99,
+              "winProbability": 77.8,
+              "lossProbability": 22.2,
+              "targetGainPercent": 8.5,
+              "stopLossRiskPercent": 2.8,
+              "riskRewardRatio": 3,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.42
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 98,
+              "mlStatisticalScore": 86,
+              "orderBookScore": 66,
+              "qullamaggieEmaScore": 80,
+              "compositeScore": 86
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +5.99% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 65.8% TBQ institutional absorption",
+              "VCP Volatility Contraction: Volume dry-up confirms institutional supply lock"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹960.42 (-2.8%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.631Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204837932-p8pnm",
+      "symbol": "KOTAKBANK",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: KOTAKBANK (Stage 2 Swing Breakout)",
+      "message": "Buy quantity reached 62.0%, exceeding your 60.0% threshold (Sell is 38.0%). [AI Confidence: 71% JUMP, Target: +0.92%] [Stage 2 Swing Breakout | Target: +8.5% | Horizon: 5 – 15 Trading Days]",
+      "timestamp": "2026-10-05T12:53:57.932Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 61.97,
+        "sellPercentage": 38.03,
+        "ltp": 1814.31,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 71,
+          "consensusScore": 67,
+          "expectedMovePercent": 0.92,
+          "microPrice": 1814.32,
+          "microPriceDeltaBps": 0.1,
+          "weightedImbalance": 0.212,
+          "chartAnalysis": {
+            "rsi14": 50,
+            "rsiStatus": "BULLISH_MOMENTUM",
+            "ema9": 1814.35,
+            "ema21": 1814.31,
+            "trend": "SIDEWAYS",
+            "vwap": 1814.31,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1,
+            "supportPrice": 1807.05,
+            "resistancePrice": 1821.57,
+            "candlestickPattern": "NONE",
+            "technicalScore": 55,
+            "keyObservations": [
+              "RSI at 50 in ideal institutional expansion zone (50-68)",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹1814.31)"
+            ]
+          },
+          "executionPlan": {
+            "action": "BUY",
+            "entryPrice": 1814.31,
+            "targetPrice": 1831,
+            "expectedMovePercent": 0.92,
+            "stopLossPrice": 1813.97,
+            "stopLossPercent": -0.02,
+            "riskRewardRatio": 49.09,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 69.3
+          },
+          "reasons": [
+            "Consistent buying pressure across order depth"
+          ],
+          "timestamp": "2026-10-05T12:53:57.634Z"
+        },
+        "swingPlan": {
+          "setupType": "STAGE2_BREAKOUT",
+          "setupName": "Stage 2 Swing Breakout",
+          "stage": "Stage 2 Markup",
+          "entryRange": {
+            "min": 1807.05,
+            "max": 1828.82
+          },
+          "target1": 1968.53,
+          "target1Percent": 8.5,
+          "target2": 2086.46,
+          "target2Percent": 15,
+          "stopLoss": 1763.51,
+          "stopLossPercent": 2.8,
+          "riskRewardRatio": 3,
+          "holdingHorizon": "5 – 15 Trading Days",
+          "dailyRsi": 71.6,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Breaking multi-day consolidation resistance with volume expansion",
+            "Daily RSI at 72 in prime momentum acceleration zone"
+          ],
+          "summary": "Stage 2 Swing Breakout: Target 1 +8.5% (₹1968.53), Target 2 +15% (₹2086.46), Stop Loss -2.8% (₹1763.51) [R:R 1:3 | Horizon: 5 – 15 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 57.1,
+            "confidenceTier": "ELITE",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.18,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 98,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 3.3,
+                "bars": 12
+              },
+              {
+                "depthPercent": 2.5,
+                "bars": 8
+              },
+              {
+                "depthPercent": 1.6,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": true,
+            "pivotPrice": 1811.87
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 1763.51,
+            "initialStopLossPercent": 2.8,
+            "partialExitTarget": 1968.53,
+            "partialExitPercent": 8.5,
+            "breakevenPrice": 1814.31,
+            "trailing10Ema": 1798.92,
+            "trailing20Ema": 1782.88,
+            "exitRule": "Sell 33%–50% at Target 1 (₹1968.53 / +8.5%), move stop to breakeven (₹1814.31). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹1782.88)."
+          },
+          "confluence": {
+            "overallScore": 82,
+            "tier": "GRADE_A_HIGH_CONFLUENCE",
+            "tierLabel": "High Confluence Setup (Grade A)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 100,
+              "orderBookDepthScore": 80,
+              "mlStatisticalScore": 88,
+              "qullamaggieEmaScore": 65
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 38,
+              "maxCapitalRiskPercent": 0.56,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.56% portfolio equity to target +8.5% at 1:3.0 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 86%) with +5.82% JEV expectancy. Anchored to 20-day structural support (₹1782.88) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 1807.05,
+              "max": 1828.82
+            },
+            "invalidationStopPrice": 1763.51,
+            "invalidationStopPercent": 2.8,
+            "target1Price": 1968.53,
+            "target1Percent": 8.5,
+            "target2Price": 2086.46,
+            "target2Percent": 15,
+            "jev": {
+              "expectedValuePercent": 5.82,
+              "winProbability": 76.3,
+              "lossProbability": 23.7,
+              "targetGainPercent": 8.5,
+              "stopLossRiskPercent": 2.8,
+              "riskRewardRatio": 3,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.42
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 98,
+              "mlStatisticalScore": 86,
+              "orderBookScore": 62,
+              "qullamaggieEmaScore": 95,
+              "compositeScore": 86
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +5.82% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 62.0% TBQ institutional absorption",
+              "VCP Volatility Contraction: Volume dry-up confirms institutional supply lock"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹1763.51 (-2.8%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.634Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204838025-hehbe",
+      "symbol": "BAJFINANCE",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: BAJFINANCE (Institutional Accumulation Base)",
+      "message": "Buy quantity reached 62.2%, exceeding your 60.0% threshold (Sell is 37.8%). [AI Confidence: 75% JUMP, Target: +1.03%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
+      "timestamp": "2026-10-05T12:53:58.025Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 62.2,
+        "sellPercentage": 37.8,
+        "ltp": 7447.27,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 75,
+          "consensusScore": 70,
+          "expectedMovePercent": 1.03,
+          "microPrice": 7447.28,
+          "microPriceDeltaBps": 0,
+          "weightedImbalance": 0.253,
+          "chartAnalysis": {
+            "rsi14": 50.4,
+            "rsiStatus": "BULLISH_MOMENTUM",
+            "ema9": 7446.08,
+            "ema21": 7447.27,
+            "trend": "SIDEWAYS",
+            "vwap": 7447.27,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1.01,
+            "supportPrice": 7417.48,
+            "resistancePrice": 7477.06,
+            "candlestickPattern": "NONE",
+            "technicalScore": 55,
+            "keyObservations": [
+              "RSI at 50.4 in ideal institutional expansion zone (50-68)",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹7447.27)"
+            ]
+          },
+          "executionPlan": {
+            "action": "BUY",
+            "entryPrice": 7447.27,
+            "targetPrice": 7523.98,
+            "expectedMovePercent": 1.03,
+            "stopLossPrice": 7447.05,
+            "stopLossPercent": 0,
+            "riskRewardRatio": 348.68,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 73
+          },
+          "reasons": [
+            "Consistent buying pressure across order depth"
+          ],
+          "timestamp": "2026-10-05T12:53:57.635Z"
+        },
+        "swingPlan": {
+          "setupType": "ACCUMULATION_SQUEEZE",
+          "setupName": "Institutional Accumulation Base",
+          "stage": "Volatility Contraction",
+          "entryRange": {
+            "min": 7417.48,
+            "max": 7506.85
+          },
+          "target1": 8117.52,
+          "target1Percent": 9,
+          "target2": 8676.07,
+          "target2Percent": 16.5,
+          "stopLoss": 7208.96,
+          "stopLossPercent": 3.2,
+          "riskRewardRatio": 2.8,
+          "holdingHorizon": "7 – 20 Trading Days",
+          "dailyRsi": 78.7,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Heavy buy liquidity concentration (62.2% TBQ)",
+            "Prolonged base accumulation preceding multi-week expansion"
+          ],
+          "summary": "Institutional Accumulation Base: Target 1 +9% (₹8117.52), Target 2 +16.5% (₹8676.07), Stop Loss -3.2% (₹7208.96) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 51.5,
+            "confidenceTier": "HIGH",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.1,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 90,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 2.9,
+                "bars": 12
+              },
+              {
+                "depthPercent": 2.4,
+                "bars": 8
+              },
+              {
+                "depthPercent": 2.5,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": false,
+            "pivotPrice": 7446.54
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 7208.96,
+            "initialStopLossPercent": 3.2,
+            "partialExitTarget": 8117.52,
+            "partialExitPercent": 9,
+            "breakevenPrice": 7447.27,
+            "trailing10Ema": 7325.37,
+            "trailing20Ema": 7232.6,
+            "exitRule": "Sell 33%–50% at Target 1 (₹8117.52 / +9%), move stop to breakeven (₹7447.27). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹7232.60)."
+          },
+          "confluence": {
+            "overallScore": 76,
+            "tier": "GRADE_A_HIGH_CONFLUENCE",
+            "tierLabel": "High Confluence Setup (Grade A)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 90,
+              "orderBookDepthScore": 80,
+              "mlStatisticalScore": 65,
+              "qullamaggieEmaScore": 65
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 33.7,
+              "maxCapitalRiskPercent": 0.64,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 82%) with +5.69% JEV expectancy. Anchored to 20-day structural support (₹7232.60) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 7417.48,
+              "max": 7506.85
+            },
+            "invalidationStopPrice": 7208.96,
+            "invalidationStopPercent": 3.2,
+            "target1Price": 8117.52,
+            "target1Percent": 9,
+            "target2Price": 8676.07,
+            "target2Percent": 16.5,
+            "jev": {
+              "expectedValuePercent": 5.69,
+              "winProbability": 72.9,
+              "lossProbability": 27.1,
+              "targetGainPercent": 9,
+              "stopLossRiskPercent": 3.2,
+              "riskRewardRatio": 2.8,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.48
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 90,
+              "mlStatisticalScore": 77,
+              "orderBookScore": 62,
+              "qullamaggieEmaScore": 80,
+              "compositeScore": 82
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +5.69% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 62.2% TBQ institutional absorption"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹7208.96 (-3.2%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.635Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204838141-vcyo2",
+      "symbol": "TITAN",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: TITAN (Institutional Accumulation Base)",
+      "message": "Buy quantity reached 60.5%, exceeding your 60.0% threshold (Sell is 39.5%). [AI Confidence: 72% JUMP, Target: +0.96%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
+      "timestamp": "2026-10-05T12:53:58.141Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 60.47,
+        "sellPercentage": 39.53,
+        "ltp": 3712.29,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 72,
+          "consensusScore": 68,
+          "expectedMovePercent": 0.96,
+          "microPrice": 3712.3,
+          "microPriceDeltaBps": 0,
+          "weightedImbalance": 0.219,
+          "chartAnalysis": {
+            "rsi14": 51.3,
+            "rsiStatus": "BULLISH_MOMENTUM",
+            "ema9": 3710.14,
+            "ema21": 3712.29,
+            "trend": "SIDEWAYS",
+            "vwap": 3712.29,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1.04,
+            "supportPrice": 3697.44,
+            "resistancePrice": 3727.14,
+            "candlestickPattern": "NONE",
+            "technicalScore": 55,
+            "keyObservations": [
+              "RSI at 51.3 in ideal institutional expansion zone (50-68)",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹3712.29)"
+            ]
+          },
+          "executionPlan": {
+            "action": "BUY",
+            "entryPrice": 3712.29,
+            "targetPrice": 3747.93,
+            "expectedMovePercent": 0.96,
+            "stopLossPrice": 3711.9,
+            "stopLossPercent": -0.01,
+            "riskRewardRatio": 91.38,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 70.2
+          },
+          "reasons": [
+            "Consistent buying pressure across order depth"
+          ],
+          "timestamp": "2026-10-05T12:53:57.635Z"
+        },
+        "swingPlan": {
+          "setupType": "ACCUMULATION_SQUEEZE",
+          "setupName": "Institutional Accumulation Base",
+          "stage": "Volatility Contraction",
+          "entryRange": {
+            "min": 3697.44,
+            "max": 3741.99
+          },
+          "target1": 4046.4,
+          "target1Percent": 9,
+          "target2": 4324.82,
+          "target2Percent": 16.5,
+          "stopLoss": 3593.5,
+          "stopLossPercent": 3.2,
+          "riskRewardRatio": 2.8,
+          "holdingHorizon": "7 – 20 Trading Days",
+          "dailyRsi": 87,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Heavy buy liquidity concentration (60.5% TBQ)",
+            "Prolonged base accumulation preceding multi-week expansion"
+          ],
+          "summary": "Institutional Accumulation Base: Target 1 +9% (₹4046.4), Target 2 +16.5% (₹4324.82), Stop Loss -3.2% (₹3593.5) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 51.5,
+            "confidenceTier": "HIGH",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.25,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 98,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 4.2,
+                "bars": 12
+              },
+              {
+                "depthPercent": 3.5,
+                "bars": 8
+              },
+              {
+                "depthPercent": 2.2,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": true,
+            "pivotPrice": 3762.32
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 3593.5,
+            "initialStopLossPercent": 3.2,
+            "partialExitTarget": 4046.4,
+            "partialExitPercent": 9,
+            "breakevenPrice": 3712.29,
+            "trailing10Ema": 3700.17,
+            "trailing20Ema": 3641.71,
+            "exitRule": "Sell 33%–50% at Target 1 (₹4046.40 / +9%), move stop to breakeven (₹3712.29). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹3641.71)."
+          },
+          "confluence": {
+            "overallScore": 78,
+            "tier": "GRADE_A_HIGH_CONFLUENCE",
+            "tierLabel": "High Confluence Setup (Grade A)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 100,
+              "orderBookDepthScore": 80,
+              "mlStatisticalScore": 65,
+              "qullamaggieEmaScore": 65
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 35.1,
+              "maxCapitalRiskPercent": 0.64,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 85%) with +5.8% JEV expectancy. Anchored to 20-day structural support (₹3641.71) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 3697.44,
+              "max": 3741.99
+            },
+            "invalidationStopPrice": 3593.5,
+            "invalidationStopPercent": 3.2,
+            "target1Price": 4046.4,
+            "target1Percent": 9,
+            "target2Price": 4324.82,
+            "target2Percent": 16.5,
+            "jev": {
+              "expectedValuePercent": 5.8,
+              "winProbability": 73.8,
+              "lossProbability": 26.2,
+              "targetGainPercent": 9,
+              "stopLossRiskPercent": 3.2,
+              "riskRewardRatio": 2.8,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.48
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 98,
+              "mlStatisticalScore": 77,
+              "orderBookScore": 60,
+              "qullamaggieEmaScore": 95,
+              "compositeScore": 85
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +5.8% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 60.5% TBQ institutional absorption",
+              "VCP Volatility Contraction: Volume dry-up confirms institutional supply lock"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹3593.50 (-3.2%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.636Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204838170-t1bu8",
+      "symbol": "HINDUNILVR",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: HINDUNILVR (Institutional Accumulation Base)",
+      "message": "Buy quantity reached 61.2%, exceeding your 60.0% threshold (Sell is 38.8%). [AI Confidence: 69% JUMP, Target: +0.87%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
+      "timestamp": "2026-10-05T12:53:58.170Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 61.21,
+        "sellPercentage": 38.79,
+        "ltp": 2851.36,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 69,
+          "consensusScore": 66,
+          "expectedMovePercent": 0.87,
+          "microPrice": 2851.37,
+          "microPriceDeltaBps": 0,
+          "weightedImbalance": 0.185,
+          "chartAnalysis": {
+            "rsi14": 51.8,
+            "rsiStatus": "BULLISH_MOMENTUM",
+            "ema9": 2849.08,
+            "ema21": 2851.36,
+            "trend": "SIDEWAYS",
+            "vwap": 2851.36,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1.06,
+            "supportPrice": 2839.95,
+            "resistancePrice": 2862.77,
+            "candlestickPattern": "NONE",
+            "technicalScore": 55,
+            "keyObservations": [
+              "RSI at 51.8 in ideal institutional expansion zone (50-68)",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹2851.36)"
+            ]
+          },
+          "executionPlan": {
+            "action": "BUY",
+            "entryPrice": 2851.36,
+            "targetPrice": 2876.17,
+            "expectedMovePercent": 0.87,
+            "stopLossPrice": 2851.06,
+            "stopLossPercent": -0.01,
+            "riskRewardRatio": 82.7,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 67.5
+          },
+          "reasons": [
+            "Consistent buying pressure across order depth"
+          ],
+          "timestamp": "2026-10-05T12:53:57.636Z"
+        },
+        "swingPlan": {
+          "setupType": "ACCUMULATION_SQUEEZE",
+          "setupName": "Institutional Accumulation Base",
+          "stage": "Volatility Contraction",
+          "entryRange": {
+            "min": 2839.95,
+            "max": 2874.17
+          },
+          "target1": 3107.98,
+          "target1Percent": 9,
+          "target2": 3321.83,
+          "target2Percent": 16.5,
+          "stopLoss": 2760.12,
+          "stopLossPercent": 3.2,
+          "riskRewardRatio": 2.8,
+          "holdingHorizon": "7 – 20 Trading Days",
+          "dailyRsi": 78.8,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Heavy buy liquidity concentration (61.2% TBQ)",
+            "Prolonged base accumulation preceding multi-week expansion"
+          ],
+          "summary": "Institutional Accumulation Base: Target 1 +9% (₹3107.98), Target 2 +16.5% (₹3321.83), Stop Loss -3.2% (₹2760.12) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 51.5,
+            "confidenceTier": "HIGH",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.13,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 90,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 5,
+                "bars": 12
+              },
+              {
+                "depthPercent": 2.8,
+                "bars": 8
+              },
+              {
+                "depthPercent": 1.8,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": false,
+            "pivotPrice": 2876.53
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 2760.12,
+            "initialStopLossPercent": 3.2,
+            "partialExitTarget": 3107.98,
+            "partialExitPercent": 9,
+            "breakevenPrice": 2851.36,
+            "trailing10Ema": 2831.43,
+            "trailing20Ema": 2789.72,
+            "exitRule": "Sell 33%–50% at Target 1 (₹3107.98 / +9%), move stop to breakeven (₹2851.36). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹2789.72)."
+          },
+          "confluence": {
+            "overallScore": 76,
+            "tier": "GRADE_A_HIGH_CONFLUENCE",
+            "tierLabel": "High Confluence Setup (Grade A)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 90,
+              "orderBookDepthScore": 80,
+              "mlStatisticalScore": 65,
+              "qullamaggieEmaScore": 65
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 33.7,
+              "maxCapitalRiskPercent": 0.64,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +5.64% JEV expectancy. Anchored to 20-day structural support (₹2789.72) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 2839.95,
+              "max": 2874.17
+            },
+            "invalidationStopPrice": 2760.12,
+            "invalidationStopPercent": 3.2,
+            "target1Price": 3107.98,
+            "target1Percent": 9,
+            "target2Price": 3321.83,
+            "target2Percent": 16.5,
+            "jev": {
+              "expectedValuePercent": 5.64,
+              "winProbability": 72.5,
+              "lossProbability": 27.5,
+              "targetGainPercent": 9,
+              "stopLossRiskPercent": 3.2,
+              "riskRewardRatio": 2.8,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.48
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 90,
+              "mlStatisticalScore": 77,
+              "orderBookScore": 61,
+              "qullamaggieEmaScore": 95,
+              "compositeScore": 84
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +5.64% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 61.2% TBQ institutional absorption"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹2760.12 (-3.2%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.636Z"
+          }
+        }
+      }
+    },
+    {
+      "id": "alert-1791204838196-fj22e",
+      "symbol": "NTPC",
+      "type": "SCANNER_TRIGGER",
+      "title": "Swing Setup Triggered: NTPC (Institutional Accumulation Base)",
+      "message": "Buy quantity reached 61.9%, exceeding your 60.0% threshold (Sell is 38.1%). [AI Confidence: 77% JUMP, Target: +1.09%] [Institutional Accumulation Base | Target: +9% | Horizon: 7 – 20 Trading Days]",
+      "timestamp": "2026-10-05T12:53:58.196Z",
+      "read": false,
+      "metadata": {
+        "buyPercentage": 61.89,
+        "sellPercentage": 38.11,
+        "ltp": 409.79,
+        "prediction": {
+          "signal": "JUMP",
+          "direction": 1,
+          "confidence": 77,
+          "consensusScore": 69,
+          "expectedMovePercent": 1.09,
+          "microPrice": 409.81,
+          "microPriceDeltaBps": 0.5,
+          "weightedImbalance": 0.275,
+          "chartAnalysis": {
+            "rsi14": 48.6,
+            "rsiStatus": "NEUTRAL",
+            "ema9": 410.04,
+            "ema21": 409.79,
+            "trend": "SIDEWAYS",
+            "vwap": 409.79,
+            "priceVsVwapPercent": 0,
+            "volumeSurgeRatio": 1.04,
+            "supportPrice": 408.15,
+            "resistancePrice": 411.43,
+            "candlestickPattern": "NONE",
+            "technicalScore": 40,
+            "keyObservations": [
+              "RSI at 48.6 indicates balanced consolidation",
+              "Price consolidating between key moving averages",
+              "Trading 0% below intraday VWAP (₹409.79)"
+            ]
+          },
+          "executionPlan": {
+            "action": "BUY",
+            "entryPrice": 409.79,
+            "targetPrice": 414.26,
+            "expectedMovePercent": 1.09,
+            "stopLossPrice": 409.53,
+            "stopLossPercent": -0.06,
+            "riskRewardRatio": 17.19,
+            "kellyAllocationPercent": 15,
+            "spoofRisk": "LOW",
+            "regime": "BULLISH_BREAKOUT",
+            "investorVerdict": "ACCUMULATE",
+            "alignment": "PARTIAL_ALIGNMENT",
+            "calibratedWinProbability": 74.8
+          },
+          "reasons": [
+            "Consistent buying pressure across order depth"
+          ],
+          "timestamp": "2026-10-05T12:53:57.637Z"
+        },
+        "swingPlan": {
+          "setupType": "ACCUMULATION_SQUEEZE",
+          "setupName": "Institutional Accumulation Base",
+          "stage": "Volatility Contraction",
+          "entryRange": {
+            "min": 408.15,
+            "max": 413.07
+          },
+          "target1": 446.67,
+          "target1Percent": 9,
+          "target2": 477.41,
+          "target2Percent": 16.5,
+          "stopLoss": 396.68,
+          "stopLossPercent": 3.2,
+          "riskRewardRatio": 2.8,
+          "holdingHorizon": "7 – 20 Trading Days",
+          "dailyRsi": 72.7,
+          "trendAlignment": "BULLISH_STACK",
+          "catalysts": [
+            "Price holding firmly above rising 20-day EMA",
+            "Heavy buy liquidity concentration (61.9% TBQ)",
+            "Prolonged base accumulation preceding multi-week expansion"
+          ],
+          "summary": "Institutional Accumulation Base: Target 1 +9% (₹446.67), Target 2 +16.5% (₹477.41), Stop Loss -3.2% (₹396.68) [R:R 1:2.8 | Horizon: 7 – 20 Trading Days]",
+          "mlEngine": {
+            "modelType": "XGBoost (Real NSE Historical Data)",
+            "trainingSamples": 29520,
+            "winProbability": 51.5,
+            "confidenceTier": "HIGH",
+            "topFeatureDrivers": [
+              "ATR Volatility Scaling (9.5% weight)",
+              "20 EMA Momentum Slope (7.7% weight)",
+              "200 EMA Macro Regime (7.3% weight)",
+              "RSI 14 Momentum (6.6% weight)"
+            ],
+            "backtestedRocAuc": 0.53
+          },
+          "adrPercent": 1.26,
+          "minerviniTemplate": {
+            "passed": true,
+            "score": 6,
+            "maxScore": 8,
+            "criteria": {
+              "priceAbove150and200": true,
+              "sma150Above200": false,
+              "sma200TrendingUp": true,
+              "sma50Above150and200": true,
+              "priceAbove50": true,
+              "price30PctAbove52wLow": false,
+              "priceWithin25Pct52wHigh": true,
+              "relativeStrengthHigh": true
+            },
+            "passedRules": [
+              "Price > 150 & 200 SMA (Long-term uptrend)",
+              "200 SMA slope is rising",
+              "50 SMA > 150 & 200 SMA (Intermediate leadership)",
+              "Price > 50 SMA (Institutional support)",
+              "Price within 25% of 52-week high (Leader proximity)",
+              "Positive relative strength vs broad market"
+            ],
+            "failedRules": [
+              "150 SMA lagging 200 SMA",
+              "Price near 52-week low"
+            ]
+          },
+          "vcp": {
+            "isVcpDetected": true,
+            "tightnessScore": 90,
+            "contractionCount": 3,
+            "contractions": [
+              {
+                "depthPercent": 4.5,
+                "bars": 12
+              },
+              {
+                "depthPercent": 2.9,
+                "bars": 8
+              },
+              {
+                "depthPercent": 1.9,
+                "bars": 4
+              }
+            ],
+            "isVolumeDryingUp": false,
+            "pivotPrice": 418.96
+          },
+          "qullamaggieTrailing": {
+            "initialStopLoss": 396.68,
+            "initialStopLossPercent": 3.2,
+            "partialExitTarget": 446.67,
+            "partialExitPercent": 9,
+            "breakevenPrice": 409.79,
+            "trailing10Ema": 413.2,
+            "trailing20Ema": 408.42,
+            "exitRule": "Sell 33%–50% at Target 1 (₹446.67 / +9%), move stop to breakeven (₹409.79). Trail remaining runners on Daily candle close below 10/20 EMA (currently ₹408.42)."
+          },
+          "confluence": {
+            "overallScore": 77,
+            "tier": "GRADE_A_HIGH_CONFLUENCE",
+            "tierLabel": "High Confluence Setup (Grade A)",
+            "breakdown": {
+              "minerviniScore": 75,
+              "vcpTightnessScore": 90,
+              "orderBookDepthScore": 80,
+              "mlStatisticalScore": 65,
+              "qullamaggieEmaScore": 75
+            },
+            "kellyAllocation": {
+              "recommendedPositionSizePercent": 20,
+              "halfKellyPercent": 34.4,
+              "maxCapitalRiskPercent": 0.64,
+              "rationale": "Half-Kelly sizing suggests 20% allocation risking 0.64% portfolio equity to target +9% at 1:2.8 R:R."
+            },
+            "macroMarketEdge": {
+              "niftyRegime": "BULLISH_TREND",
+              "breadthAdvancers": 36,
+              "breadthDecliners": 14,
+              "regimeMultiplier": 1.15
+            }
+          },
+          "twoDayDecision": {
+            "verdict": "CONVINCING_BUY",
+            "verdictLabel": "CONVINCING BUY (2-Day+ Swing)",
+            "holdingHorizonDays": "2 to 5 Trading Days (Min 2 Days)",
+            "sustainabilityReason": "High multi-model confluence (Score: 84%) with +4.94% JEV expectancy. Anchored to 20-day structural support (₹408.42) which sustains against intraday noise.",
+            "entryZone": {
+              "min": 408.15,
+              "max": 413.07
+            },
+            "invalidationStopPrice": 396.68,
+            "invalidationStopPercent": 3.2,
+            "target1Price": 446.67,
+            "target1Percent": 9,
+            "target2Price": 477.41,
+            "target2Percent": 16.5,
+            "jev": {
+              "expectedValuePercent": 4.94,
+              "winProbability": 66.7,
+              "lossProbability": 33.3,
+              "targetGainPercent": 9,
+              "stopLossRiskPercent": 3.2,
+              "riskRewardRatio": 2.8,
+              "mathematicalEdge": "STRONG_POSITIVE_EDGE",
+              "halfKellyCapitalPercent": 15,
+              "maxCapitalRiskPercent": 0.48
+            },
+            "confluence": {
+              "jevEdgeScore": 100,
+              "minerviniScore": 75,
+              "vcpScore": 90,
+              "mlStatisticalScore": 77,
+              "orderBookScore": 62,
+              "qullamaggieEmaScore": 95,
+              "compositeScore": 84
+            },
+            "convictionTier": "ELITE_5_STAR",
+            "primaryCatalysts": [
+              "Jev Joint Expected Value: +4.94% edge across 2–5 day swing window",
+              "Minervini Stage 2 Validated: 6/8 criteria passed",
+              "Order Book Depth: 61.9% TBQ institutional absorption"
+            ],
+            "riskWarnings": [],
+            "invalidationRule": "Daily candle close below ₹396.68 (-3.2%) invalidates this setup.",
+            "generatedAt": "2026-10-05T12:53:57.637Z"
           }
         }
       }
