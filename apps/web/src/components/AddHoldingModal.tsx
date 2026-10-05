@@ -46,8 +46,10 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
   const [notes, setNotes] = useState('');
   const [showSymbolDropdown, setShowSymbolDropdown] = useState(false);
 
-  // Sync when editingHolding or initialSymbol changes
+  // Sync ONLY when modal opens or when editingHolding / initialSymbol changes
   useEffect(() => {
+    if (!isOpen) return;
+
     if (editingHolding) {
       setSymbol(editingHolding.symbol);
       setBuyPrice(editingHolding.buyPrice);
@@ -71,12 +73,22 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
       setBuyDate(new Date().toISOString().split('T')[0]);
       setNotes('');
     }
-  }, [editingHolding, initialSymbol, initialPrice, initialQuantity, isOpen, quotesMap]);
+  }, [isOpen, editingHolding, initialSymbol, initialPrice, initialQuantity]);
 
   // Selected Stock Details
   const selectedQuote = useMemo(() => {
     return quotesMap.get(symbol.toUpperCase());
   }, [symbol, quotesMap]);
+
+  // Lookup official company name across master universe
+  const resolvedCompanyName = useMemo(() => {
+    if (selectedQuote?.companyName) return selectedQuote.companyName;
+    const match = ALL_NSE_STOCKS.find((s) => s.symbol === symbol.toUpperCase());
+    if (match?.companyName) return match.companyName;
+    const mon = MONITORED_NSE_STOCKS.find((s) => s.symbol === symbol.toUpperCase());
+    if (mon?.companyName) return mon.companyName;
+    return symbol.toUpperCase();
+  }, [selectedQuote, symbol]);
 
   // Model swing plan for the selected stock
   const swingPlan = useMemo(() => {
@@ -111,12 +123,18 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
   }, [searchFilter]);
 
   const handleSelectSymbol = (newSymbol: string) => {
-    setSymbol(newSymbol);
+    const cleanSym = newSymbol.trim().toUpperCase();
+    setSymbol(cleanSym);
     setShowSymbolDropdown(false);
     setSearchFilter('');
-    const q = quotesMap.get(newSymbol.toUpperCase());
-    if (q && (buyPrice === '' || !editingHolding)) {
+    const q = quotesMap.get(cleanSym);
+    if (q) {
       setBuyPrice(q.ltp);
+    } else {
+      const mon = MONITORED_NSE_STOCKS.find((s) => s.symbol === cleanSym);
+      if (mon?.basePrice) {
+        setBuyPrice(mon.basePrice);
+      }
     }
   };
 
@@ -141,7 +159,7 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
     onSave({
       id: editingHolding ? editingHolding.id : undefined,
       symbol: symbol.toUpperCase(),
-      companyName: selectedQuote?.companyName || symbol.toUpperCase(),
+      companyName: resolvedCompanyName,
       buyPrice: numPrice,
       quantity: numQty,
       buyDate: buyDate || new Date().toISOString().split('T')[0],
@@ -195,9 +213,7 @@ export const AddHoldingModal: React.FC<AddHoldingModalProps> = ({
                 <div className="flex items-center space-x-2">
                   <span className="font-mono font-bold text-emerald-400 text-sm">{symbol}</span>
                   <span className="text-xs text-slate-400 truncate max-w-[240px]">
-                    {selectedQuote?.companyName ||
-                      MONITORED_NSE_STOCKS.find((s) => s.symbol === symbol)?.companyName ||
-                      symbol}
+                    {resolvedCompanyName}
                   </span>
                 </div>
                 {!editingHolding && (

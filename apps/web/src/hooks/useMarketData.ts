@@ -32,6 +32,7 @@ import {
   addPortfolioHoldingRemote,
   deletePortfolioHoldingRemote,
   loadPortfolioHoldingsLocally,
+  fetchStockQuote,
   ProviderInfo,
 } from '../services/api.js';
 import { useWebSocket } from './useWebSocket.js';
@@ -326,6 +327,21 @@ export function useMarketData(): UseMarketDataReturn {
       }));
       if (portfolioData.holdings && portfolioData.holdings.length > 0) {
         setRawPortfolioHoldings(portfolioData.holdings);
+        // Hydrate quote cache for any portfolio holding symbols
+        portfolioData.holdings.forEach((h) => {
+          const sym = h.symbol.toUpperCase();
+          fetchStockQuote(sym)
+            .then((q) => {
+              if (q) {
+                setQuotesMap((prev) => {
+                  const next = new Map(prev);
+                  next.set(q.symbol, q);
+                  return next;
+                });
+              }
+            })
+            .catch(() => {});
+        });
       }
     } catch (err: unknown) {
       console.error('[MarketEye] Data load error:', err);
@@ -585,8 +601,24 @@ export function useMarketData(): UseMarketDataReturn {
         }
         return [saved, ...prev];
       });
+
+      // Hydrate live quote for this symbol into quotesMap if not already cached
+      const sym = saved.symbol.toUpperCase();
+      if (!quotesMap.has(sym)) {
+        fetchStockQuote(sym)
+          .then((quote) => {
+            if (quote) {
+              setQuotesMap((prev) => {
+                const next = new Map(prev);
+                next.set(quote.symbol, quote);
+                return next;
+              });
+            }
+          })
+          .catch(() => {});
+      }
     },
-    []
+    [quotesMap]
   );
 
   const updatePortfolioHolding = useCallback(

@@ -20,8 +20,14 @@ export function createPortfolioRouter(
       const quotes = await provider.getAllQuotes();
       const quoteMap = new Map(quotes.map((q) => [q.symbol.toUpperCase(), q]));
 
-      const evaluatedHoldings: PortfolioHolding[] = rawHoldings.map((h) =>
-        evaluatePortfolioHolding(h, quoteMap.get(h.symbol.toUpperCase()))
+      const evaluatedHoldings: PortfolioHolding[] = await Promise.all(
+        rawHoldings.map(async (h) => {
+          let q = quoteMap.get(h.symbol.toUpperCase());
+          if (!q) {
+            q = (await provider.getQuote(h.symbol.toUpperCase())) || undefined;
+          }
+          return evaluatePortfolioHolding(h, q);
+        })
       );
 
       const summary = calculatePortfolioSummary(evaluatedHoldings);

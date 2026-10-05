@@ -5,6 +5,7 @@ import {
   ChartInterval,
   ChartRange,
   MONITORED_NSE_STOCKS,
+  ALL_NSE_STOCKS,
   NSEInstrumentDefinition,
   calculateBuySellPercentages,
   calculateOrderBookImbalance,
@@ -351,8 +352,68 @@ export class MockMarketDataProvider implements MarketDataProvider {
   }
 
   async getQuote(symbol: string): Promise<StockQuote | null> {
-    const state = this.stockStates.get(symbol.toUpperCase());
-    if (!state) return null;
+    const sym = symbol.toUpperCase();
+    let state = this.stockStates.get(sym);
+    if (!state) {
+      // Auto-hydrate state from ALL_NSE_STOCKS or symbol
+      const masterItem = ALL_NSE_STOCKS.find((s) => s.symbol === sym);
+      const companyName = masterItem?.companyName || sym;
+      const basePrice = 250.0;
+      const definition: NSEInstrumentDefinition = {
+        symbol: sym,
+        companyName,
+        basePrice,
+        lotSize: 1,
+        sector: 'NSE Equity',
+        isin: `INE_${sym}`,
+        kiteToken: 0,
+        upstoxKey: `NSE_EQ|${sym}`,
+        dhanSecurityId: sym,
+        angelOneToken: sym,
+      };
+
+      const prevClose = basePrice;
+      const ltp = basePrice;
+      const totalBuyQty = 150000;
+      const totalSellQty = 120000;
+      const { buyPercentage, sellPercentage } = calculateBuySellPercentages(totalBuyQty, totalSellQty);
+      const imbalanceRatio = calculateOrderBookImbalance(totalBuyQty, totalSellQty);
+      const bids = this.generateBids(ltp, totalBuyQty);
+      const asks = this.generateAsks(ltp, totalSellQty);
+
+      state = {
+        definition,
+        ltp,
+        open: ltp,
+        high: Number((ltp * 1.02).toFixed(2)),
+        low: Number((ltp * 0.98).toFixed(2)),
+        close: ltp,
+        previousClose: prevClose,
+        volume: 270000,
+        totalBuyQuantity: totalBuyQty,
+        totalSellQuantity: totalSellQty,
+        targetBuyBias: 0.55,
+        dailyCandles: this.generateDailyCandles(basePrice, true),
+        lastUpdated: Date.now(),
+        orderBook: {
+          symbol: sym,
+          exchange: 'NSE',
+          totalBuyQuantity: totalBuyQty,
+          totalSellQuantity: totalSellQty,
+          buyPercentage,
+          sellPercentage,
+          imbalanceRatio,
+          bids,
+          asks,
+          timestamp: new Date().toISOString(),
+          source: 'MOCK_SIMULATION',
+          isStale: false,
+        },
+      };
+
+      this.stockStates.set(sym, state);
+    }
+
     return this.buildQuote(state, new Date().toISOString());
   }
 
