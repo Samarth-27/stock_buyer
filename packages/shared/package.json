@@ -2,15 +2,15 @@
   "name": "@marketeye/shared",
   "version": "1.0.0",
   "private": true,
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts",
-      "require": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
     }
   },
   "scripts": {
@@ -19,11 +19,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "tsup": "^8.3.6",
-    "typescript": "^5.7.3",
     "vitest": "^3.0.7"
   }
 }
