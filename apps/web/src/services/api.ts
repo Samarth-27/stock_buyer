@@ -146,16 +146,25 @@ export async function switchProviderMode(payload: {
   accessToken?: string;
   clientId?: string;
 }): Promise<any> {
-  const res = await fetch(`${API_BASE}/provider/switch`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Failed to switch provider' }));
-    throw new Error(err.error || 'Failed to switch provider');
+  try {
+    const res = await fetch(`${API_BASE}/provider/switch`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Failed to switch provider' }));
+      throw new Error(err.error || 'Failed to switch provider');
+    }
+    return res.json();
+  } catch (err: any) {
+    if (err.message && !err.message.includes('fetch') && !err.message.includes('NetworkError')) {
+      throw err;
+    }
+    throw new Error(
+      'Cannot connect to MarketEye backend API. Please make sure the local server is running via `npm run dev` at http://localhost:5173.'
+    );
   }
-  return res.json();
 }
 
 export async function angelOneLogin(payload: {
@@ -164,16 +173,25 @@ export async function angelOneLogin(payload: {
   totp: string;
   apiKey: string;
 }): Promise<any> {
-  const res = await fetch(`${API_BASE}/provider/angel-login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Angel One login failed' }));
-    throw new Error(err.error || 'Angel One login failed');
+  try {
+    const res = await fetch(`${API_BASE}/provider/angel-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Angel One login failed' }));
+      throw new Error(err.error || 'Angel One login failed');
+    }
+    return res.json();
+  } catch (err: any) {
+    if (err.message && !err.message.includes('fetch') && !err.message.includes('NetworkError')) {
+      throw err;
+    }
+    throw new Error(
+      'Cannot connect to MarketEye backend API. Please make sure the local server is running via `npm run dev` at http://localhost:5173.'
+    );
   }
-  return res.json();
 }
 
 export async function fetchMarketNews(limit = 30): Promise<StockNewsItem[]> {

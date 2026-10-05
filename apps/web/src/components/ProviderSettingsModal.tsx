@@ -8,6 +8,7 @@ import {
   AlertCircle,
   Database,
   RefreshCw,
+  Info,
 } from 'lucide-react';
 import { ProviderInfo, switchProviderMode, angelOneLogin } from '../services/api.js';
 
@@ -48,9 +49,26 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
     }
   }, [providerInfo]);
 
+  const isStaticDeployment =
+    typeof window !== 'undefined' && window.location.hostname.endsWith('github.io');
+
   if (!isOpen) return null;
 
   const handleAngelLogin = async () => {
+    if (isStaticDeployment) {
+      setErrorMsg(
+        'Live Broker Feeds require the local MarketEye backend API. Please run MarketEye locally via "npm run dev" at http://localhost:5173 to connect your Angel One credentials.'
+      );
+      return;
+    }
+
+    if (!angelClientCode.trim() || !angelPin.trim() || !angelTotp.trim() || !apiKey.trim()) {
+      setErrorMsg(
+        'Please fill in all 4 Angel One fields: Client Code, MPIN, 6-digit TOTP, and SmartAPI API Key.'
+      );
+      return;
+    }
+
     try {
       setLoading(true);
       setErrorMsg(null);
@@ -68,7 +86,7 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
       }
 
       if (res.connected) {
-        setSuccessMsg(`Successfully connected to ${res.name}! Closing...`);
+        setSuccessMsg(`Successfully connected to ${res.name}!`);
         onProviderChanged();
         setTimeout(() => {
           onClose();
@@ -85,9 +103,31 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
   };
 
   const handleConnect = async () => {
+    if (isStaticDeployment && selectedMode !== 'mock') {
+      setErrorMsg(
+        'Live Broker Feeds require the local MarketEye backend API. Please run MarketEye locally via "npm run dev" at http://localhost:5173 to connect your live broker credentials.'
+      );
+      return;
+    }
+
     // If already connected to Angel One and no new token provided, simply close modal
-    if (selectedMode === 'angel' && !accessToken && providerInfo?.id === 'angel-feed' && providerInfo?.connected) {
+    if (
+      selectedMode === 'angel' &&
+      !accessToken &&
+      providerInfo?.id === 'angel-feed' &&
+      providerInfo?.connected
+    ) {
       onClose();
+      return;
+    }
+
+    // Seamless UX: If user filled in 1-Click login credentials, execute 1-Click Angel login automatically!
+    if (
+      selectedMode === 'angel' &&
+      !accessToken.trim() &&
+      (angelClientCode.trim() || angelPin.trim() || angelTotp.trim())
+    ) {
+      await handleAngelLogin();
       return;
     }
 
@@ -151,6 +191,21 @@ export const ProviderSettingsModal: React.FC<ProviderSettingsModalProps> = ({
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Static Deployment Notice */}
+        {isStaticDeployment && (
+          <div className="my-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start space-x-2.5">
+            <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <span className="font-bold block text-amber-200">Browsing GitHub Pages Static Demo</span>
+              <p className="text-[11px] text-amber-300/90 leading-relaxed">
+                Live broker APIs (Angel One, Upstox, Kite) authenticate securely through your backend server. To trade with live broker feeds, run MarketEye locally with{' '}
+                <code className="text-emerald-300 font-mono px-1 py-0.5 bg-slate-900 rounded border border-slate-800">npm run dev</code>{' '}
+                at <strong className="text-white">http://localhost:5173</strong>.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Current Feed Status Badge */}
         <div className="my-4 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
