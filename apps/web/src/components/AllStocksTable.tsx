@@ -115,6 +115,7 @@ export const AllStocksTable: React.FC<AllStocksTableProps> = ({
               <th className="py-3 px-3 text-right">Change %</th>
               <th className="py-3 px-3 text-center">Buy / Sell Order Imbalance</th>
               <th className="py-3 px-3 text-center">Swing Blueprint (3–15D)</th>
+              <th className="py-3 px-3 text-center">2-Day Decision (Jev)</th>
               <th className="py-3 px-3 text-center">AI Forecast</th>
               <th className="py-3 px-3 text-right">Volume</th>
               <th className="py-3 px-3 text-center">Status</th>
@@ -227,6 +228,45 @@ export const AllStocksTable: React.FC<AllStocksTableProps> = ({
                     ) : (
                       <span className="text-slate-600 text-[10px]">Analyzing...</span>
                     )}
+                  </td>
+
+                  {/* 2-Day Swing Verdict & Jev Edge */}
+                  <td className="py-3 px-3 text-center">
+                    {(() => {
+                      const dec = stock.twoDayDecision ?? stock.swingPlan?.twoDayDecision;
+                      const v = dec?.verdict ?? 'WATCHLIST_PULLBACK';
+                      const isB = v === 'CONVINCING_BUY';
+                      const isP = v === 'PASS_DO_NOT_BUY';
+                      const ev = dec?.jev?.expectedValuePercent;
+                      return (
+                        <div className="inline-flex flex-col items-center">
+                          <span
+                            className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide font-mono ${
+                              isB
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 shadow-sm'
+                                : isP
+                                ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                                : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                            }`}
+                            title={dec?.sustainabilityReason || '2-Day Swing Decision'}
+                          >
+                            <span>{isB ? '🟢 BUY (2-5D)' : isP ? '🔴 PASS' : '🟡 WATCH'}</span>
+                          </span>
+                          {ev !== undefined && (
+                            <span className="text-[9px] font-mono text-slate-400 mt-0.5">
+                              JEV:{' '}
+                              <strong
+                                className={
+                                  ev >= 1.5 ? 'text-emerald-400' : ev > 0 ? 'text-cyan-300' : 'text-rose-400'
+                                }
+                              >
+                                {ev >= 0 ? `+${ev}%` : `${ev}%`}
+                              </strong>
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </td>
 
                   {/* AI Forecast */}

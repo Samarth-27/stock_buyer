@@ -298,4 +298,60 @@ describe('Swing Trading Blueprint Calculations', () => {
     expect(typeof res.matches).toBe('boolean');
     expect(res.reason).toBeDefined();
   });
+
+  describe('Authoritative 2-Day+ Swing Trading Decision Engine (Jev Consensus)', () => {
+    it('produces an authoritative CONVINCING_BUY with positive JEV expectancy for quality setups', () => {
+      const quote = { ltp: 1500, changePercent: 1.8, volume: 80000, buyPercentage: 62.0 };
+      const orderBook = {
+        symbol: 'INFY',
+        exchange: 'NSE' as const,
+        totalBuyQuantity: 62000,
+        totalSellQuantity: 38000,
+        buyPercentage: 62.0,
+        sellPercentage: 38.0,
+        imbalanceRatio: 0.24,
+        bids: [],
+        asks: [],
+        timestamp: new Date().toISOString(),
+        source: 'MOCK',
+        isStale: false,
+      };
+
+      const plan = calculateSwingTradePlan(quote, orderBook);
+      expect(plan.twoDayDecision).toBeDefined();
+      expect(plan.twoDayDecision?.verdict).toBe('CONVINCING_BUY');
+      expect(plan.twoDayDecision?.verdictLabel).toContain('CONVINCING BUY');
+      expect(plan.twoDayDecision?.holdingHorizonDays).toBe('2 to 5 Trading Days (Min 2 Days)');
+      expect(plan.twoDayDecision?.jev.expectedValuePercent).toBeGreaterThan(1.0);
+      expect(plan.twoDayDecision?.jev.winProbability).toBeGreaterThanOrEqual(50);
+      expect(plan.twoDayDecision?.jev.halfKellyCapitalPercent).toBeGreaterThan(0);
+      expect(plan.twoDayDecision?.invalidationRule).toContain('Daily candle close below');
+      expect(plan.twoDayDecision?.sustainabilityReason).toContain('20-day structural support');
+    });
+
+    it('produces PASS_DO_NOT_BUY when stock is in Stage 4 or heavy sell pressure', () => {
+      const quote = { ltp: 500, changePercent: -3.5, volume: 100000, buyPercentage: 30.0 };
+      const orderBook = {
+        symbol: 'WEAKSTOCK',
+        exchange: 'NSE' as const,
+        totalBuyQuantity: 30000,
+        totalSellQuantity: 70000,
+        buyPercentage: 30.0,
+        sellPercentage: 70.0,
+        imbalanceRatio: -0.4,
+        bids: [],
+        asks: [],
+        timestamp: new Date().toISOString(),
+        source: 'MOCK',
+        isStale: false,
+      };
+
+      const plan = calculateSwingTradePlan(quote, orderBook);
+      expect(plan.twoDayDecision).toBeDefined();
+      expect(plan.twoDayDecision?.verdict).toBe('PASS_DO_NOT_BUY');
+      expect(plan.twoDayDecision?.verdictLabel).toBe('PASS / DO NOT BUY');
+      expect(plan.twoDayDecision?.riskWarnings.length).toBeGreaterThan(0);
+    });
+  });
 });
+

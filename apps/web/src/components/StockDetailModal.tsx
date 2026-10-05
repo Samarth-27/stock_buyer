@@ -277,6 +277,8 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
                 prediction={prediction}
                 ltp={ltp}
                 buyPct={buyPct}
+                swingPlan={swingPlan}
+                twoDayDecision={quote?.twoDayDecision ?? swingPlan?.twoDayDecision}
               />
             )}
           </div>
@@ -320,6 +322,8 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
                 prediction={prediction}
                 ltp={ltp}
                 buyPct={buyPct}
+                swingPlan={swingPlan}
+                twoDayDecision={quote?.twoDayDecision ?? swingPlan?.twoDayDecision}
               />
             )}
           </div>

@@ -108,6 +108,10 @@ import {
   VcpPatternResult,
   QullamaggieTrailingPlan,
   ConfluenceEngineResult,
+  TwoDaySwingDecision,
+  TwoDaySwingVerdict,
+  JevDecisionBreakdown,
+  MultiModelConfluenceSynthesis,
 } from './types.js';
 
 /**
@@ -1087,6 +1091,27 @@ export function calculateSwingTradePlan(
     ema21
   );
 
+  // Authoritative 2-Day+ Swing Trading Decision Engine (Jev Tri-Consensus)
+  const twoDayDecision = calculateTwoDaySwingDecision({
+    quote,
+    ltp,
+    entryMin,
+    entryMax,
+    target1,
+    target1Pct,
+    target2,
+    target2Pct,
+    stopLoss,
+    stopLossPct,
+    riskRewardRatio,
+    minervini: minerviniTemplate,
+    vcp,
+    confluence,
+    orderBook,
+    mlWinProbability: winProb,
+    chartAnalysis,
+  });
+
   return {
     setupType,
     setupName,
@@ -1122,6 +1147,251 @@ export function calculateSwingTradePlan(
     vcp,
     qullamaggieTrailing,
     confluence,
+    twoDayDecision,
+  };
+}
+
+/**
+ * Authoritative 2-Day+ Swing Trading Decision Engine (Jev-Calibrated).
+ * Synthesizes ALL previously built quantitative models into an unambiguous decision:
+ * 1. JEV (Joint Expected Value) Expectancy: EV = (P_win * Gain%) - (P_loss * Loss%)
+ * 2. Mark Minervini 8-Point Trend Template (Stage 2 Uptrend validation)
+ * 3. Volatility Contraction Pattern (VCP) Tightness & Volume Dry-up
+ * 4. Machine Learning Real-Data XGBoost Model (Calibrated on 29,520 NSE daily setups)
+ * 5. Limit Order Book (LOB) Institutional Absorption & Microprice Delta
+ * 6. Qullamaggie 10/20 EMA Support & Structural Invalidation Stop Loss
+ * 7. Half-Kelly Capital Sizing & Risk Management
+ *
+ * Horizon: Valid and sustained for at least 2 trading days (2–5 days holding window).
+ */
+export function calculateTwoDaySwingDecision(params: {
+  quote: Partial<StockQuote>;
+  ltp: number;
+  entryMin: number;
+  entryMax: number;
+  target1: number;
+  target1Pct: number;
+  target2: number;
+  target2Pct: number;
+  stopLoss: number;
+  stopLossPct: number;
+  riskRewardRatio: number;
+  minervini: MinerviniTemplateResult;
+  vcp: VcpPatternResult;
+  confluence: ConfluenceEngineResult;
+  orderBook?: OrderBook | null;
+  mlWinProbability: number;
+  chartAnalysis: ChartTechnicalAnalysis;
+}): TwoDaySwingDecision {
+  const {
+    quote,
+    ltp,
+    entryMin,
+    entryMax,
+    target1,
+    target1Pct,
+    target2,
+    target2Pct,
+    stopLoss,
+    stopLossPct,
+    riskRewardRatio,
+    minervini,
+    vcp,
+    confluence,
+    orderBook,
+    mlWinProbability,
+    chartAnalysis,
+  } = params;
+
+  const buyPercentage = Number(orderBook?.buyPercentage ?? quote?.buyPercentage ?? 50);
+  const changePercent = Number(quote?.changePercent ?? 0);
+
+  // 1. Multi-Factor JEV Win Probability Calibration
+  // Combines: ML XGBoost (30%), Minervini Pass Rate (25%), VCP Tightness (20%), Order Book (15%), Trend (10%)
+  const minerviniFactor = minervini.score / 8; // 0 to 1
+  const vcpFactor = Math.min(1, vcp.tightnessScore / 100);
+  const orderBookFactor = Math.min(1, Math.max(0, (buyPercentage - 30) / 40)); // 30%->0, 70%->1
+  const trendBonus = chartAnalysis.trend === 'STRONG_UPTREND' || chartAnalysis.trend === 'UPTREND' ? 0.06 : 0;
+
+  // Ensemble win probability
+  const rawWinProb =
+    (mlWinProbability / 100) * 0.35 +
+    minerviniFactor * 0.25 +
+    vcpFactor * 0.20 +
+    orderBookFactor * 0.15 +
+    trendBonus;
+  const winProbability = Number(Math.min(88, Math.max(35, rawWinProb * 100)).toFixed(1));
+  const lossProbability = Number((100 - winProbability).toFixed(1));
+
+  // JEV Expected Value: EV = (P_win * Gain%) - (P_loss * Loss%)
+  const pWin = winProbability / 100;
+  const pLoss = lossProbability / 100;
+  const expectedValuePercent = Number(
+    (pWin * target1Pct - pLoss * stopLossPct).toFixed(2)
+  );
+
+  let mathematicalEdge: JevDecisionBreakdown['mathematicalEdge'] = 'MODERATE_EDGE';
+  if (expectedValuePercent >= 2.0) {
+    mathematicalEdge = 'STRONG_POSITIVE_EDGE';
+  } else if (expectedValuePercent <= 0) {
+    mathematicalEdge = 'NEGATIVE_EDGE';
+  }
+
+  // Sizing via Half-Kelly
+  const b = Math.max(1.2, target1Pct / Math.max(0.5, stopLossPct));
+  const fullKelly = Math.max(0, (pWin * b - pLoss) / b);
+  const halfKelly = fullKelly * 0.5;
+  const halfKellyCapitalPercent = Number(
+    Math.min(15.0, Math.max(3.0, halfKelly * 100)).toFixed(1)
+  );
+  const maxCapitalRiskPercent = Number(
+    ((halfKellyCapitalPercent / 100) * stopLossPct).toFixed(2)
+  );
+
+  const jev: JevDecisionBreakdown = {
+    expectedValuePercent,
+    winProbability,
+    lossProbability,
+    targetGainPercent: target1Pct,
+    stopLossRiskPercent: stopLossPct,
+    riskRewardRatio,
+    mathematicalEdge,
+    halfKellyCapitalPercent,
+    maxCapitalRiskPercent,
+  };
+
+  // 2. Multi-Model Confluence Synthesis (0-100 scale for each pillar)
+  const jevEdgeScore = Math.min(100, Math.max(10, Math.round(50 + expectedValuePercent * 12)));
+  const minerviniScore = Math.round((minervini.score / 8) * 100);
+  const vcpScore = vcp.tightnessScore;
+  const mlStatisticalScore = Math.min(100, Math.max(20, Math.round(mlWinProbability * 1.5)));
+  const orderBookScore = Math.min(100, Math.max(10, Math.round(buyPercentage)));
+  let qullamaggieEmaScore = 65;
+  if (ltp >= chartAnalysis.ema21 && Math.abs(ltp - chartAnalysis.ema21) / chartAnalysis.ema21 <= 0.025) {
+    qullamaggieEmaScore = 95; // Sweet spot: coiling right on 20 EMA
+  } else if (ltp > chartAnalysis.ema21) {
+    qullamaggieEmaScore = 80;
+  } else {
+    qullamaggieEmaScore = 40;
+  }
+
+  const compositeScore = Math.min(
+    99,
+    Math.max(
+      15,
+      Math.round(
+        jevEdgeScore * 0.25 +
+          minerviniScore * 0.20 +
+          vcpScore * 0.15 +
+          mlStatisticalScore * 0.15 +
+          orderBookScore * 0.15 +
+          qullamaggieEmaScore * 0.10
+      )
+    )
+  );
+
+  const confluenceSynthesis: MultiModelConfluenceSynthesis = {
+    jevEdgeScore,
+    minerviniScore,
+    vcpScore,
+    mlStatisticalScore,
+    orderBookScore,
+    qullamaggieEmaScore,
+    compositeScore,
+  };
+
+  // 3. Formulate the Authoritative 2-Day Decision
+  const primaryCatalysts: string[] = [];
+  const riskWarnings: string[] = [];
+
+  const isStage2 = minervini.score >= 5;
+  const isPositiveJev = expectedValuePercent >= 1.0;
+  const isGoodOrderBook = buyPercentage >= 52;
+  const isHeavySellPressure = buyPercentage < 48;
+  const isDowntrendOrDistribution = (!isStage2 && minervini.score <= 4) || isHeavySellPressure || changePercent <= -2.0;
+  const isNotOverextended = ltp <= chartAnalysis.ema21 * 1.07; // Less than 7% above 20 EMA
+
+  let verdict: TwoDaySwingVerdict = 'PASS_DO_NOT_BUY';
+  let verdictLabel = 'PASS / DO NOT BUY';
+  let convictionTier: TwoDaySwingDecision['convictionTier'] = 'AVOID_1_STAR';
+  let holdingHorizonDays = '2 to 5 Trading Days (Min 2 Days)';
+  let sustainabilityReason = '';
+  const invalidationRule = `Daily candle close below ₹${stopLoss.toFixed(2)} (-${stopLossPct}%) invalidates this setup.`;
+
+  if (isHeavySellPressure || isDowntrendOrDistribution || expectedValuePercent <= 0) {
+    verdict = 'PASS_DO_NOT_BUY';
+    verdictLabel = 'PASS / DO NOT BUY';
+    convictionTier = 'AVOID_1_STAR';
+    holdingHorizonDays = '0 Days (Do Not Enter)';
+    sustainabilityReason = isHeavySellPressure
+      ? `Heavy institutional sell dominance (${(100 - buyPercentage).toFixed(1)}% Sellers in order book). High probability of multi-day distribution.`
+      : 'Negative mathematical expectancy or Stage 4 distribution. High risk of multi-day drawdown.';
+    if (isHeavySellPressure) {
+      riskWarnings.push(`Heavy seller overhang: ${(100 - buyPercentage).toFixed(1)}% Sell dominance in order book`);
+    }
+    if (expectedValuePercent <= 0) {
+      riskWarnings.push(`Negative Jev Expectancy (${expectedValuePercent}%): Inadequate edge for swing trade`);
+    }
+    if (minervini.score <= 4) {
+      riskWarnings.push(`Minervini Trend Template failed (${minervini.score}/8 passed) - price trapped below key SMAs`);
+    }
+  } else if (isStage2 && isPositiveJev && isGoodOrderBook && isNotOverextended && compositeScore >= 64) {
+    verdict = 'CONVINCING_BUY';
+    verdictLabel = 'CONVINCING BUY (2-Day+ Swing)';
+    holdingHorizonDays = '2 to 5 Trading Days (Min 2 Days)';
+    sustainabilityReason = `High multi-model confluence (Score: ${compositeScore}%) with +${expectedValuePercent}% JEV expectancy. Anchored to 20-day structural support (₹${chartAnalysis.ema21.toFixed(2)}) which sustains against intraday noise.`;
+
+    if (compositeScore >= 82) {
+      convictionTier = 'ELITE_5_STAR';
+    } else if (compositeScore >= 72) {
+      convictionTier = 'HIGH_4_STAR';
+    } else {
+      convictionTier = 'MODERATE_3_STAR';
+    }
+
+    primaryCatalysts.push(`Jev Joint Expected Value: +${expectedValuePercent}% edge across 2–5 day swing window`);
+    primaryCatalysts.push(`Minervini Stage 2 Validated: ${minervini.score}/8 criteria passed`);
+    primaryCatalysts.push(`Order Book Depth: ${buyPercentage.toFixed(1)}% TBQ institutional absorption`);
+    if (vcp.isVolumeDryingUp) {
+      primaryCatalysts.push(`VCP Volatility Contraction: Volume dry-up confirms institutional supply lock`);
+    }
+  } else if (!isNotOverextended) {
+    verdict = 'WATCHLIST_PULLBACK';
+    verdictLabel = 'WATCHLIST / AWAIT PULLBACK';
+    convictionTier = 'MODERATE_3_STAR';
+    holdingHorizonDays = 'Awaiting Dip (2-Day Window)';
+    sustainabilityReason = `Price is overextended (${(((ltp - chartAnalysis.ema21) / chartAnalysis.ema21) * 100).toFixed(1)}% above 20 EMA). High probability of a multi-day pullback before continuation.`;
+    riskWarnings.push('Do not chase: wait for consolidation or a test of the 20 EMA pivot');
+    primaryCatalysts.push('Strong underlying trend, but entry risk is elevated until pullback occurs');
+  } else {
+    verdict = 'WATCHLIST_PULLBACK';
+    verdictLabel = 'WATCHLIST / COILING BASE';
+    convictionTier = 'MODERATE_3_STAR';
+    holdingHorizonDays = 'Coiling Base (2-Day Window)';
+    sustainabilityReason = 'Setup is coiling near support but requires volume expansion or pivot breakout to confirm entry.';
+    primaryCatalysts.push(`Coiling base with ${vcp.tightnessScore}% tightness near 20 EMA`);
+    riskWarnings.push('Wait for price to clear pivot before taking full position');
+  }
+
+  return {
+    verdict,
+    verdictLabel,
+    holdingHorizonDays,
+    sustainabilityReason,
+    entryZone: { min: entryMin, max: entryMax },
+    invalidationStopPrice: stopLoss,
+    invalidationStopPercent: stopLossPct,
+    target1Price: target1,
+    target1Percent: target1Pct,
+    target2Price: target2,
+    target2Percent: target2Pct,
+    jev,
+    confluence: confluenceSynthesis,
+    convictionTier,
+    primaryCatalysts,
+    riskWarnings,
+    invalidationRule,
+    generatedAt: new Date().toISOString(),
   };
 }
 

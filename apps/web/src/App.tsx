@@ -11,6 +11,7 @@ import { AlertsDrawer } from './components/AlertsDrawer.js';
 import { ToastNotifications } from './components/ToastNotifications.js';
 import { ProviderSettingsModal } from './components/ProviderSettingsModal.js';
 import { QuickStartGuide } from './components/QuickStartGuide.js';
+import { TwoDaySwingBanner } from './components/TwoDaySwingBanner.js';
 import { AlertTriangle, RefreshCw, RadioTower, KeyRound } from 'lucide-react';
 
 export function App() {
@@ -117,6 +118,12 @@ export function App() {
 
         {/* User-Friendly Quick-Start Guide */}
         <QuickStartGuide />
+
+        {/* Authoritative 2-Day+ Swing Trading Decision Engine (Jev-Calibrated) */}
+        <TwoDaySwingBanner
+          quotes={allStocks}
+          onSelectStock={setSelectedSymbol}
+        />
 
         {/* Scanner Threshold Controls */}
         <ScannerControls

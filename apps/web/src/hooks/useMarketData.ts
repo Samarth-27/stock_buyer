@@ -223,6 +223,8 @@ export function useMarketData(): UseMarketDataReturn {
             isStale: false,
           };
           baseQuote.swingPlan = calculateSwingTradePlan(baseQuote);
+          baseQuote.swingSetup = baseQuote.swingPlan.setupType;
+          baseQuote.twoDayDecision = baseQuote.swingPlan.twoDayDecision;
           return baseQuote;
         });
 
@@ -243,6 +245,8 @@ export function useMarketData(): UseMarketDataReturn {
             reason: `Buy quantity reached ${q.buyPercentage.toFixed(1)}%, exceeding your ${cfg.buyThreshold.toFixed(1)}% threshold.`,
             surfacedAt: new Date().toISOString(),
             swingPlan: q.swingPlan,
+            swingSetup: q.swingSetup,
+            twoDayDecision: q.twoDayDecision ?? q.swingPlan?.twoDayDecision,
           }));
 
         setAllStocks(simQuotes);
@@ -345,6 +349,7 @@ export function useMarketData(): UseMarketDataReturn {
 
           updatedQuote.swingPlan = calculateSwingTradePlan(updatedQuote);
           updatedQuote.swingSetup = updatedQuote.swingPlan.setupType;
+          updatedQuote.twoDayDecision = updatedQuote.swingPlan.twoDayDecision;
           next[idx] = updatedQuote;
 
           if (newBuyPct >= scannerConfig.buyThreshold) {
@@ -363,6 +368,8 @@ export function useMarketData(): UseMarketDataReturn {
               reason: `Buy quantity reached ${newBuyPct.toFixed(1)}%, exceeding your ${scannerConfig.buyThreshold.toFixed(1)}% threshold.`,
               surfacedAt: new Date().toISOString(),
               swingPlan: updatedQuote.swingPlan,
+              swingSetup: updatedQuote.swingSetup,
+              twoDayDecision: updatedQuote.twoDayDecision,
             });
           }
         });
@@ -420,7 +427,12 @@ export function useMarketData(): UseMarketDataReturn {
           const surfaced: ScannerResult[] = [];
           const updatedStocks = currentStocks.map((q) => {
             const plan = calculateSwingTradePlan(q);
-            const copy = { ...q, swingPlan: plan, swingSetup: plan.setupType };
+            const copy = {
+              ...q,
+              swingPlan: plan,
+              swingSetup: plan.setupType,
+              twoDayDecision: plan.twoDayDecision,
+            };
             if (copy.buyPercentage >= scannerConfig.buyThreshold) {
               surfaced.push({
                 symbol: copy.symbol,
@@ -437,6 +449,8 @@ export function useMarketData(): UseMarketDataReturn {
                 reason: `Buy quantity is ${copy.buyPercentage.toFixed(1)}% (Threshold: ${scannerConfig.buyThreshold.toFixed(1)}%).`,
                 surfacedAt: new Date().toISOString(),
                 swingPlan: copy.swingPlan,
+                swingSetup: copy.swingSetup,
+                twoDayDecision: copy.twoDayDecision,
               });
             }
             return copy;

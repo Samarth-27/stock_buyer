@@ -343,6 +343,7 @@ export class MockMarketDataProvider implements MarketDataProvider {
       prediction,
       swingPlan,
       swingSetup: swingPlan.setupType,
+      twoDayDecision: swingPlan.twoDayDecision,
       timestamp,
       source: 'MOCK_FEED',
       isStale: false,

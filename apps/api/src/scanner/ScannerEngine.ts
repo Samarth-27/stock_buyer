@@ -66,6 +66,9 @@ export class ScannerEngine {
     if (!quote.swingPlan) {
       quote.swingPlan = calculateSwingTradePlan(quote);
       quote.swingSetup = quote.swingPlan.setupType;
+      quote.twoDayDecision = quote.swingPlan.twoDayDecision;
+    } else if (!quote.twoDayDecision && quote.swingPlan.twoDayDecision) {
+      quote.twoDayDecision = quote.swingPlan.twoDayDecision;
     }
 
     this.latestQuotes.set(quote.symbol, quote);
@@ -110,6 +113,7 @@ export class ScannerEngine {
         prediction: quote.prediction,
         swingPlan: quote.swingPlan,
         swingSetup: quote.swingSetup,
+        twoDayDecision: quote.twoDayDecision ?? quote.swingPlan?.twoDayDecision,
         ruleId: this.config.id,
         ruleName: this.config.name,
         reason: evaluation.reason,
@@ -170,6 +174,9 @@ export class ScannerEngine {
       if (!quote.swingPlan) {
         quote.swingPlan = calculateSwingTradePlan(quote);
         quote.swingSetup = quote.swingPlan.setupType;
+        quote.twoDayDecision = quote.swingPlan.twoDayDecision;
+      } else if (!quote.twoDayDecision && quote.swingPlan.twoDayDecision) {
+        quote.twoDayDecision = quote.swingPlan.twoDayDecision;
       }
 
       const evaluation = evaluateBuyPressure(
@@ -203,6 +210,7 @@ export class ScannerEngine {
           prediction: quote.prediction,
           swingPlan: quote.swingPlan,
           swingSetup: quote.swingSetup,
+          twoDayDecision: quote.twoDayDecision ?? quote.swingPlan?.twoDayDecision,
           ruleId: this.config.id,
           ruleName: this.config.name,
           reason: evaluation.reason,

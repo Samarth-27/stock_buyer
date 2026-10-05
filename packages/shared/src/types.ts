@@ -143,6 +143,51 @@ export interface ConfluenceEngineResult {
   };
 }
 
+export type TwoDaySwingVerdict = 'CONVINCING_BUY' | 'PASS_DO_NOT_BUY' | 'WATCHLIST_PULLBACK';
+
+export interface JevDecisionBreakdown {
+  expectedValuePercent: number; // EV % = (Pwin * T1%) - (Ploss * SL%)
+  winProbability: number; // 0 to 100 (%)
+  lossProbability: number; // 0 to 100 (%)
+  targetGainPercent: number; // e.g. +7.5%
+  stopLossRiskPercent: number; // e.g. 2.5%
+  riskRewardRatio: number; // e.g. 3.0
+  mathematicalEdge: 'STRONG_POSITIVE_EDGE' | 'MODERATE_EDGE' | 'NEGATIVE_EDGE';
+  halfKellyCapitalPercent: number; // recommended % of trading capital
+  maxCapitalRiskPercent: number; // % of total account at risk
+}
+
+export interface MultiModelConfluenceSynthesis {
+  jevEdgeScore: number; // 0-100 (Joint Expected Value)
+  minerviniScore: number; // 0-100 (Stage 2 Uptrend 8-points)
+  vcpScore: number; // 0-100 (Volatility Contraction & Dry-Up)
+  mlStatisticalScore: number; // 0-100 (29,520 NSE Historical Model)
+  orderBookScore: number; // 0-100 (Smart Money Depth & Microprice)
+  qullamaggieEmaScore: number; // 0-100 (10/20 EMA Support & Trail)
+  compositeScore: number; // 0-100
+}
+
+export interface TwoDaySwingDecision {
+  verdict: TwoDaySwingVerdict;
+  verdictLabel: string;
+  holdingHorizonDays: string; // e.g. "2 to 5 Trading Days (Min 2 Days)"
+  sustainabilityReason: string; // Explains why this decision sustains for 2+ days without noise stop-outs
+  entryZone: { min: number; max: number };
+  invalidationStopPrice: number;
+  invalidationStopPercent: number;
+  target1Price: number;
+  target1Percent: number;
+  target2Price: number;
+  target2Percent: number;
+  jev: JevDecisionBreakdown;
+  confluence: MultiModelConfluenceSynthesis;
+  convictionTier: 'ELITE_5_STAR' | 'HIGH_4_STAR' | 'MODERATE_3_STAR' | 'AVOID_1_STAR';
+  primaryCatalysts: string[];
+  riskWarnings: string[];
+  invalidationRule: string;
+  generatedAt: string;
+}
+
 export interface SwingTradePlan {
   setupType: SwingTradeSetupType;
   setupName: string;
@@ -174,6 +219,7 @@ export interface SwingTradePlan {
   vcp?: VcpPatternResult;
   qullamaggieTrailing?: QullamaggieTrailingPlan;
   confluence?: ConfluenceEngineResult;
+  twoDayDecision?: TwoDaySwingDecision;
 }
 
 export interface StockQuote {
@@ -196,6 +242,7 @@ export interface StockQuote {
   prediction?: AIPrediction;
   swingPlan?: SwingTradePlan;
   swingSetup?: SwingTradeSetupType;
+  twoDayDecision?: TwoDaySwingDecision;
   timestamp: string;
   source: string;
   isStale: boolean;
@@ -243,6 +290,7 @@ export interface ScannerResult {
   prediction?: AIPrediction;
   swingPlan?: SwingTradePlan;
   swingSetup?: SwingTradeSetupType;
+  twoDayDecision?: TwoDaySwingDecision;
   ruleId: string;
   ruleName: string;
   reason: string;

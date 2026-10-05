@@ -12,6 +12,9 @@ import {
   ChevronDown,
   ChevronUp,
   Award,
+  CheckCircle2,
+  XCircle,
+  Clock,
 } from 'lucide-react';
 import { ScannerResult, StockQuote } from '@marketeye/shared';
 
@@ -97,6 +100,10 @@ export const SurfacedStocksTable: React.FC<SurfacedStocksTableProps> = ({
           const prediction = liveQuote?.prediction ?? item.prediction;
           const swingPlan = liveQuote?.swingPlan ?? item.swingPlan;
           const isProofExpanded = Boolean(expandedProofs[item.symbol]);
+          const decision = liveQuote?.twoDayDecision ?? (swingPlan?.twoDayDecision ?? item.twoDayDecision);
+          const isBuy = decision?.verdict === 'CONVINCING_BUY';
+          const isPass = decision?.verdict === 'PASS_DO_NOT_BUY';
+          const jev = decision?.jev;
 
           // Unified, single source-of-truth calculations
           const target1Price =
@@ -202,6 +209,53 @@ export const SurfacedStocksTable: React.FC<SurfacedStocksTableProps> = ({
                     <span>{isPositive ? `+${changePercent.toFixed(2)}%` : `${changePercent.toFixed(2)}%`}</span>
                   </div>
                 </div>
+
+                {/* 2-Day Swing Decision & Jev Mathematical Edge */}
+                {decision && (
+                  <div className="mt-2.5 p-2 rounded-xl flex items-center justify-between border border-slate-800 bg-slate-900/90 text-xs font-mono">
+                    <div className="flex items-center space-x-1.5">
+                      <span
+                        className={`px-2 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1 ${
+                          isBuy
+                            ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                            : isPass
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                            : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                        }`}
+                      >
+                        {isBuy ? (
+                          <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                        ) : isPass ? (
+                          <XCircle className="w-3 h-3 text-rose-400" />
+                        ) : (
+                          <Clock className="w-3 h-3 text-amber-400" />
+                        )}
+                        <span>2D VERDICT: {isBuy ? 'BUY' : isPass ? 'PASS' : 'WATCH'}</span>
+                      </span>
+                    </div>
+
+                    <div className="flex items-center space-x-2 text-[11px]">
+                      {jev && (
+                        <span className="text-slate-300">
+                          JEV EV:{' '}
+                          <strong
+                            className={
+                              jev.expectedValuePercent >= 1.5 ? 'text-emerald-400' : 'text-cyan-300'
+                            }
+                          >
+                            {jev.expectedValuePercent >= 0
+                              ? `+${jev.expectedValuePercent}%`
+                              : `${jev.expectedValuePercent}%`}
+                          </strong>
+                        </span>
+                      )}
+                      <span className="text-slate-600">•</span>
+                      <span className="text-slate-400 text-[10px]">
+                        {decision.holdingHorizonDays.split('(')[0].trim()}
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Buy Zone & Setup Banner */}
                 <div className="mt-3.5 px-3 py-2 rounded-xl bg-indigo-950/40 border border-indigo-500/30 flex items-center justify-between">
