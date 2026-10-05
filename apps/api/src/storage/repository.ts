@@ -1,11 +1,18 @@
 import fs from 'fs';
 import path from 'path';
-import { ScannerRuleConfig, WatchlistItem, MarketAlert, DEFAULT_SCANNER_CONFIG } from '@marketeye/shared';
+import {
+  ScannerRuleConfig,
+  WatchlistItem,
+  MarketAlert,
+  PortfolioHolding,
+  DEFAULT_SCANNER_CONFIG,
+} from '@marketeye/shared';
 
 interface AppStoreData {
   scannerConfig: ScannerRuleConfig;
   watchlist: Record<string, WatchlistItem>;
   alerts: MarketAlert[];
+  portfolioHoldings: PortfolioHolding[];
 }
 
 export interface IRepository {
@@ -18,6 +25,10 @@ export interface IRepository {
   addAlert(alert: MarketAlert): Promise<MarketAlert>;
   markAlertAsRead(id: string): Promise<boolean>;
   clearAlerts(): Promise<void>;
+  getPortfolioHoldings(): Promise<PortfolioHolding[]>;
+  savePortfolioHoldings(holdings: PortfolioHolding[]): Promise<PortfolioHolding[]>;
+  addPortfolioHolding(holding: PortfolioHolding): Promise<PortfolioHolding>;
+  deletePortfolioHolding(id: string): Promise<boolean>;
 }
 
 export class JsonFileRepository implements IRepository {
@@ -62,6 +73,7 @@ export class JsonFileRepository implements IRepository {
         },
       },
       alerts: [],
+      portfolioHoldings: [],
     };
 
     try {
@@ -72,6 +84,7 @@ export class JsonFileRepository implements IRepository {
           scannerConfig: parsed.scannerConfig || defaultData.scannerConfig,
           watchlist: parsed.watchlist || defaultData.watchlist,
           alerts: parsed.alerts || defaultData.alerts,
+          portfolioHoldings: parsed.portfolioHoldings || defaultData.portfolioHoldings,
         };
       }
     } catch (err) {
@@ -160,6 +173,40 @@ export class JsonFileRepository implements IRepository {
   async clearAlerts(): Promise<void> {
     this.data.alerts = [];
     this.persist(this.data);
+  }
+
+  async getPortfolioHoldings(): Promise<PortfolioHolding[]> {
+    return [...(this.data.portfolioHoldings || [])];
+  }
+
+  async savePortfolioHoldings(holdings: PortfolioHolding[]): Promise<PortfolioHolding[]> {
+    this.data.portfolioHoldings = [...holdings];
+    this.persist(this.data);
+    return this.data.portfolioHoldings;
+  }
+
+  async addPortfolioHolding(holding: PortfolioHolding): Promise<PortfolioHolding> {
+    const list = this.data.portfolioHoldings || [];
+    const idx = list.findIndex((h) => h.id === holding.id);
+    if (idx >= 0) {
+      list[idx] = holding;
+    } else {
+      list.push(holding);
+    }
+    this.data.portfolioHoldings = list;
+    this.persist(this.data);
+    return holding;
+  }
+
+  async deletePortfolioHolding(id: string): Promise<boolean> {
+    const list = this.data.portfolioHoldings || [];
+    const before = list.length;
+    this.data.portfolioHoldings = list.filter((h) => h.id !== id);
+    if (this.data.portfolioHoldings.length !== before) {
+      this.persist(this.data);
+      return true;
+    }
+    return false;
   }
 }
 

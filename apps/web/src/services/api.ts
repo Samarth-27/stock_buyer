@@ -10,6 +10,8 @@ import {
   ChartInterval,
   ChartRange,
   StockNewsItem,
+  PortfolioHolding,
+  PortfolioSummary,
 } from '@marketeye/shared';
 
 export function getBackendBaseUrl(): string {
@@ -256,5 +258,99 @@ export async function fetchStockNews(symbol: string): Promise<StockNewsItem[]> {
   if (!res.ok) throw new Error(`Failed to fetch news for ${symbol}`);
   return res.json();
 }
+
+const LOCAL_STORAGE_PORTFOLIO_KEY = 'marketeye_manual_portfolio_holdings';
+
+export function loadPortfolioHoldingsLocally(): PortfolioHolding[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_PORTFOLIO_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw);
+  } catch (err) {
+    console.warn('[MarketEye API] Failed to parse local portfolio:', err);
+    return [];
+  }
+}
+
+export function savePortfolioHoldingsLocally(holdings: PortfolioHolding[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(LOCAL_STORAGE_PORTFOLIO_KEY, JSON.stringify(holdings));
+  } catch (err) {
+    console.warn('[MarketEye API] Failed to save local portfolio:', err);
+  }
+}
+
+export async function fetchPortfolioData(): Promise<{
+  holdings: PortfolioHolding[];
+  summary?: PortfolioSummary;
+}> {
+  // Always check remote first if possible, fall back to local
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/portfolio`);
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.holdings) && data.holdings.length > 0) {
+        savePortfolioHoldingsLocally(data.holdings);
+        return data;
+      }
+    }
+  } catch {
+    // Backend offline or running purely client-side
+  }
+
+  const localHoldings = loadPortfolioHoldingsLocally();
+  return { holdings: localHoldings };
+}
+
+export async function addPortfolioHoldingRemote(
+  holding: Omit<PortfolioHolding, 'id'> & { id?: string }
+): Promise<PortfolioHolding> {
+  const fullHolding: PortfolioHolding = {
+    ...holding,
+    id: holding.id || `hold_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+  };
+
+  // Sync locally first
+  const current = loadPortfolioHoldingsLocally();
+  const existingIdx = current.findIndex((h) => h.id === fullHolding.id);
+  if (existingIdx >= 0) {
+    current[existingIdx] = fullHolding;
+  } else {
+    current.push(fullHolding);
+  }
+  savePortfolioHoldingsLocally(current);
+
+  // Sync remotely if available
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/portfolio`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fullHolding),
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch {
+    // Offline or client-only mode
+  }
+
+  return fullHolding;
+}
+
+export async function deletePortfolioHoldingRemote(id: string): Promise<void> {
+  const current = loadPortfolioHoldingsLocally().filter((h) => h.id !== id);
+  savePortfolioHoldingsLocally(current);
+
+  try {
+    await fetch(`${getApiBaseUrl()}/portfolio/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+    });
+  } catch {
+    // Offline or client-only mode
+  }
+}
+
 
 

@@ -368,3 +368,43 @@ export interface WSServerMessage<T = unknown> {
   data: T;
   timestamp: string;
 }
+
+// Portfolio & Holding Management Types
+export type PortfolioHoldingVerdict =
+  | 'HOLD_TRAIL'
+  | 'TAKE_PROFIT_T1'
+  | 'EXIT_STOP_LOSS'
+  | 'ADD_PYRAMID';
+
+export interface PortfolioHolding {
+  id: string; // unique ID
+  symbol: string;
+  companyName: string;
+  buyPrice: number; // Purchase price in INR
+  quantity: number; // Number of shares held
+  buyDate: string; // ISO date or YYYY-MM-DD
+  notes?: string;
+  currentLtp?: number;
+  currentValue?: number; // quantity * ltp
+  investedValue?: number; // quantity * buyPrice
+  unrealizedPnL?: number; // currentValue - investedValue
+  unrealizedPnLPercent?: number; // % gain or loss
+  holdingVerdict?: PortfolioHoldingVerdict;
+  holdingVerdictLabel?: string;
+  holdingReason?: string;
+  trailingStopPrice?: number;
+  target1Price?: number;
+  daysHeld?: number;
+}
+
+export interface PortfolioSummary {
+  totalInvested: number;
+  totalCurrent: number;
+  totalPnL: number;
+  totalPnLPercent: number;
+  holdingsCount: number;
+  holdCount: number;
+  takeProfitCount: number;
+  exitCount: number;
+  addCount: number;
+}

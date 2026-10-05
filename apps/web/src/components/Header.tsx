@@ -9,6 +9,7 @@ import {
   Bookmark,
   ShieldCheck,
   Settings2,
+  Briefcase,
   RadioTower,
 } from 'lucide-react';
 import { MarketStatusInfo } from '@marketeye/shared';
@@ -24,8 +25,10 @@ interface HeaderProps {
   watchlistCount: number;
   onOpenWatchlist: () => void;
   onOpenProviderSettings: () => void;
-  activeTab: 'scanner' | 'all-stocks';
-  onTabChange: (tab: 'scanner' | 'all-stocks') => void;
+  activeTab: 'scanner' | 'all-stocks' | 'portfolio';
+  onTabChange: (tab: 'scanner' | 'all-stocks' | 'portfolio') => void;
+  portfolioCount?: number;
+  portfolioPnL?: number;
   isMockProvider: boolean;
   providerName: string;
 }
@@ -43,6 +46,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenProviderSettings,
   activeTab,
   onTabChange,
+  portfolioCount = 0,
+  portfolioPnL = 0,
   isMockProvider,
   providerName,
 }) => {
@@ -71,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Navigation Tabs (Desktop) */}
           <div className="hidden md:flex items-center p-1 rounded-xl bg-slate-900/90 border border-slate-800">
             <button
               onClick={() => onTabChange('scanner')}
@@ -92,6 +97,28 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               All Monitored Equities
+            </button>
+            <button
+              onClick={() => onTabChange('portfolio')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'portfolio'
+                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Briefcase className="w-3.5 h-3.5" />
+              <span>My Portfolio</span>
+              {portfolioCount > 0 && (
+                <span
+                  className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+                    portfolioPnL >= 0
+                      ? 'bg-emerald-500/20 text-emerald-300'
+                      : 'bg-rose-500/20 text-rose-300'
+                  }`}
+                >
+                  {portfolioCount}
+                </span>
+              )}
             </button>
           </div>
 
@@ -205,6 +232,46 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </button>
           </div>
+        </div>
+
+        {/* Mobile Navigation Tabs Bar */}
+        <div className="flex md:hidden items-center justify-around py-2 border-t border-slate-800/80">
+          <button
+            onClick={() => onTabChange('scanner')}
+            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              activeTab === 'scanner'
+                ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
+                : 'text-slate-400'
+            }`}
+          >
+            Stocks Under Eyes
+          </button>
+          <button
+            onClick={() => onTabChange('all-stocks')}
+            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              activeTab === 'all-stocks'
+                ? 'bg-slate-800 text-white font-bold shadow-sm'
+                : 'text-slate-400'
+            }`}
+          >
+            All Equities
+          </button>
+          <button
+            onClick={() => onTabChange('portfolio')}
+            className={`flex items-center space-x-1 px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              activeTab === 'portfolio'
+                ? 'bg-indigo-600 text-white font-bold shadow-sm'
+                : 'text-slate-400'
+            }`}
+          >
+            <Briefcase className="w-3.5 h-3.5" />
+            <span>Portfolio</span>
+            {portfolioCount > 0 && (
+              <span className="text-[10px] bg-slate-900 px-1.5 py-0.2 rounded-full text-indigo-300 font-bold">
+                {portfolioCount}
+              </span>
+            )}
+          </button>
         </div>
       </div>
     </header>

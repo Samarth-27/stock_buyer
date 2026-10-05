@@ -8,17 +8,25 @@ import {
   ChevronRight,
   CheckCircle2,
   XCircle,
+  PlusCircle,
 } from 'lucide-react';
 import { StockQuote, TwoDaySwingVerdict } from '@marketeye/shared';
 
 interface TwoDaySwingBannerProps {
   quotes: StockQuote[];
   onSelectStock: (symbol: string) => void;
+  onAddToPortfolio?: (initialData: {
+    symbol: string;
+    price?: number;
+    quantity?: number;
+    notes?: string;
+  }) => void;
 }
 
 export const TwoDaySwingBanner: React.FC<TwoDaySwingBannerProps> = ({
   quotes,
   onSelectStock,
+  onAddToPortfolio,
 }) => {
   const [filterVerdict, setFilterVerdict] = useState<TwoDaySwingVerdict | 'ALL'>('ALL');
   const [showFormulaExplanation, setShowFormulaExplanation] = useState(false);
@@ -313,6 +321,25 @@ export const TwoDaySwingBanner: React.FC<TwoDaySwingBannerProps> = ({
                     <span className="font-semibold block text-amber-300">Coiling near 20 EMA:</span>
                     <span>Awaiting volume pivot breakout before committing capital.</span>
                   </div>
+                )}
+
+                {/* 1-Click Buy / Add to Portfolio */}
+                {isBuy && onAddToPortfolio && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddToPortfolio({
+                        symbol: stock.symbol,
+                        price: stock.ltp,
+                        quantity: 10,
+                        notes: `2-Day Convincing Buy (+${jev?.expectedValuePercent}% EV)`,
+                      });
+                    }}
+                    className="w-full mt-2.5 py-1.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs flex items-center justify-center space-x-1.5 transition-all shadow-md shadow-emerald-500/20"
+                  >
+                    <PlusCircle className="w-3.5 h-3.5 stroke-[2.5]" />
+                    <span>+ Buy Setup / Add to Portfolio</span>
+                  </button>
                 )}
               </div>
 

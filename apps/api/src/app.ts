@@ -10,6 +10,7 @@ import { createStocksRouter } from './routes/stocks.js';
 import { createScannerRouter } from './routes/scanner.js';
 import { createWatchlistRouter } from './routes/watchlist.js';
 import { createAlertsRouter } from './routes/alerts.js';
+import { createPortfolioRouter } from './routes/portfolio.js';
 import { createMarketStatusRouter } from './routes/marketStatus.js';
 import { createHealthRouter } from './routes/health.js';
 import { createProviderRouter } from './routes/provider.js';
@@ -113,6 +114,7 @@ export function createApp(
   app.use('/api/stocks', createStocksRouter(dynamicProviderProxy, newsService));
   app.use('/api/scanner', createScannerRouter(scannerEngine));
   app.use('/api/watchlist', createWatchlistRouter(repository, dynamicProviderProxy));
+  app.use('/api/portfolio', createPortfolioRouter(repository, dynamicProviderProxy));
   app.use('/api/alerts', createAlertsRouter(repository));
   app.use(
     '/api/provider',

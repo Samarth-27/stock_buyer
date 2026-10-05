@@ -8,6 +8,7 @@ import {
   Search,
   CheckCircle,
   Sparkles,
+  Briefcase,
 } from 'lucide-react';
 import { StockQuote } from '@marketeye/shared';
 
@@ -18,6 +19,12 @@ interface AllStocksTableProps {
   onSelectStock: (symbol: string) => void;
   onToggleWatchlist: (symbol: string) => void;
   buyThreshold: number;
+  onAddToPortfolio?: (initialData: {
+    symbol: string;
+    price?: number;
+    quantity?: number;
+    notes?: string;
+  }) => void;
 }
 
 export const AllStocksTable: React.FC<AllStocksTableProps> = ({
@@ -27,6 +34,7 @@ export const AllStocksTable: React.FC<AllStocksTableProps> = ({
   onSelectStock,
   onToggleWatchlist,
   buyThreshold,
+  onAddToPortfolio,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'buyPct' | 'change' | 'volume'>('buyPct');
@@ -334,6 +342,22 @@ export const AllStocksTable: React.FC<AllStocksTableProps> = ({
                           <Bookmark className="w-3.5 h-3.5" />
                         )}
                       </button>
+                      {onAddToPortfolio && (
+                        <button
+                          onClick={() =>
+                            onAddToPortfolio({
+                              symbol: stock.symbol,
+                              price: stock.ltp,
+                              quantity: 10,
+                              notes: 'All equities list',
+                            })
+                          }
+                          className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500 hover:text-white transition-all"
+                          title="Add to Portfolio"
+                        >
+                          <Briefcase className="w-3.5 h-3.5" />
+                        </button>
+                      )}
                       <button
                         onClick={() => onSelectStock(stock.symbol)}
                         className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500 hover:text-slate-950 transition-all"

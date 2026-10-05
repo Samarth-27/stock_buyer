@@ -9,6 +9,8 @@ import {
   calculateVcpTightness,
   calculateQullamaggieTrailingPlan,
   calculateInstitutionalConfluence,
+  evaluatePortfolioHolding,
+  calculatePortfolioSummary,
 } from './calculations.js';
 
 describe('Order Book Buy/Sell Percentage Calculations', () => {
@@ -351,6 +353,106 @@ describe('Swing Trading Blueprint Calculations', () => {
       expect(plan.twoDayDecision?.verdict).toBe('PASS_DO_NOT_BUY');
       expect(plan.twoDayDecision?.verdictLabel).toBe('PASS / DO NOT BUY');
       expect(plan.twoDayDecision?.riskWarnings.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Portfolio Holding Evaluation & Portfolio Summary', () => {
+    it('evaluates HOLD_TRAIL correctly when position is healthy', () => {
+      const holding = {
+        id: 'hold-1',
+        symbol: 'RELIANCE',
+        companyName: 'Reliance Industries Ltd.',
+        buyPrice: 3000,
+        quantity: 10,
+        buyDate: '2026-10-01',
+      };
+      const quote = { ltp: 3060, changePercent: 2.0, volume: 50000 };
+      const res = evaluatePortfolioHolding(holding, quote);
+
+      expect(res.investedValue).toBe(30000);
+      expect(res.currentValue).toBe(30600);
+      expect(res.unrealizedPnL).toBe(600);
+      expect(res.unrealizedPnLPercent).toBe(2.0);
+      expect(res.holdingVerdict).toBe('HOLD_TRAIL');
+      expect(res.holdingVerdictLabel).toBe('HOLD & TRAIL');
+    });
+
+    it('evaluates TAKE_PROFIT_T1 when gain reaches or exceeds Target 1 (+6.5%)', () => {
+      const holding = {
+        id: 'hold-2',
+        symbol: 'TCS',
+        companyName: 'Tata Consultancy Services',
+        buyPrice: 4000,
+        quantity: 5,
+        buyDate: '2026-09-28',
+      };
+      const quote = { ltp: 4320, changePercent: 1.5, volume: 30000 }; // +8% gain
+      const res = evaluatePortfolioHolding(holding, quote);
+
+      expect(res.unrealizedPnLPercent).toBe(8.0);
+      expect(res.holdingVerdict).toBe('TAKE_PROFIT_T1');
+      expect(res.holdingVerdictLabel).toContain('TAKE PROFIT');
+      expect(res.holdingReason).toContain('Sell 33%–50% to lock gains');
+    });
+
+    it('evaluates EXIT_STOP_LOSS when price breaches stop loss', () => {
+      const holding = {
+        id: 'hold-3',
+        symbol: 'INFY',
+        companyName: 'Infosys Ltd.',
+        buyPrice: 1500,
+        quantity: 20,
+        buyDate: '2026-10-02',
+      };
+      // Buy price 1500, default stop loss ~0.97 * 1500 = 1455. Price is 1440 (-4%)
+      const quote = { ltp: 1440, changePercent: -2.5, volume: 40000 };
+      const res = evaluatePortfolioHolding(holding, quote);
+
+      expect(res.unrealizedPnLPercent).toBe(-4.0);
+      expect(res.holdingVerdict).toBe('EXIT_STOP_LOSS');
+      expect(res.holdingVerdictLabel).toBe('EXIT / STOP LOSS');
+      expect(res.holdingReason).toContain('breached structural invalidation');
+    });
+
+    it('aggregates portfolio metrics across holdings correctly', () => {
+      const holdings = [
+        {
+          id: '1',
+          symbol: 'RELIANCE',
+          companyName: 'Reliance',
+          buyPrice: 1000,
+          quantity: 10,
+          buyDate: '2026-10-01',
+          investedValue: 10000,
+          currentValue: 11000,
+          unrealizedPnL: 1000,
+          unrealizedPnLPercent: 10.0,
+          holdingVerdict: 'TAKE_PROFIT_T1' as const,
+        },
+        {
+          id: '2',
+          symbol: 'TCS',
+          companyName: 'TCS',
+          buyPrice: 2000,
+          quantity: 5,
+          buyDate: '2026-10-01',
+          investedValue: 10000,
+          currentValue: 9500,
+          unrealizedPnL: -500,
+          unrealizedPnLPercent: -5.0,
+          holdingVerdict: 'EXIT_STOP_LOSS' as const,
+        },
+      ];
+
+      const summary = calculatePortfolioSummary(holdings);
+      expect(summary.totalInvested).toBe(20000);
+      expect(summary.totalCurrent).toBe(20500);
+      expect(summary.totalPnL).toBe(500);
+      expect(summary.totalPnLPercent).toBe(2.5);
+      expect(summary.holdingsCount).toBe(2);
+      expect(summary.takeProfitCount).toBe(1);
+      expect(summary.exitCount).toBe(1);
+      expect(summary.holdCount).toBe(0);
     });
   });
 });

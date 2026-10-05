@@ -112,6 +112,9 @@ import {
   TwoDaySwingVerdict,
   JevDecisionBreakdown,
   MultiModelConfluenceSynthesis,
+  PortfolioHolding,
+  PortfolioHoldingVerdict,
+  PortfolioSummary,
 } from './types.js';
 
 /**
@@ -1616,4 +1619,151 @@ export function analyzeNewsSentiment(headline: string, summary?: string): NewsSe
     matchedKeywords,
   };
 }
+
+/**
+ * Evaluates an individual portfolio holding against live market data,
+ * Qullamaggie 10/20 EMA trailing support, and the Jev 2-Day Decision Engine.
+ */
+export function evaluatePortfolioHolding(
+  holding: {
+    id: string;
+    symbol: string;
+    companyName?: string;
+    buyPrice: number;
+    quantity: number;
+    buyDate: string;
+    notes?: string;
+  },
+  quote?: Partial<StockQuote> | null
+): PortfolioHolding {
+  const ltp = Number(quote?.ltp ?? holding.buyPrice);
+  const investedValue = Number((holding.buyPrice * holding.quantity).toFixed(2));
+  const currentValue = Number((ltp * holding.quantity).toFixed(2));
+  const unrealizedPnL = Number((currentValue - investedValue).toFixed(2));
+  const unrealizedPnLPercent =
+    holding.buyPrice > 0
+      ? Number((((ltp - holding.buyPrice) / holding.buyPrice) * 100).toFixed(2))
+      : 0;
+
+  const swingPlan = quote?.swingPlan;
+  const decision = quote?.twoDayDecision ?? swingPlan?.twoDayDecision;
+  const stopLoss =
+    decision?.invalidationStopPrice ?? (swingPlan?.stopLoss ?? Number((holding.buyPrice * 0.97).toFixed(2)));
+  const target1 =
+    decision?.target1Price ?? (swingPlan?.target1 ?? Number((holding.buyPrice * 1.07).toFixed(2)));
+  const trailingStop = swingPlan?.qullamaggieTrailing?.trailing20Ema ?? stopLoss;
+
+  let holdingVerdict: PortfolioHoldingVerdict = 'HOLD_TRAIL';
+  let holdingVerdictLabel = 'HOLD & TRAIL';
+  let holdingReason =
+    'Trend remains healthy above key support. Let the multi-day swing momentum compound.';
+
+  // 1. Check Exit / Stop Loss Breach
+  if (
+    ltp <= stopLoss ||
+    (decision && decision.verdict === 'PASS_DO_NOT_BUY' && unrealizedPnLPercent <= -2.0)
+  ) {
+    holdingVerdict = 'EXIT_STOP_LOSS';
+    holdingVerdictLabel = 'EXIT / STOP LOSS';
+    holdingReason = `Price has breached structural invalidation (₹${stopLoss.toFixed(2)}). Exit to prevent capital drawdown.`;
+  }
+  // 2. Check Target 1 Achievement
+  else if (ltp >= target1 || unrealizedPnLPercent >= 6.5) {
+    holdingVerdict = 'TAKE_PROFIT_T1';
+    holdingVerdictLabel = 'TAKE PROFIT (T1 HIT)';
+    holdingReason = `Target 1 achieved (+${unrealizedPnLPercent.toFixed(1)}%). Sell 33%–50% to lock gains and move stop to breakeven (₹${holding.buyPrice.toFixed(2)}).`;
+  }
+  // 3. Check Pyramid Add condition
+  else if (
+    decision?.verdict === 'CONVINCING_BUY' &&
+    unrealizedPnLPercent >= 1.5 &&
+    unrealizedPnLPercent <= 5.0
+  ) {
+    holdingVerdict = 'ADD_PYRAMID';
+    holdingVerdictLabel = 'ADD / PYRAMID';
+    holdingReason = `Jev Consensus confirms strong positive expectancy (+${decision.jev.expectedValuePercent}% EV). High probability setup to add size.`;
+  }
+  // 4. Default: Hold and trail
+  else {
+    holdingVerdict = 'HOLD_TRAIL';
+    holdingVerdictLabel = 'HOLD & TRAIL';
+    holdingReason = `Position is performing as expected. Trail stop along rising 20 EMA (currently ₹${trailingStop.toFixed(2)}).`;
+  }
+
+  // Calculate days held
+  let daysHeld = 1;
+  try {
+    const start = new Date(holding.buyDate).getTime();
+    const now = Date.now();
+    if (!isNaN(start)) {
+      daysHeld = Math.max(0, Math.floor((now - start) / (1000 * 60 * 60 * 24)));
+    }
+  } catch {
+    daysHeld = 1;
+  }
+
+  return {
+    id: holding.id,
+    symbol: holding.symbol.toUpperCase(),
+    companyName: quote?.companyName ?? holding.companyName ?? holding.symbol.toUpperCase(),
+    buyPrice: holding.buyPrice,
+    quantity: holding.quantity,
+    buyDate: holding.buyDate,
+    notes: holding.notes,
+    currentLtp: ltp,
+    currentValue,
+    investedValue,
+    unrealizedPnL,
+    unrealizedPnLPercent,
+    holdingVerdict,
+    holdingVerdictLabel,
+    holdingReason,
+    trailingStopPrice: trailingStop,
+    target1Price: target1,
+    daysHeld,
+  };
+}
+
+/**
+ * Aggregates portfolio metrics across all evaluated holdings.
+ */
+export function calculatePortfolioSummary(
+  holdings: PortfolioHolding[]
+): PortfolioSummary {
+  let totalInvested = 0;
+  let totalCurrent = 0;
+  let holdCount = 0;
+  let takeProfitCount = 0;
+  let exitCount = 0;
+  let addCount = 0;
+
+  for (const h of holdings) {
+    totalInvested += h.investedValue ?? h.buyPrice * h.quantity;
+    totalCurrent += h.currentValue ?? (h.currentLtp ?? h.buyPrice) * h.quantity;
+
+    if (h.holdingVerdict === 'TAKE_PROFIT_T1') takeProfitCount++;
+    else if (h.holdingVerdict === 'EXIT_STOP_LOSS') exitCount++;
+    else if (h.holdingVerdict === 'ADD_PYRAMID') addCount++;
+    else holdCount++;
+  }
+
+  const totalPnL = Number((totalCurrent - totalInvested).toFixed(2));
+  const totalPnLPercent =
+    totalInvested > 0
+      ? Number((((totalCurrent - totalInvested) / totalInvested) * 100).toFixed(2))
+      : 0;
+
+  return {
+    totalInvested: Number(totalInvested.toFixed(2)),
+    totalCurrent: Number(totalCurrent.toFixed(2)),
+    totalPnL,
+    totalPnLPercent,
+    holdingsCount: holdings.length,
+    holdCount,
+    takeProfitCount,
+    exitCount,
+    addCount,
+  };
+}
+
 

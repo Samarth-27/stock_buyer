@@ -79,6 +79,14 @@ async function bootstrap() {
 
   process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
+
+  process.on('unhandledRejection', (reason) => {
+    console.warn('[MarketEye API] Handled UnhandledRejection:', reason);
+  });
+
+  process.on('uncaughtException', (err) => {
+    console.error('[MarketEye API] Handled UncaughtException:', err);
+  });
 }
 
 bootstrap().catch((err) => {

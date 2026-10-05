@@ -9,7 +9,7 @@ import {
   calculateSwingTradePlan,
 } from '@marketeye/shared';
 import { fetchStockOrderBook, fetchStockHistory } from '../services/api.js';
-import { TrendingUp, BarChart2, Layers, Newspaper } from 'lucide-react';
+import { TrendingUp, BarChart2, Layers, Newspaper, PlusCircle } from 'lucide-react';
 import {
   StockDetailHeader,
   OhlcMetricsBar,
@@ -30,6 +30,12 @@ interface StockDetailModalProps {
   onSubscribeOrderBook: (symbol: string) => void;
   onUnsubscribeOrderBook: (symbol: string) => void;
   liveOrderBook?: OrderBook;
+  onAddToPortfolio?: (initialData: {
+    symbol: string;
+    price?: number;
+    quantity?: number;
+    notes?: string;
+  }) => void;
 }
 
 export const StockDetailModal: React.FC<StockDetailModalProps> = ({
@@ -41,6 +47,7 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
   onSubscribeOrderBook,
   onUnsubscribeOrderBook,
   liveOrderBook,
+  onAddToPortfolio,
 }) => {
   const [orderBook, setOrderBook] = useState<OrderBook | null>(liveOrderBook || null);
   const [history, setHistory] = useState<HistoricalCandle[]>([]);
@@ -266,6 +273,26 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
             <Newspaper className="w-3.5 h-3.5 text-amber-400" />
             <span>📰 News & Sentiment</span>
           </button>
+
+          {onAddToPortfolio && (
+            <button
+              onClick={() => {
+                onAddToPortfolio({
+                  symbol,
+                  price: ltp,
+                  quantity: 10,
+                  notes: swingPlan?.twoDayDecision
+                    ? `2D ${swingPlan.twoDayDecision.verdictLabel} (+${swingPlan.twoDayDecision.jev.expectedValuePercent}% EV)`
+                    : 'Manual swing entry',
+                });
+                onClose();
+              }}
+              className="ml-auto px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs flex items-center space-x-1.5 transition-all shadow-md shadow-emerald-500/20 whitespace-nowrap"
+            >
+              <PlusCircle className="w-3.5 h-3.5 stroke-[2.5]" />
+              <span>+ Add to Portfolio</span>
+            </button>
+          )}
         </div>
 
         {/* Tab 1: Swing Trade Blueprint & Execution Plan */}

@@ -7,9 +7,13 @@ import {
   WatchlistItem,
   MarketAlert,
   MarketStatusInfo,
+  PortfolioHolding,
+  PortfolioSummary,
   DEFAULT_SCANNER_CONFIG,
   MONITORED_NSE_STOCKS,
   calculateSwingTradePlan,
+  evaluatePortfolioHolding,
+  calculatePortfolioSummary,
 } from '@marketeye/shared';
 import {
   fetchMarketStatus,
@@ -24,6 +28,10 @@ import {
   clearAllAlerts,
   fetchProviderInfo,
   rescanScanner,
+  fetchPortfolioData,
+  addPortfolioHoldingRemote,
+  deletePortfolioHoldingRemote,
+  loadPortfolioHoldingsLocally,
   ProviderInfo,
 } from '../services/api.js';
 import { useWebSocket } from './useWebSocket.js';
@@ -48,6 +56,11 @@ export interface UseMarketDataReturn {
   liveOrderBook: OrderBook | undefined;
   isConnected: boolean;
   isConnecting: boolean;
+  portfolioHoldings: PortfolioHolding[];
+  portfolioSummary: PortfolioSummary;
+  addPortfolioHolding: (holding: Omit<PortfolioHolding, 'id'> & { id?: string }) => Promise<void>;
+  updatePortfolioHolding: (id: string, updates: Partial<PortfolioHolding>) => Promise<void>;
+  deletePortfolioHolding: (id: string) => Promise<void>;
   loadInitialData: () => Promise<void>;
   updateConfig: (newConfig: Partial<ScannerRuleConfig>) => Promise<void>;
   toggleWatchlist: (symbol: string) => Promise<void>;
@@ -72,6 +85,9 @@ export function useMarketData(): UseMarketDataReturn {
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
   const [alerts, setAlerts] = useState<MarketAlert[]>([]);
   const [latestTrigger, setLatestTrigger] = useState<ScannerResult | null>(null);
+  const [rawPortfolioHoldings, setRawPortfolioHoldings] = useState<PortfolioHolding[]>(() =>
+    loadPortfolioHoldingsLocally()
+  );
 
   const [liveOrderBook, setLiveOrderBook] = useState<OrderBook | undefined>(undefined);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -84,6 +100,19 @@ export function useMarketData(): UseMarketDataReturn {
   const watchlistSymbols = useMemo(() => new Set(watchlist.map((w) => w.symbol)), [watchlist]);
   const surfacedSymbols = useMemo(() => new Set(surfacedResults.map((r) => r.symbol)), [surfacedResults]);
   const unreadAlertsCount = useMemo(() => alerts.filter((a) => !a.read).length, [alerts]);
+
+  // Dynamically evaluate portfolio holdings against real-time quotes & models
+  const portfolioHoldings = useMemo(() => {
+    return rawPortfolioHoldings.map((h) => {
+      const quote = quotesMap.get(h.symbol.toUpperCase());
+      return evaluatePortfolioHolding(h, quote);
+    });
+  }, [rawPortfolioHoldings, quotesMap]);
+
+  // Dynamically calculate aggregate portfolio performance
+  const portfolioSummary = useMemo(() => {
+    return calculatePortfolioSummary(portfolioHoldings);
+  }, [portfolioHoldings]);
 
   // Real-time WebSocket Callbacks
   const handleTick = useCallback((quote: StockQuote) => {
@@ -281,6 +310,13 @@ export function useMarketData(): UseMarketDataReturn {
 
       setWatchlist(watched);
       setAlerts(alertList);
+
+      const portfolioData = await fetchPortfolioData().catch(() => ({
+        holdings: loadPortfolioHoldingsLocally(),
+      }));
+      if (portfolioData.holdings && portfolioData.holdings.length > 0) {
+        setRawPortfolioHoldings(portfolioData.holdings);
+      }
     } catch (err: unknown) {
       console.error('[MarketEye] Data load error:', err);
     }
@@ -513,6 +549,42 @@ export function useMarketData(): UseMarketDataReturn {
     }
   };
 
+  const addPortfolioHolding = useCallback(
+    async (holding: Omit<PortfolioHolding, 'id'> & { id?: string }) => {
+      const saved = await addPortfolioHoldingRemote(holding);
+      setRawPortfolioHoldings((prev) => {
+        const idx = prev.findIndex((h) => h.id === saved.id);
+        if (idx >= 0) {
+          const copy = [...prev];
+          copy[idx] = saved;
+          return copy;
+        }
+        return [saved, ...prev];
+      });
+    },
+    []
+  );
+
+  const updatePortfolioHolding = useCallback(
+    async (id: string, updates: Partial<PortfolioHolding>) => {
+      setRawPortfolioHoldings((prev) => {
+        const idx = prev.findIndex((h) => h.id === id);
+        if (idx < 0) return prev;
+        const updated = { ...prev[idx], ...updates };
+        addPortfolioHoldingRemote(updated);
+        const copy = [...prev];
+        copy[idx] = updated;
+        return copy;
+      });
+    },
+    []
+  );
+
+  const deletePortfolioHolding = useCallback(async (id: string) => {
+    await deletePortfolioHoldingRemote(id);
+    setRawPortfolioHoldings((prev) => prev.filter((h) => h.id !== id));
+  }, []);
+
   return {
     marketStatus,
     providerInfo,
@@ -532,6 +604,11 @@ export function useMarketData(): UseMarketDataReturn {
     liveOrderBook,
     isConnected,
     isConnecting,
+    portfolioHoldings,
+    portfolioSummary,
+    addPortfolioHolding,
+    updatePortfolioHolding,
+    deletePortfolioHolding,
     loadInitialData,
     updateConfig,
     toggleWatchlist,
