@@ -27,7 +27,7 @@ interface AllStocksTableProps {
   }) => void;
 }
 
-export const AllStocksTable: React.FC<AllStocksTableProps> = ({
+const AllStocksTableComponent: React.FC<AllStocksTableProps> = ({
   stocks,
   watchlistSymbols,
   surfacedSymbols,
@@ -390,3 +390,5 @@ export const AllStocksTable: React.FC<AllStocksTableProps> = ({
     </div>
   );
 };
+
+export const AllStocksTable = React.memo(AllStocksTableComponent);

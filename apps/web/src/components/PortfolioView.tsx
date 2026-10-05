@@ -39,7 +39,7 @@ interface PortfolioViewProps {
   onSelectStock: (symbol: string) => void;
 }
 
-export const PortfolioView: React.FC<PortfolioViewProps> = ({
+const PortfolioViewComponent: React.FC<PortfolioViewProps> = ({
   holdings,
   summary,
   allStocks,
@@ -593,3 +593,5 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({
     </div>
   );
 };
+
+export const PortfolioView = React.memo(PortfolioViewComponent);

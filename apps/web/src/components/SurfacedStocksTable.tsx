@@ -34,7 +34,7 @@ interface SurfacedStocksTableProps {
   }) => void;
 }
 
-export const SurfacedStocksTable: React.FC<SurfacedStocksTableProps> = ({
+const SurfacedStocksTableComponent: React.FC<SurfacedStocksTableProps> = ({
   results,
   quotes,
   watchlistSymbols,
@@ -469,3 +469,4 @@ export const SurfacedStocksTable: React.FC<SurfacedStocksTableProps> = ({
   );
 };
 
+export const SurfacedStocksTable = React.memo(SurfacedStocksTableComponent);
